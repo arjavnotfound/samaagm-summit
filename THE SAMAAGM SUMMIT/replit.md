@@ -1,15 +1,16 @@
 # The Samaagm Summit (TSS)
 
-React + Vite + TypeScript landing site for TSS — India's first democratic youth summit, featuring the Harry Potter-themed "Platform 9¾" social event.
+React + Vite + TypeScript website for TSS — India's first democratic youth summit. The site serves as a public landing page, a Harry Potter-themed event registration portal ("Platform 9¾"), and an internal admin panel for the TSS team.
 
 ## Tech Stack
 - **Framework:** React 18 + Vite 5 + TypeScript
 - **Routing:** Wouter
-- **Styling:** Vanilla CSS (all in `src/index.css`) — no Tailwind used for the `h-` (Home) or `hp-` (Register) namespaces; Tailwind v4 is imported but only used for DevPanel utility classes
-- **Icons:** Lucide React, React Icons
+- **Styling:** Vanilla CSS (all in `src/index.css`, ~6549 lines) — no Tailwind used for the `h-` (Home) or `hp-` (Register) namespaces; Tailwind v4 is imported but only used for DevPanel utility classes
+- **Icons:** Lucide React, React Icons (FaInstagram, FaWhatsapp)
+- **QR Codes:** `qrcode.react`
 - **Fonts:** Cinzel, Cinzel Decorative, Lora, DM Mono, Cormorant Garant, Space Grotesk (all via Google Fonts)
 - **Backend:** Google Apps Script (GAS) — `google-apps-script.gs`
-- **Package manager:** npm (pnpm not installed; use `npm run dev`)
+- **Package manager:** npm (use `npm run dev`)
 - **Dev server:** PORT 5000, workflow: `cd 'THE SAMAAGM SUMMIT' && PORT=5000 BASE_PATH=/ npm run dev`
 
 ## Project Structure
@@ -17,31 +18,47 @@ React + Vite + TypeScript landing site for TSS — India's first democratic yout
 THE SAMAAGM SUMMIT/
 ├── src/
 │   ├── pages/
-│   │   ├── Home.tsx          — Homepage (803 lines) + DevMode easter egg
-│   │   └── Register.tsx      — Registration form (Platform 9¾)
+│   │   ├── Home.tsx          — Homepage (~564 lines) + DevMode easter egg
+│   │   ├── Register.tsx      — Platform 9¾ event page + registration form (~1908 lines)
+│   │   └── not-found.tsx     — 404 page
 │   ├── components/
-│   │   └── DevPanel.tsx      — Internal admin registration panel
+│   │   ├── DevPanel.tsx      — Internal admin panel (~1216 lines)
+│   │   └── ui/               — Shadcn/Radix UI component library (unused on main pages)
 │   ├── lib/
-│   │   └── devApi.ts         — GAS API client (two-step: sheet op → email send)
-│   └── index.css             — All site styles (~5950 lines)
-│                               h-* = Home page classes (lines ~3340–4740)
-│                               hp-* = Register page classes
-│                               devpw-* / devp-* = DevPanel classes
-│                               lumos body.lumos = light mode overrides
-├── google-apps-script.gs     — TSS GAS backend (sheet ops; paste into Apps Script, TSS account)
-├── AB.gs                     — Independent email sender (deploy from arjavbadjatya1026@gmail.com)
+│   │   ├── devApi.ts         — GAS API client (~277 lines): two-step sheet op → email send
+│   │   └── utils.ts          — Tailwind utility (cn)
+│   ├── hooks/
+│   │   ├── use-mobile.tsx
+│   │   └── use-toast.ts
+│   ├── index.css             — All site styles (~6549 lines)
+│   │                           h-* = Home page classes
+│   │                           hp-* = Register/Platform 9¾ page classes
+│   │                           devpw-* / devp-* = DevPanel classes
+│   │                           body.lumos = light mode overrides (Gryffindor palette)
+│   └── main.tsx              — React entry point
+├── google-apps-script.gs     — TSS GAS backend (~2160 lines): sheet ops, paste into Apps Script (TSS account)
+├── AB.gs                     — Independent email sender (~709 lines): deploy from arjavbadjatya1026@gmail.com
+├── index.html                — HTML entry with Google Fonts
 ├── vite.config.ts            — Requires PORT and BASE_PATH env vars
+├── tsconfig.json
 └── package.json
 ```
 
+## Routes
+| Path | Component | Purpose |
+|------|-----------|---------|
+| `/` | `Home.tsx` | Public landing page |
+| `/event` | `Register.tsx` | Platform 9¾ event page + registration |
+| `*` | `not-found.tsx` | 404 fallback |
+
 ## CSS Namespace Guide
-| Prefix | Purpose | Location in index.css |
-|--------|---------|----------------------|
-| `h-`   | Home page | ~lines 3340–4509 |
-| `hp-`  | Register page | after h- section |
-| `devpw-` | Dev password overlay | after hp- section |
-| `devp-`  | DevPanel admin UI | end of file |
-| `body.lumos .*` | Light mode overrides | lines ~60–340 |
+| Prefix | Purpose |
+|--------|---------|
+| `h-` | Home page |
+| `hp-` | Register / Platform 9¾ page |
+| `devpw-` | Dev password overlay |
+| `devp-` | DevPanel admin UI |
+| `body.lumos .*` | Light mode overrides (Lumos toggle) |
 
 ## CSS Variables (Dark Mode Defaults)
 ```css
@@ -51,42 +68,68 @@ THE SAMAAGM SUMMIT/
 --font-hero: 'Cinzel Decorative'   --font-mono: 'DM Mono'
 ```
 
-## Home Page Sections (in order)
-1. **Cursor** — custom red dot + lagging ring (`h-cursor-dot`, `h-cursor-ring`)
-2. **DevMode overlay** — password modal (`devpw-*`)
-3. **Background FX** — noise, scanlines, glows, particles (`h-bg-fx`, `h-bg-*`, `h-ptcl`)
-4. **Nav** — fixed full-width header with logo + links + register pill (`h-nav`, `h-reg-btn`)
-5. **Hero** — full-viewport, centered, animated title with corner labels and scroll cue
+## Home Page (`/`) — Sections in Order
+1. **Custom Cursor** — red dot + lagging ring (`h-cursor-dot`, `h-cursor-ring`)
+2. **DevMode Overlay** — password modal (`devpw-*`), revealed by triple-clicking "Arjav Badjatya"
+3. **Background FX** — noise, scanlines, glows, floating particles, SVG orbital rings (`h-bg-fx`)
+4. **Nav** — fixed header with logo, section links, Instagram link, "Platform 9¾" pill (`h-nav`)
+5. **Hero** — full-viewport animated title, corner labels, scroll cue
 6. **Marquee Strip** — scrolling DM Mono text band
-7. **About** — two-column grid with cards
-8. **Divider** (`h-hr`) — thin rule with ✦ ✦ ✦ text
-9. **Join** — form cards grid (4 Google Form links)
+7. **About** — two-column grid: body copy + two feature cards (MUN, Democratic Format)
+8. **Divider** — thin rule with ✦ glyph (`h-divider`)
+9. **Join the Team** — 4 Google Form links (Collaboration, Core Team, Secretariat, Intern)
 10. **Divider**
-11. **Vision** — two-column grid with pillars
+11. **Democratic Vision** — two-column: body copy + voted agendas steps
 12. **Divider**
-13. **Founders** — two founder cards (SK, AB)
-14. **Platform 9¾ Event Banner** — dark, full-width event CTA
-15. **Footer** — marquee + brand + links + copyright
+13. **Founders** — editorial rows: Somya Khandare (CEO) + Arjav Badjatya (CMO)
+14. **Platform 9¾ — Past Event Banner** — stats (350+ registrations, 4 hrs, April 12 2026, Underdoggs Indore), CTA to `/event`
+15. **Footer** — marquee + brand + Instagram link + email + copyright
+
+## Platform 9¾ Page (`/event`) — Key Sections
+1. **Background FX** — glows, noise, scanlines, animated particle shower
+2. **Custom Cursor** — dot + lagging ring
+3. **Golden Snitch** — animated CSS decorative element
+4. **Nav Bar** — back-to-TSS link, brand, Instagram link, Lumos/Nox toggle
+5. **Hero** — "PLATFORM 9¾" animated title, tagline, pills (Rave, HP Challenges, Prizes, Surprises)
+6. **HP Quote** — Dumbledore quote block
+7. **Countdown / Live / Ended Banner** — adapts to event phase (Pre-Event countdown, Live progress bar, Post-Event "Mischief Managed")
+8. **Registration Cards** — What to Expect, payment info, register CTA button
+9. **Event Details** — Date (12 Apr 2026), Time (4–8 PM IST), Venue (Underdoggs, Indore)
+10. **Registration Modal** — 3-step: (1) Personal info form, (2) Payment screenshot upload, (3) Success screen with QR code
+11. **Venue Accordion** — expandable venue info with map link
+12. **FAQ Accordion** — expandable help section
+13. **Float CTA** — sticky bottom bar appears after hero scrolls out of view
+14. **Footer** — Instagram, WhatsApp, email links
+
+> **Current Status:** Platform 9¾ is a **past event** (held April 12, 2026). The page shows the "ended" phase with "Mischief Managed · 350+ Registered · April 12, 2026" badge. Registration is closed.
 
 ## Key Interactions / Logic
 - **Scroll state** (`scrolled`) — navbar background opacity changes at `window.scrollY > 60`
 - **Mobile menu** (`menuOpen`) — hamburger toggles `.h-mobile-menu`
-- **Reveal animations** — `IntersectionObserver` adds `.h-visible` to `.h-reveal` elements
-- **Custom cursor** — `useMousePos()` hook drives dot + ring position via `requestAnimationFrame`
-- **Developer Mode** — Triple-click "Arjav Badjatya" → password overlay → admin DevPanel
+- **Reveal animations** — `IntersectionObserver` adds `.h-visible` / `.visible` to `.h-reveal` / `.reveal` elements
+- **Custom cursor** — `useMousePos()` hook drives dot + ring via `requestAnimationFrame`
+- **Lumos/Nox** — toggle button on `/event` page adds `body.lumos` class, switching to Gryffindor ivory/burgundy/gold palette
+- **Event Phase** — `useCountdown()` hook returns `countdown | live | ended`; can be overridden by `Event Stage` setting from GAS
+- **Registration Status** — fetched from GAS `getSetting("Registration Status")` on page load; `"closed"` disables the register button
+- **Developer Mode** — Triple-click "Arjav Badjatya" name on Home → password overlay → admin DevPanel
   - Password: `AFGHANISTAN-SDG`
 
+## DevPanel (Internal Admin)
+Unlocked via the easter egg above. Three sections:
+- **Review Registrations** — table with search/filter, approve (single or bulk), resend email, copy Token ID
+- **Manual Registration** — add a registrant bypassing the public form; supports Complimentary and "Hosted By" ticket types
+- **Settings** — toggle Active Sender (TSS / AB), Registration Status (open/closed), Event Stage override; send test emails
+
 ## Email Sender Architecture (Two-Step Pattern)
+All email sending is decoupled from sheet operations.
 
-All email sending is fully decoupled from sheet operations.
+**Step 1 — Sheet operation:** Always call TSS.gs. Returns registrant data — does NOT send email.
 
-**Step 1 — Sheet operation:** Always call TSS.gs. Returns registrant data (firstName, lastName, email, tokenId, etc.) — does NOT send email.
-
-**Step 2 — Email send:** Read `Active Sender` from the Settings sheet (via TSS.gs getSetting). Call the appropriate URL with `{ action: "sendEmail", emailType, ...data }`.
+**Step 2 — Email send:** Read `Active Sender` from the Settings sheet (via `getSetting`). Call the appropriate sender URL with `{ action: "sendEmail", emailType, ...data }`.
 
 | Active Sender | URL used for email |
 |---|---|
-| TSS (default) | TSS.gs — sends from the TSS Gmail account |
+| TSS (default) | TSS.gs — sends from TSS Gmail account |
 | AB | AB.gs — sends from arjavbadjatya1026@gmail.com |
 
 **emailType values:**
@@ -99,8 +142,8 @@ All email sending is fully decoupled from sheet operations.
 ```
 TSS_URL = https://script.google.com/macros/s/AKfycbxkwz04fVFCsyfOLzj-LpUVlgUs0QCbkS_M1ugA7rwMed4U4IEoh2eOInwNFc-ZyRylAw/exec
 AB_URL  = https://script.google.com/macros/s/AKfycbyOWV_rrX30sGFin2kzQqWT_aVtUMqT38oCRhYVwMjN00bJzJtkNwCXUzM1gt7qtfYc1A/exec
-         (update AB_URL in devApi.ts + Register.tsx once Arjav deploys the new AB.gs)
 ```
+Both URLs appear in `devApi.ts` (lines 1–5) and `Register.tsx` (lines 31–34).
 
 ## AB.gs Setup (Arjav must do this)
 1. Open https://script.google.com/ signed into arjavbadjatya1026@gmail.com
@@ -109,20 +152,13 @@ AB_URL  = https://script.google.com/macros/s/AKfycbyOWV_rrX30sGFin2kzQqWT_aVtUMq
    - Execute as: Me (arjavbadjatya1026@gmail.com)
    - Who has access: Anyone
 4. Copy the Web App URL
-5. Replace `AB_URL` in `devApi.ts` (line 4) and `Register.tsx` (line 37) with the new URL
+5. Replace `AB_URL` in `devApi.ts` (line 4) and `Register.tsx` (line 34) with the new URL
 
-## Key Features
-- **Registration** — Two-step: Form → TSS.gs (saves to sheet) → active sender (confirmation email)
-- **Developer Mode** — Triple-click "Arjav Badjatya" name → password overlay → admin panel
-- **DevPanel** — Full admin UI: search, filter, approve, bulk approve, resend email, token copy, Settings tab
-- **Email Sender Switch** — Settings tab "Active Sender" key controls which account sends email (TSS or AB); change via DevPanel Settings tab
-- **Registration Control** — "Registration Status" setting (open/closed) controls the Register page
-- **Light Mode (Lumos)** — `body.lumos` class applies Gryffindor ivory/burgundy/gold palette
-
-## GAS Backend (TSS.gs)
+## GAS Backend (TSS.gs / google-apps-script.gs)
 - **Script URL:** `https://script.google.com/macros/s/AKfycbxkwz04fVFCsyfOLzj-LpUVlgUs0QCbkS_M1ugA7rwMed4U4IEoh2eOInwNFc-ZyRylAw/exec`
 - **Token format:** `P934-{YEAR}-{ROW_PADDED}-{4_CHAR_HEX}` e.g. `P934-2026-042-A7KX`
-- **Actions:** `approveRegistration`, `bulkApprove`, `resendEmail`, `manualRegister`, `getSetting`, `setSetting`, `sendEmail`
+- **GET actions:** `getRegistrations`, `getSetting`
+- **POST actions:** `approveRegistration`, `bulkApprove`, `resendEmail`, `manualRegister`, `setSetting`, `sendEmail`
 
 ## Sheet Layout (3-Section Design)
 | Section | Color | Columns |
@@ -134,21 +170,9 @@ AB_URL  = https://script.google.com/macros/s/AKfycbyOWV_rrX30sGFin2kzQqWT_aVtUMq
 ## GAS Migration Notes
 - Run `removeLegacyApproveColumn()` once if the live sheet has the old "Approve ✅" checkbox column
 - `ensureSection3Columns()` is called automatically before reads/writes — safe to run multiple times
-- Settings tab is auto-created with defaults: Active Sender = TSS, Registration Status = open
+- Settings tab is auto-created with defaults: Active Sender = TSS, Registration Status = open, Event Stage = Auto
 
-## Home Page Redesign (Completed)
-Full redesign of `Home.tsx` and `index.css` (h-* namespace) implementing:
-- **Floating pill navbar** with liquid glass (backdrop-blur + border glow)
-- **Massive hero typography** — `clamp(80px, 14vw, 180px)` Cinzel Decorative title
-- **Blur-reveal + text-wipe animations** on hero load
-- **Orbital SVG rings** (CW/CCW) in the background
-- **Noise overlay** + radial glow atmosphere
-- **Typographic dividers** with giant faded bg-words (JOIN, VISION, FOUNDERS)
-- **Frosted glass cards** (about, founders, event meta) with `backdrop-filter: blur`
-- **Custom cursor** — dot + rotating ring
-- **Scan-line animation** on Platform 9¾ event section
-- **Footer watermark** — faded TSS behind brand text
-- **Red underline wipe** on footer links
-- Responsive breakpoints at 980px, 768px, 640px
-
-Redesign prompt reference: `attached_assets/Pasted--TSS-WEBSITE-FULL-VISUAL-REDESIGN-PROMPT-For-Replit-AI-_1776701875804.txt`
+## User Preferences
+- Do not use Tailwind for `h-*` (Home) or `hp-*` (Register) CSS — all styles go in `index.css` using vanilla CSS under the appropriate namespace
+- Maintain the existing CSS namespace system; do not merge or rename prefixes
+- The dev server runs on PORT 5000 from inside the `THE SAMAAGM SUMMIT/` directory

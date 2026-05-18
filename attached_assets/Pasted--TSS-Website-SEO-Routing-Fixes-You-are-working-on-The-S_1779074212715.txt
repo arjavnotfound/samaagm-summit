@@ -1,0 +1,98 @@
+# TSS Website — SEO & Routing Fixes
+
+You are working on **The Samaagm Summit** website — a React + Vite + TypeScript project. The site is deployed on Netlify at `thesamaagmsummit.netlify.app`.
+
+**Important:** You have full context of the codebase. I am giving you a list of things to fix. If anything I say conflicts with what you see in the code, **your judgment takes priority** — you know the codebase better. Make the change in whatever way makes sense given what you see. If you decide not to make a change because it's already handled or would break something, just note that at the end.
+
+---
+
+## Fixes to Make
+
+### 1. Fix direct URL routing on Netlify
+When someone opens `/event` (or any route) directly via a link, they get a Netlify 404 instead of the React app. This is because Netlify looks for an actual file and finds nothing.
+
+Fix: create a `public/_redirects` file with:
+```
+/* /index.html 200
+```
+
+This tells Netlify to always serve the React app and let React Router handle routing.
+
+---
+
+### 2. Check and fix the 404 / not-found page
+There's a `src/pages/not-found.tsx` file but the site is showing Netlify's default 404 instead of the custom one. Check whether this page is properly connected as a catch-all route in `App.tsx` (or wherever routing is handled). If it's not wired up, fix it.
+
+Also — if the 404 page exists but looks bad or is just a placeholder, redesign it. Keep it **minimal, dark, on-brand** with the TSS aesthetic (dark background, clean typography, maybe a subtle line or two of copy that fits the TSS voice — don't make it cringe). You have full creative freedom here, just make it look intentional and good, not like an error page that nobody designed.
+
+---
+
+### 3. Add `sitemap.xml` to `public/`
+Create `public/sitemap.xml`. Figure out all the actual routes from `App.tsx` yourself and include them all. Use `https://thesamaagmsummit.netlify.app` as the base URL. Set `<changefreq>weekly</changefreq>` for the homepage and `<changefreq>monthly</changefreq>` for other pages. Set `<priority>1.0</priority>` for home and `<priority>0.8</priority>` for the rest.
+
+---
+
+### 4. Add `robots.txt` to `public/`
+Create `public/robots.txt`:
+```
+User-agent: *
+Allow: /
+
+Sitemap: https://thesamaagmsummit.netlify.app/sitemap.xml
+```
+
+---
+
+### 5. Update `index.html` — meta description + canonical tag
+Two small changes to `<head>` in `index.html`:
+
+**a) Update the meta description** to include "Indore" — right now it never mentions the city, which hurts local search. Something like:
+```
+India's first democratic youth summit in Indore — where students, thinkers, and future leaders come together to debate, build, and lead.
+```
+Update this in all three places it appears (meta description, og:description, twitter:description).
+
+**b) Add a canonical tag** right after the `<title>`:
+```html
+<link rel="canonical" href="https://thesamaagmsummit.netlify.app/" />
+```
+
+---
+
+### 6. Add structured data (JSON-LD) to `index.html`
+Add this inside `<head>` in `index.html`. This tells Google and AI tools exactly what TSS is — an organization based in Indore. This is important for search discoverability.
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "The Samaagm Summit",
+  "description": "India's first democratic youth summit in Indore — where students, thinkers, and future leaders come together to debate, build, and lead.",
+  "url": "https://thesamaagmsummit.netlify.app",
+  "location": {
+    "@type": "City",
+    "name": "Indore",
+    "addressCountry": "IN"
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "The Samaagm Summit",
+    "url": "https://thesamaagmsummit.netlify.app"
+  }
+}
+</script>
+```
+
+Feel free to improve or expand this if you think something is missing or wrong based on what you see in the codebase.
+
+---
+
+## After You're Done
+
+Please list out:
+- ✅ Everything you successfully made or changed
+- ⚠️ Anything you decided NOT to do (and why)
+- 🔧 Anything you changed differently from what I described (and why)
+
+That's it. No other changes — don't touch any existing design, components, or logic.
