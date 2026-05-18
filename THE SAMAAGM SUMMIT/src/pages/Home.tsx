@@ -49,6 +49,25 @@ const NAV_ITEMS = [
   { id: "founders", label: "Founders", Icon: Star },
 ];
 
+function LoadingScreen({ exiting, done }: { exiting: boolean; done: boolean }) {
+  if (done) return null;
+  return (
+    <div className={`h-loader${exiting ? " h-loader--exit" : ""}`} aria-hidden>
+      <div className="h-loader-half h-loader-half--top" />
+      <div className="h-loader-half h-loader-half--bot" />
+      <div className="h-loader-glow" />
+      <div className="h-loader-content">
+        <div className="h-loader-tss">TSS</div>
+        <div className="h-loader-sep" />
+        <div className="h-loader-name">The Samaagm Summit</div>
+        <div className="h-loader-tagline">India's First Democratic Summit</div>
+        <div className="h-loader-bar-wrap"><div className="h-loader-bar" /></div>
+        <div className="h-loader-phrase">✦ The Room Decides</div>
+      </div>
+    </div>
+  );
+}
+
 const DEV_PASS_HASH = "996428239c1720ad4cdeb18c40ad3dfa5e6ed11c518885a4f5396426643691d5";
 const DEV_CLICK_THRESHOLD = 3;
 const DEV_CLICK_WINDOW = 2000;
@@ -103,7 +122,13 @@ export default function Home() {
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
+  const [showBackTop, setShowBackTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loaderExiting, setLoaderExiting] = useState(false);
+  const [loaderDone, setLoaderDone] = useState(() => {
+    try { return sessionStorage.getItem("tss-loaded") === "1"; } catch { return false; }
+  });
+  const [activeSection, setActiveSection] = useState("");
   const { dotRef, ringRef } = useMousePos();
   useReveal();
 
@@ -118,6 +143,7 @@ export default function Home() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
+      setShowBackTop(window.scrollY > 400);
       const el = document.documentElement;
       const scrollable = el.scrollHeight - el.clientHeight;
       setScrollPct(scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0);
@@ -129,6 +155,25 @@ export default function Home() {
   useEffect(() => {
     if (showDevOverlay && devPasswordInputRef.current) devPasswordInputRef.current.focus();
   }, [showDevOverlay]);
+
+  useEffect(() => {
+    if (loaderDone) return;
+    const t1 = setTimeout(() => setLoaderExiting(true), 2600);
+    const t2 = setTimeout(() => {
+      setLoaderDone(true);
+      try { sessionStorage.setItem("tss-loaded", "1"); } catch {}
+    }, 3400);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [loaderDone]);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActiveSection(e.target.id); }),
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 },
+    );
+    NAV_ITEMS.forEach(({ id }) => { const el = document.getElementById(id); if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
 
   function handleArjavClick() {
     devClickCount.current += 1;
@@ -164,6 +209,7 @@ export default function Home() {
 
   return (
     <div className="h-root">
+      <LoadingScreen exiting={loaderExiting} done={loaderDone} />
       <div className="h-cursor-dot" ref={dotRef} />
       <div className="h-cursor-ring" ref={ringRef} />
 
@@ -213,7 +259,7 @@ export default function Home() {
 
           <nav className="h-nav-links">
             {NAV_ITEMS.map(({ id, label, Icon }) => (
-              <button key={id} className="h-nav-link" onClick={() => scrollTo(id)} title={label}>
+              <button key={id} className={`h-nav-link${activeSection === id ? " h-nav-link--active" : ""}`} onClick={() => scrollTo(id)} title={label}>
                 <span className="h-nav-link-icon"><Icon size={14} strokeWidth={1.5} /></span>
                 <span className="h-nav-link-text">{label}</span>
               </button>
@@ -543,6 +589,14 @@ export default function Home() {
           </button>
         </div>
       </section>
+
+      <button
+        className={`h-back-top${!showBackTop ? " h-back-top--hidden" : ""}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Back to top"
+      >
+        ↑
+      </button>
 
       {/* FOOTER */}
       <footer className="h-footer">

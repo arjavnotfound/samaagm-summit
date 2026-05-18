@@ -3670,6 +3670,124 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   to   { transform: rotate(-360deg); }
 }
 
+/* ─── LOADING SCREEN ─── */
+.h-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.h-loader-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: #080808;
+  transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 1;
+}
+.h-loader-half--top { top: 0; height: 50.5%; }
+.h-loader-half--bot { bottom: 0; height: 50.5%; }
+.h-loader--exit .h-loader-half--top { transform: translateY(-101%); }
+.h-loader--exit .h-loader-half--bot { transform: translateY(101%); }
+.h-loader-glow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 320px;
+  background: radial-gradient(ellipse, rgba(204,0,0,0.13) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+.h-loader-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.h-loader--exit .h-loader-content {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.h-loader-tss {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(52px, 11vw, 108px);
+  font-weight: 700;
+  color: #cc0000;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(14px) scale(0.9);
+  animation: h-ldr-tss 0.65s 0.15s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+  text-shadow: 0 0 40px rgba(204,0,0,0.35);
+}
+@keyframes h-ldr-tss {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.h-loader-sep {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.55), transparent);
+  margin: 20px 0;
+  animation: h-ldr-sep 0.55s 0.68s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes h-ldr-sep { to { width: 150px; } }
+.h-loader-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(11px, 2vw, 19px);
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #ffffff;
+  clip-path: inset(0 100% 0 0);
+  animation: h-ldr-name 0.8s 0.88s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+@keyframes h-ldr-name { to { clip-path: inset(0 0% 0 0); } }
+.h-loader-tagline {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(7px, 0.9vw, 10px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  margin-top: 14px;
+  opacity: 0;
+  animation: h-ldr-fade 0.5s 1.4s ease forwards;
+}
+.h-loader-bar-wrap {
+  width: 200px;
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin-top: 30px;
+  overflow: hidden;
+  border-radius: 1px;
+}
+.h-loader-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #cc0000 0%, #e60000 50%, #d4a843 100%);
+  box-shadow: 0 0 10px rgba(204,0,0,0.9);
+  animation: h-ldr-bar 0.95s 1.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes h-ldr-bar { to { width: 100%; } }
+.h-loader-phrase {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.16);
+  margin-top: 20px;
+  opacity: 0;
+  animation: h-ldr-fade 0.65s 2.1s ease forwards;
+}
+@keyframes h-ldr-fade { to { opacity: 1; } }
+
 /* ─── NAV PILL ─── */
 .h-progress-bar {
   position: fixed;
@@ -3778,6 +3896,44 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 }
 .h-nav-link:hover { color: #ffffff; }
 .h-nav-link:hover::after { opacity: 1; }
+.h-nav-link--active { color: #ffffff; }
+.h-nav-link--active::after {
+  opacity: 1;
+  background: #cc0000;
+  box-shadow: 0 0 7px rgba(204,0,0,0.85);
+}
+.h-back-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 150;
+  width: 42px;
+  height: 42px;
+  background: rgba(12,12,12,0.88);
+  border: 1px solid rgba(204,0,0,0.3);
+  border-radius: 50%;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.55);
+  font-size: 15px;
+  line-height: 1;
+  transition: opacity 0.35s, transform 0.35s, border-color 0.22s, color 0.22s, box-shadow 0.22s;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+}
+.h-back-top--hidden {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+}
+.h-back-top:hover {
+  border-color: rgba(204,0,0,0.75);
+  color: #ffffff;
+  box-shadow: 0 4px 24px rgba(204,0,0,0.22);
+}
 .h-nav-link--ig { gap: 5px; }
 .h-reg-btn {
   display: inline-flex;
