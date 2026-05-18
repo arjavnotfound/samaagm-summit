@@ -3716,17 +3716,15 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   opacity: 0;
   transform: translateY(-10px);
 }
-.h-loader-tss {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(52px, 11vw, 108px);
-  font-weight: 700;
-  color: #cc0000;
-  letter-spacing: 0.06em;
-  line-height: 1;
+.h-loader-logo {
+  width: clamp(90px, 14vw, 140px);
+  height: clamp(90px, 14vw, 140px);
+  border-radius: 22%;
+  object-fit: cover;
   opacity: 0;
-  transform: translateY(14px) scale(0.9);
-  animation: h-ldr-tss 0.65s 0.15s cubic-bezier(0.2, 1, 0.3, 1) forwards;
-  text-shadow: 0 0 40px rgba(204,0,0,0.35);
+  transform: translateY(14px) scale(0.88);
+  animation: h-ldr-tss 0.7s 0.15s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+  box-shadow: 0 0 48px rgba(204,0,0,0.28), 0 0 0 1px rgba(204,0,0,0.15);
 }
 @keyframes h-ldr-tss {
   to { opacity: 1; transform: translateY(0) scale(1); }

@@ -57,7 +57,7 @@ function LoadingScreen({ exiting, done }: { exiting: boolean; done: boolean }) {
       <div className="h-loader-half h-loader-half--bot" />
       <div className="h-loader-glow" />
       <div className="h-loader-content">
-        <div className="h-loader-tss">TSS</div>
+        <img className="h-loader-logo" src="/favicon.svg" alt="TSS" />
         <div className="h-loader-sep" />
         <div className="h-loader-name">The Samaagm Summit</div>
         <div className="h-loader-tagline">India's First Democratic Summit</div>
