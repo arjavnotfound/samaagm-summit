@@ -102,6 +102,7 @@ function scrollTo(id: string) {
 export default function Home() {
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [scrollPct, setScrollPct] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const { dotRef, ringRef } = useMousePos();
   useReveal();
@@ -115,7 +116,12 @@ export default function Home() {
   const devPasswordInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 60);
+      const el = document.documentElement;
+      const scrollable = el.scrollHeight - el.clientHeight;
+      setScrollPct(scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -195,6 +201,8 @@ export default function Home() {
       </div>
 
       {/* NAV */}
+      <div className="h-progress-bar" style={{ width: `${scrollPct}%` }} aria-hidden />
+
       <header className={`h-nav${scrolled ? " h-nav--solid" : ""}`}>
         <div className="h-nav-inner">
           <button className="h-logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>

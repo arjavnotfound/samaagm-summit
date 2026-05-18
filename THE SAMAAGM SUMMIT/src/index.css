@@ -3671,6 +3671,18 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 }
 
 /* ─── NAV PILL ─── */
+.h-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #cc0000 0%, #e60000 60%, #d4a843 100%);
+  z-index: 300;
+  transition: width 0.1s linear;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(204,0,0,0.6);
+}
+
 .h-nav {
   position: fixed;
   top: 20px;
