@@ -808,111 +808,173 @@ export default function Register() {
             )}
           </section>
 
-          {/* ── EVENT DETAILS — only shown before/during event ── */}
-          {effectivePhase !== "ended" && (
-            <section className="details-section reveal">
-              <span className="section-eyebrow">The Event</span>
-              <h2 className="section-title">
-                What <span className="accent">awaits</span> you
-              </h2>
-              <p className="section-sub" style={{ marginBottom: "40px" }}>
-                An exclusive underground experience. The details are known only to
-                those who hold a ticket.
-              </p>
+          {/* ── EVENT DETAILS ── */}
+          <section className="details-section reveal">
+            <span className="section-eyebrow">The Event</span>
+            <h2 className="section-title">
+              What <span className="accent">awaits</span> you
+            </h2>
+            <p className="section-sub" style={{ marginBottom: "40px" }}>
+              An exclusive underground experience. The details are known only to
+              those who hold a ticket.
+            </p>
 
-              <div className="info-cards-row">
-                <div
-                  className={`info-card reveal-item venue-card venue-card-featured${venueOpen ? " venue-open" : ""}`}
-                  style={{ "--delay": "0s" } as React.CSSProperties}
-                  onClick={() => setVenueOpen((v) => !v)}
-                  role="button"
-                  aria-expanded={venueOpen}
-                >
-                  <MapPin className="info-card-icon" size={22} strokeWidth={1.5} />
-                  <span className="info-card-label">Venue</span>
-                  <div className="venue-card-title-row">
-                    <div className="info-card-value">Underdoggs</div>
-                    <ChevronDown size={16} className={`venue-chevron${venueOpen ? " open" : ""}`} />
-                  </div>
-                  <div className="info-card-sub">High Street Apollo, Indore</div>
-                  {venueOpen && (
-                    <div className="venue-dropdown" onClick={(e) => e.stopPropagation()}>
-                      <div className="venue-dropdown-addr">Underdoggs, High Street Apollo, Indore, MP</div>
-                      <div className="venue-dropdown-btns">
-                        <a href="https://maps.app.goo.gl/WpKN9bmhqDdKUZea8" target="_blank" rel="noopener noreferrer" className="venue-btn venue-btn-maps">
-                          <Map size={14} /> Google Maps
-                        </a>
-                        <a href="https://www.instagram.com/underdoggs.indore/" target="_blank" rel="noopener noreferrer" className="venue-btn venue-btn-ig">
-                          <Instagram size={14} /> Instagram
-                        </a>
-                      </div>
+            <div className="info-cards-row">
+              {/* VENUE CARD — clickable dropdown */}
+              <div
+                className={`info-card reveal-item venue-card venue-card-featured${venueOpen ? " venue-open" : ""}`}
+                style={{ "--delay": "0s" } as React.CSSProperties}
+                onClick={() => setVenueOpen((v) => !v)}
+                role="button"
+                aria-expanded={venueOpen}
+              >
+                <MapPin
+                  className="info-card-icon"
+                  size={22}
+                  strokeWidth={1.5}
+                />
+                <span className="info-card-label">Venue</span>
+                <div className="venue-card-title-row">
+                  <div className="info-card-value">Underdoggs</div>
+                  <ChevronDown
+                    size={16}
+                    className={`venue-chevron${venueOpen ? " open" : ""}`}
+                  />
+                </div>
+                <div className="info-card-sub">High Street Apollo, Indore</div>
+                {venueOpen && (
+                  <div
+                    className="venue-dropdown"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="venue-dropdown-addr">
+                      Underdoggs, High Street Apollo, Indore, MP
                     </div>
-                  )}
-                </div>
-                <div className="info-card reveal-item" style={{ "--delay": "0.1s" } as React.CSSProperties}>
-                  <Calendar className="info-card-icon" size={22} strokeWidth={1.5} />
-                  <span className="info-card-label">Date</span>
-                  <div className="info-card-value">12 April 2026</div>
-                  <div className="info-card-sub">Mark your calendar. One night only.</div>
-                </div>
-                <div className="info-card reveal-item" style={{ "--delay": "0.2s" } as React.CSSProperties}>
-                  <Clock className="info-card-icon" size={22} strokeWidth={1.5} />
-                  <span className="info-card-label">Time</span>
-                  <div className="info-card-value">4:00 PM – 8:00 PM</div>
-                  <div className="info-card-sub">Four hours. Infinite memories.</div>
-                </div>
-              </div>
-
-              <div className="exp-header reveal">
-                <span className="section-eyebrow">On the floor</span>
-                <h2 className="section-title">What's <span className="accent">happening</span></h2>
-              </div>
-              <div className="exp-grid">
-                {[
-                  { icon: <Zap size={22} strokeWidth={1.5} />, title: "The Rave", desc: "Live DJ. Bass you'll feel in your chest. A proper dance floor that goes all night.", hp: "Wingardium Leviosa" },
-                  { icon: <Wand2 size={22} strokeWidth={1.5} />, title: "HP Challenges", desc: "Duels, trivia, house tasks. Prove you belong.", hp: "Expecto Patronum" },
-                  { icon: <Trophy size={22} strokeWidth={1.5} />, title: "Prizes", desc: "Win exclusive collectibles & merch. The best houses take the spoils.", hp: "Accio Rewards" },
-                  { icon: <Sparkles size={22} strokeWidth={1.5} />, title: "Surprises", desc: "Things we won't announce. You'll know when you're there.", hp: "Alohomora" },
-                ].map((item, i) => (
-                  <div className="exp-item reveal-item" key={item.title} style={{ "--delay": `${i * 0.1}s` } as React.CSSProperties}>
-                    <span className="exp-item-icon">{item.icon}</span>
-                    <div className="exp-item-title">{item.title}</div>
-                    <div className="exp-item-desc">{item.desc}</div>
-                    <div className="exp-item-spell">✦ {item.hp}</div>
+                    <div className="venue-dropdown-btns">
+                      <a
+                        href="https://maps.app.goo.gl/WpKN9bmhqDdKUZea8"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="venue-btn venue-btn-maps"
+                      >
+                        <Map size={14} /> Google Maps
+                      </a>
+                      <a
+                        href="https://www.instagram.com/underdoggs.indore/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="venue-btn venue-btn-ig"
+                      >
+                        <Instagram size={14} /> Instagram
+                      </a>
+                    </div>
                   </div>
-                ))}
+                )}
               </div>
-            </section>
-          )}
 
-          {/* ── VENUE POLICY — only shown before/during event ── */}
-          {effectivePhase !== "ended" && (
-            <section className="policy-section reveal">
-              <div className="policy-card">
-                <div className="policy-header">
-                  <span className="policy-icon">⚠</span>
-                  <span className="policy-eyebrow">Venue Policy — Strictly Enforced</span>
-                </div>
-                <h2 className="policy-title">Rules of the Platform</h2>
-                <div className="policy-divider" />
-                <div className="policy-body">
-                  <p className="policy-rule">
-                    <span className="policy-rule-mark">✦</span>
-                    No alcohol, liquor, vapes, smoking pipes, cigars, cigarettes, tobacco, drugs, or any
-                    prohibitory substances are permitted on the premises. Any attendee found in possession
-                    of such substances will be <strong>fined and removed from the venue immediately</strong> — without exception.
-                  </p>
-                  <p className="policy-rule policy-rule--food">
-                    <span className="policy-rule-mark policy-rule-mark--gold">✦</span>
-                    Food and non-alcoholic beverages are available at the venue for all attendees.
-                  </p>
-                </div>
-                <div className="policy-footer-line">
-                  By entering Platform 9¾, you acknowledge and agree to abide by all venue policies.
+              <div
+                className="info-card reveal-item"
+                style={{ "--delay": "0.1s" } as React.CSSProperties}
+              >
+                <Calendar
+                  className="info-card-icon"
+                  size={22}
+                  strokeWidth={1.5}
+                />
+                <span className="info-card-label">Date</span>
+                <div className="info-card-value">12 April 2026</div>
+                <div className="info-card-sub">
+                  Mark your calendar. One night only.
                 </div>
               </div>
-            </section>
-          )}
+              <div
+                className="info-card reveal-item"
+                style={{ "--delay": "0.2s" } as React.CSSProperties}
+              >
+                <Clock className="info-card-icon" size={22} strokeWidth={1.5} />
+                <span className="info-card-label">Time</span>
+                <div className="info-card-value">4:00 PM – 8:00 PM</div>
+                <div className="info-card-sub">
+                  Four hours. Infinite memories.
+                </div>
+              </div>
+            </div>
+
+            <div className="exp-header reveal">
+              <span className="section-eyebrow">On the floor</span>
+              <h2 className="section-title">
+                What's <span className="accent">happening</span>
+              </h2>
+            </div>
+            <div className="exp-grid">
+              {[
+                {
+                  icon: <Zap size={22} strokeWidth={1.5} />,
+                  title: "The Rave",
+                  desc: "Live DJ. Bass you'll feel in your chest. A proper dance floor that goes all night.",
+                  hp: "Wingardium Leviosa",
+                },
+                {
+                  icon: <Wand2 size={22} strokeWidth={1.5} />,
+                  title: "HP Challenges",
+                  desc: "Duels, trivia, house tasks. Prove you belong.",
+                  hp: "Expecto Patronum",
+                },
+                {
+                  icon: <Trophy size={22} strokeWidth={1.5} />,
+                  title: "Prizes",
+                  desc: "Win exclusive collectibles & merch. The best houses take the spoils.",
+                  hp: "Accio Rewards",
+                },
+                {
+                  icon: <Sparkles size={22} strokeWidth={1.5} />,
+                  title: "Surprises",
+                  desc: "Things we won't announce. You'll know when you're there.",
+                  hp: "Alohomora",
+                },
+              ].map((item, i) => (
+                <div
+                  className="exp-item reveal-item"
+                  key={item.title}
+                  style={{ "--delay": `${i * 0.1}s` } as React.CSSProperties}
+                >
+                  <span className="exp-item-icon">{item.icon}</span>
+                  <div className="exp-item-title">{item.title}</div>
+                  <div className="exp-item-desc">{item.desc}</div>
+                  <div className="exp-item-spell">✦ {item.hp}</div>
+                </div>
+              ))}
+            </div>
+
+          </section>
+
+          {/* ── VENUE POLICY ── */}
+          <section className="policy-section reveal">
+            <div className="policy-card">
+              <div className="policy-header">
+                <span className="policy-icon">⚠</span>
+                <span className="policy-eyebrow">Venue Policy — Strictly Enforced</span>
+              </div>
+              <h2 className="policy-title">Rules of the Platform</h2>
+              <div className="policy-divider" />
+              <div className="policy-body">
+                <p className="policy-rule">
+                  <span className="policy-rule-mark">✦</span>
+                  No alcohol, liquor, vapes, smoking pipes, cigars, cigarettes, tobacco, drugs, or any
+                  prohibitory substances are permitted on the premises. Any attendee found in possession
+                  of such substances will be <strong>fined and removed from the venue immediately</strong> —
+                  without exception.
+                </p>
+                <p className="policy-rule policy-rule--food">
+                  <span className="policy-rule-mark policy-rule-mark--gold">✦</span>
+                  Food and non-alcoholic beverages are available at the venue for all attendees.
+                </p>
+              </div>
+              <div className="policy-footer-line">
+                By entering Platform 9¾, you acknowledge and agree to abide by all venue policies.
+              </div>
+            </div>
+          </section>
 
           {/* ── CONTACT ── */}
           <section className="contact-section reveal">
