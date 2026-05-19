@@ -55,13 +55,11 @@ function LoadingScreen({ exiting, done }: { exiting: boolean; done: boolean }) {
     <div className={`h-loader${exiting ? " h-loader--exit" : ""}`} aria-hidden>
       <div className="h-loader-half h-loader-half--top" />
       <div className="h-loader-half h-loader-half--bot" />
-      <div className="h-loader-glow" />
       <div className="h-loader-content">
-        <img className="h-loader-logo" src="/favicon.svg" alt="TSS" />
+        <div className="h-loader-wordmark">TSS</div>
         <div className="h-loader-sep" />
         <div className="h-loader-name">The Samaagm Summit</div>
         <div className="h-loader-tagline">India's First Democratic Summit</div>
-        <div className="h-loader-bar-wrap"><div className="h-loader-bar" /></div>
         <div className="h-loader-phrase">✦ The Room Decides</div>
       </div>
     </div>
@@ -523,11 +521,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PLATFORM 9¾ — PAST EVENT */}
+      {/* PLATFORM 9¾ — PAST EVENT (COMPACT) */}
       <section className="h-event">
         <div className="h-event-bg" aria-hidden>
           <div className="h-event-glow" />
-          <div className="h-event-grid" />
         </div>
         <div className="h-wrap h-event-inner">
           <div className="h-event-top-row h-reveal">
@@ -540,52 +537,16 @@ export default function Home() {
             <h2 className="h-event-title">9¾</h2>
           </div>
 
-          <p className="h-event-tagline h-reveal">
-            An immersive Harry Potter–themed social experience — magic met music on the night of April 12.
-          </p>
-
-          <div className="h-event-stats h-reveal">
-            <div className="h-event-stat">
-              <span className="h-event-stat-val">350+</span>
-              <span className="h-event-stat-label">Registrations</span>
-            </div>
-            <div className="h-event-stat-sep" />
-            <div className="h-event-stat">
-              <span className="h-event-stat-val">4 hrs</span>
-              <span className="h-event-stat-label">Of magic</span>
-            </div>
-            <div className="h-event-stat-sep" />
-            <div className="h-event-stat">
-              <span className="h-event-stat-val">1 night</span>
-              <span className="h-event-stat-label">Unforgettable</span>
-            </div>
+          <div className="h-event-compact-meta h-reveal">
+            <span>350+ Attended</span>
+            <span className="h-event-compact-sep">·</span>
+            <span>12 April 2026</span>
+            <span className="h-event-compact-sep">·</span>
+            <span>Underdoggs, Indore</span>
           </div>
 
-          <div className="h-event-meta h-reveal">
-            <div className="h-event-meta-item">
-              <span className="h-event-meta-label">Date</span>
-              <span className="h-event-meta-val">12 April 2026</span>
-            </div>
-            <div className="h-event-meta-sep" />
-            <div className="h-event-meta-item">
-              <span className="h-event-meta-label">Time</span>
-              <span className="h-event-meta-val">4:00 PM – 8:00 PM</span>
-            </div>
-            <div className="h-event-meta-sep" />
-            <div className="h-event-meta-item">
-              <span className="h-event-meta-label">Venue</span>
-              <span className="h-event-meta-val">Underdoggs, Indore</span>
-            </div>
-          </div>
-
-          <p className="h-event-body h-reveal">
-            Platform 9¾ was a TSS social event — a Harry Potter-themed rave and challenge night that brought Indore's youth together for an evening of music, magic, and memories.
-          </p>
-
-          <div className="h-event-note h-reveal">✦ A standalone event by The Samaagm Summit</div>
-
-          <button className="h-cta h-cta--event h-reveal" onClick={goEvent}>
-            View Event Details <ArrowRight size={16} />
+          <button className="h-cta h-cta--event-ghost h-reveal" onClick={goEvent}>
+            View Recap <ArrowRight size={14} />
           </button>
         </div>
       </section>

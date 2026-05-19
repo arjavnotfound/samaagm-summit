@@ -3679,30 +3679,20 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #080808;
 }
 .h-loader-half {
   position: absolute;
   left: 0;
   right: 0;
   background: #080808;
-  transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
   z-index: 1;
 }
 .h-loader-half--top { top: 0; height: 50.5%; }
 .h-loader-half--bot { bottom: 0; height: 50.5%; }
 .h-loader--exit .h-loader-half--top { transform: translateY(-101%); }
 .h-loader--exit .h-loader-half--bot { transform: translateY(101%); }
-.h-loader-glow {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px;
-  height: 320px;
-  background: radial-gradient(ellipse, rgba(204,0,0,0.13) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-}
 .h-loader-content {
   position: relative;
   z-index: 2;
@@ -3710,79 +3700,64 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .h-loader--exit .h-loader-content {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
-.h-loader-logo {
-  width: clamp(90px, 14vw, 140px);
-  height: clamp(90px, 14vw, 140px);
-  border-radius: 22%;
-  object-fit: cover;
+.h-loader-wordmark {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 900;
+  font-size: clamp(52px, 10vw, 96px);
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  line-height: 1;
   opacity: 0;
-  transform: translateY(14px) scale(0.88);
-  animation: h-ldr-tss 0.7s 0.15s cubic-bezier(0.2, 1, 0.3, 1) forwards;
-  box-shadow: 0 0 48px rgba(204,0,0,0.28), 0 0 0 1px rgba(204,0,0,0.15);
+  transform: translateY(16px);
+  animation: h-ldr-word 0.75s 0.1s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
-@keyframes h-ldr-tss {
-  to { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes h-ldr-word {
+  to { opacity: 1; transform: translateY(0); }
 }
 .h-loader-sep {
   width: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.55), transparent);
-  margin: 20px 0;
-  animation: h-ldr-sep 0.55s 0.68s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.6), transparent);
+  margin: 22px 0 20px;
+  animation: h-ldr-sep 0.5s 0.72s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-@keyframes h-ldr-sep { to { width: 150px; } }
+@keyframes h-ldr-sep { to { width: 120px; } }
 .h-loader-name {
   font-family: 'Cinzel', serif;
-  font-size: clamp(11px, 2vw, 19px);
+  font-size: clamp(8px, 1.4vw, 13px);
   font-weight: 400;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.36em;
   text-transform: uppercase;
-  color: #ffffff;
+  color: rgba(255,255,255,0.55);
   clip-path: inset(0 100% 0 0);
-  animation: h-ldr-name 0.8s 0.88s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+  animation: h-ldr-name 0.7s 0.9s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
 @keyframes h-ldr-name { to { clip-path: inset(0 0% 0 0); } }
 .h-loader-tagline {
   font-family: 'DM Mono', monospace;
-  font-size: clamp(7px, 0.9vw, 10px);
-  letter-spacing: 0.32em;
+  font-size: clamp(6px, 0.75vw, 9px);
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
-  margin-top: 14px;
+  color: rgba(255,255,255,0.18);
+  margin-top: 12px;
   opacity: 0;
   animation: h-ldr-fade 0.5s 1.4s ease forwards;
 }
-.h-loader-bar-wrap {
-  width: 200px;
-  height: 1px;
-  background: rgba(255,255,255,0.07);
-  margin-top: 30px;
-  overflow: hidden;
-  border-radius: 1px;
-}
-.h-loader-bar {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, #cc0000 0%, #e60000 50%, #d4a843 100%);
-  box-shadow: 0 0 10px rgba(204,0,0,0.9);
-  animation: h-ldr-bar 0.95s 1.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-@keyframes h-ldr-bar { to { width: 100%; } }
 .h-loader-phrase {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.38em;
+  font-size: clamp(6px, 0.7vw, 8px);
+  letter-spacing: 0.42em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.16);
-  margin-top: 20px;
+  color: rgba(204,0,0,0.4);
+  margin-top: 32px;
   opacity: 0;
-  animation: h-ldr-fade 0.65s 2.1s ease forwards;
+  animation: h-ldr-fade 0.6s 1.85s ease forwards;
 }
 @keyframes h-ldr-fade { to { opacity: 1; } }
 
@@ -4550,22 +4525,34 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   z-index: 1;
 }
 
-/* ─── JOIN GRID ─── */
 /* ─── JOIN SECTION ─── */
-.h-section--join { padding: 80px 0 80px; }
+.h-section--join {
+  padding: 100px 0 100px;
+  background: linear-gradient(180deg, transparent 0%, rgba(204,0,0,0.04) 20%, rgba(204,0,0,0.04) 80%, transparent 100%);
+  position: relative;
+}
+.h-section--join::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, rgba(204,0,0,0.45) 30%, rgba(204,0,0,0.45) 70%, transparent);
+}
 .h-section--join .h-wrap { padding: 0 32px; }
 .h-join-header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 48px;
-  margin-bottom: 56px;
+  margin-bottom: 64px;
   flex-wrap: wrap;
 }
 .h-join-sub {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(13px, 1.6vw, 15px);
-  color: rgba(240,235,224,0.38);
+  color: rgba(240,235,224,0.32);
   line-height: 1.8;
   max-width: 320px;
   text-align: right;
@@ -4576,12 +4563,12 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 .h-form-rows {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgba(240,235,224,0.06);
+  border-top: 1px solid rgba(240,235,224,0.07);
   width: 100%;
 }
 .h-form-row {
   display: block;
-  border-bottom: 1px solid rgba(240,235,224,0.06);
+  border-bottom: 1px solid rgba(240,235,224,0.07);
   text-decoration: none;
   cursor: pointer;
   position: relative;
@@ -4590,42 +4577,60 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 .h-form-row-inner {
   max-width: 1220px;
   margin: 0 auto;
-  padding: 28px 32px;
+  padding: 32px 32px;
   display: flex;
   align-items: center;
   gap: 32px;
   position: relative;
   z-index: 1;
 }
+/* Red sweep on hover */
 .h-form-row::before {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    90deg,
+    105deg,
     transparent 0%,
-    rgba(204,0,0,0.07) 18%,
-    rgba(204,0,0,0.13) 50%,
-    rgba(204,0,0,0.07) 82%,
+    rgba(204,0,0,0.05) 30%,
+    rgba(204,0,0,0.11) 55%,
+    rgba(204,0,0,0.05) 80%,
     transparent 100%
   );
   opacity: 0;
-  transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1);
+  transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1);
   pointer-events: none;
 }
+/* Left accent bar slides in */
+.h-form-row::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--red);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
 .h-form-row:hover::before { opacity: 1; }
+.h-form-row:hover::after { transform: scaleY(1); }
 .h-form-row-num {
-  font-family: 'DM Mono', monospace;
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 400;
-  color: rgba(204,0,0,0.15);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(22px, 3.5vw, 40px);
+  font-weight: 900;
+  color: rgba(204,0,0,0.12);
   line-height: 1;
   flex-shrink: 0;
   width: 80px;
-  transition: color 0.2s;
-  letter-spacing: -0.02em;
+  transition: color 0.25s, transform 0.25s;
+  letter-spacing: -0.01em;
 }
-.h-form-row:hover .h-form-row-num { color: rgba(204,0,0,0.4); }
+.h-form-row:hover .h-form-row-num {
+  color: rgba(204,0,0,0.5);
+  transform: translateX(4px);
+}
 .h-form-row-body {
   flex: 1;
   display: flex;
@@ -4633,18 +4638,18 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   gap: 5px;
 }
 .h-form-row-label {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Cinzel', serif;
   font-weight: 700;
-  font-size: clamp(16px, 2.2vw, 22px);
-  color: rgba(240,235,224,0.85);
-  letter-spacing: -0.01em;
+  font-size: clamp(15px, 2vw, 20px);
+  color: rgba(240,235,224,0.8);
+  letter-spacing: 0.01em;
   transition: color 0.2s;
 }
 .h-form-row:hover .h-form-row-label { color: #f0ebe0; }
 .h-form-row-desc {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 13px;
-  color: rgba(240,235,224,0.28);
+  color: rgba(240,235,224,0.25);
   transition: color 0.2s;
 }
 .h-form-row:hover .h-form-row-desc { color: rgba(240,235,224,0.45); }
@@ -4664,6 +4669,7 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   border: 1px solid rgba(201,151,58,0.3);
   padding: 4px 10px;
   border-radius: 2px;
+  background: rgba(201,151,58,0.04);
 }
 .h-form-row-arrow {
   display: inline-flex;
@@ -4672,10 +4678,10 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: rgba(204,0,0,0.45);
+  color: rgba(204,0,0,0.38);
   transition: color 0.2s, gap 0.2s;
 }
-.h-form-row:hover .h-form-row-arrow { color: var(--red); gap: 10px; }
+.h-form-row:hover .h-form-row-arrow { color: var(--red); gap: 12px; }
 
 /* ─── VISION LAYOUT ─── */
 .h-vision-layout {
@@ -4854,12 +4860,12 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 /* ─── EVENT SECTION ─── */
 .h-event {
   position: relative;
-  padding: 140px 32px;
+  padding: 80px 32px 72px;
   text-align: center;
   overflow: hidden;
   background: #161212;
-  border-top: 1px solid rgba(204,0,0,0.22);
-  border-bottom: 1px solid rgba(204,0,0,0.22);
+  border-top: 1px solid rgba(204,0,0,0.18);
+  border-bottom: 1px solid rgba(204,0,0,0.18);
   z-index: 1;
 }
 /* Scan line animation on hover */
@@ -5085,6 +5091,37 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   letter-spacing: 0.12em;
   color: rgba(240,235,224,0.22);
   margin-bottom: 44px;
+}
+
+/* Compact past-event meta line */
+.h-event-compact-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(9px, 1.1vw, 11px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.28);
+  margin: 0 0 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.h-event-compact-sep {
+  color: rgba(204,0,0,0.4);
+}
+.h-cta--event-ghost {
+  background: transparent;
+  color: rgba(240,235,224,0.38);
+  border: 1px solid rgba(240,235,224,0.12);
+  font-size: 10px;
+  padding: 11px 28px;
+  letter-spacing: 0.16em;
+}
+.h-cta--event-ghost:hover {
+  color: rgba(240,235,224,0.7);
+  border-color: rgba(240,235,224,0.28);
+  background: rgba(255,255,255,0.03);
 }
 
 /* ─── FOOTER ─── */
