@@ -614,12 +614,7 @@ export default function Register() {
           </header>
 
           {/* ── HERO ── */}
-          <section className={`hero${effectivePhase === "ended" ? " hero--photo" : ""}`} ref={heroRef}>
-            {effectivePhase === "ended" && (
-              <div className="hero-photo-bg" aria-hidden>
-                <img src="/p934-night.jpg" alt="" />
-              </div>
-            )}
+          <section className="hero" ref={heroRef}>
             <FloatingRunes />
 
             <div className="hero-summit" style={{ animationDelay: "0.1s" }}>
