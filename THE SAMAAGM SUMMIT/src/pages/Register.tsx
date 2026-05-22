@@ -615,10 +615,6 @@ export default function Register() {
 
           {/* ── HERO ── */}
           <section className="hero" ref={heroRef}>
-            <div className="hero-photo-bg" aria-hidden>
-              <img src="/p934-event.jpg" alt="" className="hero-photo-img" />
-              <div className="hero-photo-overlay" />
-            </div>
             <FloatingRunes />
 
             <div className="hero-summit" style={{ animationDelay: "0.1s" }}>
