@@ -470,7 +470,7 @@ export default function Home() {
       </section>
 
       {/* PLATFORM 9¾ — PAST EVENT */}
-      <section className="h-event">
+      <section className="h-event h-event--compact">
         <div className="h-event-bg" aria-hidden>
           <div className="h-event-glow" />
           <div className="h-event-grid" />
@@ -478,60 +478,20 @@ export default function Home() {
         <div className="h-wrap h-event-inner">
           <div className="h-event-top-row h-reveal">
             <div className="h-event-badge"><span>Past Event · The Samaagm Summit</span></div>
-            <div className="h-event-closed-stamp"><span className="h-event-closed-dot" />Closed</div>
+            <div className="h-event-closed-stamp"><span className="h-event-closed-dot" />Concluded · April 2026</div>
           </div>
 
           <div className="h-event-title-block h-reveal">
             <span className="h-event-title-eyebrow">Platform</span>
-            <h2 className="h-event-title">9¾</h2>
+            <h2 className="h-event-title h-event-title--sm">9¾</h2>
           </div>
 
           <p className="h-event-tagline h-reveal">
-            An immersive Harry Potter–themed social experience — magic met music on the night of April 12.
+            350+ attendees. One night of magic, music, and memories — Indore, April 12.
           </p>
-
-          <div className="h-event-stats h-reveal">
-            <div className="h-event-stat">
-              <span className="h-event-stat-val">350+</span>
-              <span className="h-event-stat-label">Registrations</span>
-            </div>
-            <div className="h-event-stat-sep" />
-            <div className="h-event-stat">
-              <span className="h-event-stat-val">4 hrs</span>
-              <span className="h-event-stat-label">Of magic</span>
-            </div>
-            <div className="h-event-stat-sep" />
-            <div className="h-event-stat">
-              <span className="h-event-stat-val">1 night</span>
-              <span className="h-event-stat-label">Unforgettable</span>
-            </div>
-          </div>
-
-          <div className="h-event-meta h-reveal">
-            <div className="h-event-meta-item">
-              <span className="h-event-meta-label">Date</span>
-              <span className="h-event-meta-val">12 April 2026</span>
-            </div>
-            <div className="h-event-meta-sep" />
-            <div className="h-event-meta-item">
-              <span className="h-event-meta-label">Time</span>
-              <span className="h-event-meta-val">4:00 PM – 8:00 PM</span>
-            </div>
-            <div className="h-event-meta-sep" />
-            <div className="h-event-meta-item">
-              <span className="h-event-meta-label">Venue</span>
-              <span className="h-event-meta-val">Underdoggs, Indore</span>
-            </div>
-          </div>
-
-          <p className="h-event-body h-reveal">
-            Platform 9¾ was a TSS social event — a Harry Potter-themed rave and challenge night that brought Indore's youth together for an evening of music, magic, and memories.
-          </p>
-
-          <div className="h-event-note h-reveal">✦ A standalone event by The Samaagm Summit</div>
 
           <button className="h-cta h-cta--event h-reveal" onClick={goEvent}>
-            View Event Details <ArrowRight size={16} />
+            View Recap <ArrowRight size={16} />
           </button>
         </div>
       </section>

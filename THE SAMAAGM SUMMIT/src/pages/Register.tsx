@@ -614,7 +614,12 @@ export default function Register() {
           </header>
 
           {/* ── HERO ── */}
-          <section className="hero" ref={heroRef}>
+          <section className={`hero${effectivePhase === "ended" ? " hero--photo" : ""}`} ref={heroRef}>
+            {effectivePhase === "ended" && (
+              <div className="hero-photo-bg" aria-hidden>
+                <img src="/p934-night.jpg" alt="" />
+              </div>
+            )}
             <FloatingRunes />
 
             <div className="hero-summit" style={{ animationDelay: "0.1s" }}>
@@ -808,7 +813,8 @@ export default function Register() {
             )}
           </section>
 
-          {/* ── EVENT DETAILS ── */}
+          {/* ── EVENT DETAILS + POLICY (pre-event only) ── */}
+          {effectivePhase !== "ended" && (<>
           <section className="details-section reveal">
             <span className="section-eyebrow">The Event</span>
             <h2 className="section-title">
@@ -975,6 +981,7 @@ export default function Register() {
               </div>
             </div>
           </section>
+          </>)}
 
           {/* ── CONTACT ── */}
           <section className="contact-section reveal">
