@@ -553,8 +553,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-pill-panel-row"
-                onClick={() => setPillOpen(false)}
-              >
+            >
                 <span className="h-pill-panel-row-num">0{i + 1}</span>
                 <span className="h-pill-panel-row-label">{f.label}</span>
                 <span className="h-pill-panel-row-arrow">→</span>
