@@ -546,11 +546,7 @@ export default function Home() {
       >
         {pillOpen && (
           <div className="h-pill-panel">
-            <div className="h-pill-panel-header">
-              <span className="h-pill-panel-title">Open Positions</span>
-              <span className="h-pill-panel-sub">All roles active — apply directly</span>
-            </div>
-            {FORMS.map((f) => (
+            {FORMS.map((f, i) => (
               <a
                 key={f.url}
                 href={f.url}
@@ -559,14 +555,9 @@ export default function Home() {
                 className="h-pill-panel-row"
                 onClick={() => setPillOpen(false)}
               >
-                <span className="h-pill-panel-row-icon">
-                  <f.Icon size={15} strokeWidth={1.5} />
-                </span>
-                <div className="h-pill-panel-row-body">
-                  <span className="h-pill-panel-row-label">{f.label}</span>
-                  <span className="h-pill-panel-row-desc">{f.desc}</span>
-                </div>
-                <ArrowRight size={12} strokeWidth={2} className="h-pill-panel-row-arrow" />
+                <span className="h-pill-panel-row-num">0{i + 1}</span>
+                <span className="h-pill-panel-row-label">{f.label}</span>
+                <span className="h-pill-panel-row-arrow">→</span>
               </a>
             ))}
           </div>
