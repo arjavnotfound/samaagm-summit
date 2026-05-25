@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
-import { Instagram, ArrowRight, Info, Users, Lightbulb, Star } from "lucide-react";
+import {
+  Instagram, ArrowRight, Info, Users, Lightbulb, Star,
+  Handshake, Crown, Shield, GraduationCap, Mic, Globe,
+  Calendar, ChevronUp,
+} from "lucide-react";
 import { DevPanel } from "@/components/DevPanel";
 
 const FORMS = [
   {
     num: "01",
-    icon: "🤝",
+    Icon: Handshake,
     label: "Collaboration & Sponsorship",
     url: "https://forms.gle/7WRDDa6XfUcnH8cg9",
     desc: "Collaborate, sponsor, or partner with TSS",
@@ -14,7 +18,7 @@ const FORMS = [
   },
   {
     num: "02",
-    icon: "👑",
+    Icon: Crown,
     label: "Core Team Application",
     url: "https://forms.gle/Dp5VFEbwzDiAJm9F9",
     desc: "Be at the heart of TSS",
@@ -22,7 +26,7 @@ const FORMS = [
   },
   {
     num: "03",
-    icon: "⚔️",
+    Icon: Shield,
     label: "Secretariat Application 2.0",
     url: "https://forms.gle/VV7dgeszyHmZayNp6",
     desc: "Be the force that keeps the summit moving",
@@ -30,7 +34,7 @@ const FORMS = [
   },
   {
     num: "04",
-    icon: "🎓",
+    Icon: GraduationCap,
     label: "Intern Application",
     url: "https://forms.gle/LmaBU4jy92iwcjez6",
     desc: "Get hands-on conference experience",
@@ -108,7 +112,8 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showPill, setShowPill] = useState(false);
-  const joinRef = useRef<HTMLElement>(null);
+  const [pillOpen, setPillOpen] = useState(false);
+  const pillRef = useRef<HTMLDivElement>(null);
   const { dotRef, ringRef } = useMousePos();
   useReveal();
 
@@ -124,16 +129,22 @@ export default function Home() {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 60);
-      if (joinRef.current) {
-        const rect = joinRef.current.getBoundingClientRect();
-        const pastHero = y > window.innerHeight * 0.55;
-        const notYetPast = rect.bottom > window.innerHeight * 0.3;
-        setShowPill(pastHero && notYetPast);
-      }
+      setShowPill(y > window.innerHeight * 0.55);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!pillOpen) return;
+    const handleOutside = (e: MouseEvent) => {
+      if (pillRef.current && !pillRef.current.contains(e.target as Node)) {
+        setPillOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, [pillOpen]);
 
   useEffect(() => {
     if (showDevOverlay && devPasswordInputRef.current) devPasswordInputRef.current.focus();
@@ -344,7 +355,10 @@ export default function Home() {
               </p>
 
               <div className="h-tags h-reveal">
-                <span className="h-tag">🗓 Conference Details Revealing Soon</span>
+                <span className="h-tag">
+                  <Calendar size={11} strokeWidth={1.5} />
+                  Conference Details Revealing Soon
+                </span>
                 <a className="h-tag h-tag--link" href="https://www.instagram.com/thesamaagmsummit.tss" target="_blank" rel="noopener noreferrer">
                   <Instagram size={11} /> Stay Updated
                 </a>
@@ -353,12 +367,12 @@ export default function Home() {
 
             <div className="h-about-cards">
               {[
-                { n: "01", icon: "🎙", head: "Model United Nations", body: "Structured debates where you represent nations, propose resolutions, and engage with pressing global challenges." },
-                { n: "02", icon: "🗳", head: "Democratic Format", body: "Participants vote on pre-curated agenda options, helping shape the final committees and topics." },
+                { n: "01", Icon: Mic, head: "Model United Nations", body: "Structured debates where you represent nations, propose resolutions, and engage with pressing global challenges." },
+                { n: "02", Icon: Globe, head: "Democratic Format", body: "Participants vote on pre-curated agenda options, helping shape the final committees and topics." },
               ].map((s, i) => (
                 <div key={s.head} className="h-about-card h-reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                   <span className="h-card-num">{s.n}</span>
-                  <div className="h-card-icon">{s.icon}</div>
+                  <div className="h-card-icon"><s.Icon size={18} strokeWidth={1.5} /></div>
                   <h4 className="h-card-head">{s.head}</h4>
                   <p className="h-card-body">{s.body}</p>
                 </div>
@@ -371,8 +385,8 @@ export default function Home() {
       {/* DIVIDER */}
       <div className="h-divider" aria-hidden><div className="h-divider-line" /><span className="h-divider-glyph">✦</span><div className="h-divider-line" /></div>
 
-      {/* JOIN THE TEAM — form rows */}
-      <section id="join" className="h-section h-section--join" ref={joinRef}>
+      {/* JOIN THE TEAM */}
+      <section id="join" className="h-section h-section--join">
         <div className="h-wrap">
           <div className="h-join-header h-reveal">
             <div>
@@ -386,7 +400,7 @@ export default function Home() {
               </p>
               <div className="h-join-open-badge">
                 <span className="h-join-open-dot" />
-                All positions open
+                Roles still open — step in.
               </div>
             </div>
           </div>
@@ -398,7 +412,7 @@ export default function Home() {
               className="h-form-row h-reveal" style={{ transitionDelay: `${i * 0.07}s` }}>
               <div className="h-form-row-inner">
                 <div className="h-form-row-icon-wrap">
-                  <span className="h-form-row-icon">{f.icon}</span>
+                  <f.Icon size={22} strokeWidth={1.5} className="h-form-row-icon" />
                   <span className="h-form-row-num">{f.num}</span>
                 </div>
                 <div className="h-form-row-body">
@@ -465,7 +479,7 @@ export default function Home() {
       {/* DIVIDER */}
       <div className="h-divider" aria-hidden><div className="h-divider-line" /><span className="h-divider-glyph">✦</span><div className="h-divider-line" /></div>
 
-      {/* FOUNDERS — editorial rows */}
+      {/* FOUNDERS */}
       <section id="founders" className="h-section">
         <div className="h-wrap">
           <div className="h-section-header h-reveal">
@@ -525,17 +539,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FLOATING JOIN PILL */}
-      <button
-        className={`h-join-pill${showPill ? " h-join-pill--visible" : ""}`}
-        onClick={() => scrollTo("join")}
-        aria-label="Join the team"
+      {/* FLOATING JOIN PILL + POPUP */}
+      <div
+        className={`h-join-pill-wrap${showPill ? " h-join-pill-wrap--visible" : ""}`}
+        ref={pillRef}
       >
-        <span className="h-join-pill-dot" />
-        <Users size={13} strokeWidth={2} />
-        <span className="h-join-pill-text">Join the Team</span>
-        <ArrowRight size={12} strokeWidth={2} className="h-join-pill-arrow" />
-      </button>
+        {pillOpen && (
+          <div className="h-pill-panel">
+            <div className="h-pill-panel-header">
+              <span className="h-pill-panel-title">Open Positions</span>
+              <span className="h-pill-panel-sub">All roles active — apply directly</span>
+            </div>
+            {FORMS.map((f) => (
+              <a
+                key={f.url}
+                href={f.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-pill-panel-row"
+                onClick={() => setPillOpen(false)}
+              >
+                <span className="h-pill-panel-row-icon">
+                  <f.Icon size={15} strokeWidth={1.5} />
+                </span>
+                <div className="h-pill-panel-row-body">
+                  <span className="h-pill-panel-row-label">{f.label}</span>
+                  <span className="h-pill-panel-row-desc">{f.desc}</span>
+                </div>
+                <ArrowRight size={12} strokeWidth={2} className="h-pill-panel-row-arrow" />
+              </a>
+            ))}
+          </div>
+        )}
+
+        <button
+          className={`h-join-pill${pillOpen ? " h-join-pill--open" : ""}`}
+          onClick={() => setPillOpen((o) => !o)}
+          aria-label="Join the team"
+        >
+          <span className="h-join-pill-dot" />
+          <Users size={13} strokeWidth={2} />
+          <span className="h-join-pill-text">Join the Team</span>
+          <ChevronUp
+            size={12}
+            strokeWidth={2.5}
+            className={`h-join-pill-chevron${pillOpen ? " h-join-pill-chevron--open" : ""}`}
+          />
+        </button>
+      </div>
 
       {/* FOOTER */}
       <footer className="h-footer">
