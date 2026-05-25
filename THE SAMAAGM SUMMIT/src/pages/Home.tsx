@@ -6,6 +6,7 @@ import { DevPanel } from "@/components/DevPanel";
 const FORMS = [
   {
     num: "01",
+    icon: "🤝",
     label: "Collaboration & Sponsorship",
     url: "https://forms.gle/7WRDDa6XfUcnH8cg9",
     desc: "Collaborate, sponsor, or partner with TSS",
@@ -13,6 +14,7 @@ const FORMS = [
   },
   {
     num: "02",
+    icon: "👑",
     label: "Core Team Application",
     url: "https://forms.gle/Dp5VFEbwzDiAJm9F9",
     desc: "Be at the heart of TSS",
@@ -20,6 +22,7 @@ const FORMS = [
   },
   {
     num: "03",
+    icon: "⚔️",
     label: "Secretariat Application 2.0",
     url: "https://forms.gle/VV7dgeszyHmZayNp6",
     desc: "Be the force that keeps the summit moving",
@@ -27,6 +30,7 @@ const FORMS = [
   },
   {
     num: "04",
+    icon: "🎓",
     label: "Intern Application",
     url: "https://forms.gle/LmaBU4jy92iwcjez6",
     desc: "Get hands-on conference experience",
@@ -103,6 +107,8 @@ export default function Home() {
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showPill, setShowPill] = useState(false);
+  const joinRef = useRef<HTMLElement>(null);
   const { dotRef, ringRef } = useMousePos();
   useReveal();
 
@@ -115,7 +121,16 @@ export default function Home() {
   const devPasswordInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 60);
+      if (joinRef.current) {
+        const rect = joinRef.current.getBoundingClientRect();
+        const pastHero = y > window.innerHeight * 0.55;
+        const notYetPast = rect.bottom > window.innerHeight * 0.3;
+        setShowPill(pastHero && notYetPast);
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -281,7 +296,10 @@ export default function Home() {
             <button className="h-cta h-cta--primary" onClick={goEvent}>
               Explore Platform 9¾ <ArrowRight size={15} />
             </button>
-            <button className="h-cta h-cta--secondary" onClick={() => scrollTo("join")}>Join Us</button>
+            <button className="h-cta h-cta--join" onClick={() => scrollTo("join")}>
+              <Users size={14} strokeWidth={2} />
+              Join the Team
+            </button>
             <a className="h-cta h-cta--secondary" href="https://www.instagram.com/thesamaagmsummit.tss" target="_blank" rel="noopener noreferrer">
               <Instagram size={16} color="white" />
             </a>
@@ -354,17 +372,23 @@ export default function Home() {
       <div className="h-divider" aria-hidden><div className="h-divider-line" /><span className="h-divider-glyph">✦</span><div className="h-divider-line" /></div>
 
       {/* JOIN THE TEAM — form rows */}
-      <section id="join" className="h-section h-section--join">
+      <section id="join" className="h-section h-section--join" ref={joinRef}>
         <div className="h-wrap">
           <div className="h-join-header h-reveal">
             <div>
               <span className="h-eyebrow">Get Involved</span>
               <h2 className="h-section-title">Join<br />the team.</h2>
             </div>
-            <p className="h-join-sub">
-              Whether you're here to lead, organise, or grow —<br />
-              there's a seat for you at TSS.
-            </p>
+            <div className="h-join-header-right">
+              <p className="h-join-sub">
+                Whether you're here to lead, organise, or grow —<br />
+                there's a seat for you at TSS.
+              </p>
+              <div className="h-join-open-badge">
+                <span className="h-join-open-dot" />
+                All positions open
+              </div>
+            </div>
           </div>
         </div>
 
@@ -373,14 +397,19 @@ export default function Home() {
             <a key={f.url} href={f.url} target="_blank" rel="noopener noreferrer"
               className="h-form-row h-reveal" style={{ transitionDelay: `${i * 0.07}s` }}>
               <div className="h-form-row-inner">
-                <span className="h-form-row-num">{f.num}</span>
+                <div className="h-form-row-icon-wrap">
+                  <span className="h-form-row-icon">{f.icon}</span>
+                  <span className="h-form-row-num">{f.num}</span>
+                </div>
                 <div className="h-form-row-body">
                   <span className="h-form-row-label">{f.label}</span>
                   <span className="h-form-row-desc">{f.desc}</span>
                 </div>
                 <div className="h-form-row-cta">
-                  <span className="h-form-row-tag">{f.tag}</span>
-                  <span className="h-form-row-arrow">Open Form <ArrowRight size={13} /></span>
+                  <span className="h-form-row-tag">
+                    <span className="h-form-row-tag-dot" />{f.tag}
+                  </span>
+                  <span className="h-form-row-arrow">Apply Now <ArrowRight size={13} /></span>
                 </div>
               </div>
             </a>
@@ -495,6 +524,18 @@ export default function Home() {
           </button>
         </div>
       </section>
+
+      {/* FLOATING JOIN PILL */}
+      <button
+        className={`h-join-pill${showPill ? " h-join-pill--visible" : ""}`}
+        onClick={() => scrollTo("join")}
+        aria-label="Join the team"
+      >
+        <span className="h-join-pill-dot" />
+        <Users size={13} strokeWidth={2} />
+        <span className="h-join-pill-text">Join the Team</span>
+        <ArrowRight size={12} strokeWidth={2} className="h-join-pill-arrow" />
+      </button>
 
       {/* FOOTER */}
       <footer className="h-footer">
