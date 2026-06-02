@@ -113,6 +113,23 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showPill, setShowPill] = useState(false);
   const [pillOpen, setPillOpen] = useState(false);
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0 });
+
+  useEffect(() => {
+    const target = new Date("2026-07-31T00:00:00").getTime();
+    const tick = () => {
+      const diff = target - Date.now();
+      if (diff <= 0) { setCountdown({ days: 0, hours: 0, mins: 0 }); return; }
+      setCountdown({
+        days: Math.floor(diff / 864e5),
+        hours: Math.floor((diff % 864e5) / 36e5),
+        mins: Math.floor((diff % 36e5) / 6e4),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 30_000);
+    return () => clearInterval(id);
+  }, []);
   const pillRef = useRef<HTMLDivElement>(null);
   const { dotRef, ringRef } = useMousePos();
   useReveal();
@@ -334,6 +351,52 @@ export default function Home() {
         </div>
       </div>
 
+      {/* DATES REVEALED */}
+      <section className="h-dates-section">
+        <div className="h-dates-inner">
+          <div className="h-dates-announce h-reveal">
+            <span className="h-dates-announce-dot" />
+            <span className="h-dates-announce-text">Dates Confirmed</span>
+            <span className="h-dates-announce-yr">· 2026</span>
+          </div>
+
+          <div className="h-dates-grid h-reveal">
+            <div className="h-date-block">
+              <span className="h-date-num">31</span>
+              <span className="h-date-month">July</span>
+              <span className="h-date-weekday">Friday</span>
+            </div>
+            <div className="h-date-vsep" aria-hidden />
+            <div className="h-date-block">
+              <span className="h-date-num">01</span>
+              <span className="h-date-month">August</span>
+              <span className="h-date-weekday">Saturday</span>
+            </div>
+            <div className="h-date-vsep" aria-hidden />
+            <div className="h-date-block">
+              <span className="h-date-num">02</span>
+              <span className="h-date-month">August</span>
+              <span className="h-date-weekday">Sunday</span>
+            </div>
+          </div>
+
+          <div className="h-dates-footer h-reveal">
+            <span className="h-dates-loc">Indore, India</span>
+            <span className="h-dates-footer-sep" aria-hidden>·</span>
+            <div className="h-countdown">
+              <span className="h-cdown-num">{countdown.days}</span>
+              <span className="h-cdown-unit">days</span>
+              <span className="h-cdown-sep">·</span>
+              <span className="h-cdown-num">{countdown.hours}</span>
+              <span className="h-cdown-unit">hrs</span>
+              <span className="h-cdown-sep">·</span>
+              <span className="h-cdown-num">{countdown.mins}</span>
+              <span className="h-cdown-unit">min</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ABOUT */}
       <section id="about" className="h-section">
         <div className="h-wrap">
@@ -357,7 +420,7 @@ export default function Home() {
               <div className="h-tags h-reveal">
                 <span className="h-tag">
                   <Calendar size={11} strokeWidth={1.5} />
-                  Conference Details Revealing Soon
+                  31 Jul · 1 & 2 Aug 2026 · Indore
                 </span>
                 <a className="h-tag h-tag--link" href="https://www.instagram.com/thesamaagmsummit.tss" target="_blank" rel="noopener noreferrer">
                   <Instagram size={11} /> Stay Updated

@@ -4369,6 +4369,143 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   cursor: none;
 }
 .h-tag--link:hover { border-color: rgba(204,0,0,0.35); color: rgba(240,235,224,0.8); }
+
+/* ─── DATES REVEALED SECTION ─── */
+.h-dates-section {
+  position: relative;
+  padding: 80px 32px 88px;
+  border-top: 1px solid rgba(204,0,0,0.1);
+  border-bottom: 1px solid rgba(204,0,0,0.1);
+  overflow: hidden;
+}
+.h-dates-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 100% at 50% 50%, rgba(140,0,20,0.055) 0%, transparent 68%);
+  pointer-events: none;
+}
+.h-dates-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 44px;
+}
+.h-dates-announce {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.h-dates-announce-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(204,0,0,0.85);
+  box-shadow: 0 0 8px rgba(204,0,0,0.5);
+  flex-shrink: 0;
+  animation: h-dot-pulse 2s ease-in-out infinite;
+}
+.h-dates-announce-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(204,0,0,0.6);
+}
+.h-dates-announce-yr {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(240,235,224,0.14);
+}
+.h-dates-grid {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+.h-date-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 0;
+  padding: 0 32px;
+}
+.h-date-vsep {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255,255,255,0.06);
+  flex-shrink: 0;
+  margin: 12px 0;
+}
+.h-date-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(64px, 10vw, 124px);
+  font-weight: 900;
+  color: #f0ebe0;
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+}
+.h-date-month {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(10px, 1.2vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(204,0,0,0.65);
+  margin-top: 14px;
+}
+.h-date-weekday {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.13);
+  margin-top: 5px;
+}
+.h-dates-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.h-dates-loc {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.16);
+}
+.h-dates-footer-sep { color: rgba(240,235,224,0.08); }
+.h-countdown {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.h-cdown-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 16px;
+  font-weight: 900;
+  color: rgba(204,0,0,0.55);
+}
+.h-cdown-unit {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.16);
+}
+.h-cdown-sep { color: rgba(240,235,224,0.08); font-size: 11px; }
+@media (max-width: 640px) {
+  .h-dates-section { padding: 60px 20px 68px; }
+  .h-dates-grid { flex-direction: column; }
+  .h-date-vsep { width: 48px; height: 1px; align-self: auto; margin: 0; }
+  .h-date-block { padding: 24px 0; }
+  .h-dates-inner { gap: 32px; }
+}
+
 .h-about-cards { display: flex; flex-direction: column; gap: 16px; }
 .h-about-card {
   background: rgba(255,255,255,0.03);
