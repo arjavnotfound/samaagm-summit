@@ -580,6 +580,23 @@ export default function Home() {
         </div>
       </section>
 
+      {/* MUN BANNER */}
+      <div className="h-mun-banner h-reveal" role="region" aria-label="Explore MUN 2026 conference">
+        <div className="h-wrap">
+          <div className="h-mun-banner-inner">
+            <div className="h-mun-banner-left">
+              <span className="h-mun-banner-eyebrow">The Conference</span>
+              <p className="h-mun-banner-text">
+                Committees, agendas &amp; delegate details
+              </p>
+            </div>
+            <a href="/mun" className="h-cta h-cta--primary h-mun-banner-cta">
+              Explore MUN 2026 <ArrowRight size={14} />
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* ABOUT */}
       <section id="about" className="h-section" aria-label="About The Samaagm Summit">
         <div className="h-wrap">

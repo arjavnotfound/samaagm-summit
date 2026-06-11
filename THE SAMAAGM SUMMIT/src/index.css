@@ -7107,3 +7107,55 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 @keyframes ls-name-in {
   to { opacity: 1; }
 }
+
+/* ─── HOME: MUN BANNER (after dates section) ─── */
+.h-mun-banner {
+  background: rgba(204,0,0,0.04);
+  border-top: 1px solid rgba(204,0,0,0.18);
+  border-bottom: 1px solid rgba(204,0,0,0.18);
+  padding: 28px 0;
+  position: relative;
+  overflow: hidden;
+}
+.h-mun-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.04), transparent);
+  pointer-events: none;
+}
+.h-mun-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.h-mun-banner-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.h-mun-banner-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(204,0,0,0.55);
+}
+.h-mun-banner-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(15px, 2.2vw, 20px);
+  font-weight: 700;
+  color: rgba(240,235,224,0.75);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.h-mun-banner-cta {
+  flex-shrink: 0;
+  text-decoration: none;
+}
+@media (max-width: 600px) {
+  .h-mun-banner-inner { flex-direction: column; align-items: flex-start; }
+  .h-mun-banner-cta { align-self: stretch; justify-content: center; }
+}
