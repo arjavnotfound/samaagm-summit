@@ -201,6 +201,22 @@ function GoldenSnitch() {
 }
 
 export default function Register() {
+  useEffect(() => {
+    const prev = document.title;
+    document.title = "Platform 9¾ — The Samaagm Summit";
+    const desc = document.querySelector('meta[name="description"]');
+    const prevDesc = desc?.getAttribute("content") ?? "";
+    desc?.setAttribute("content", "Platform 9¾ is a Harry Potter-themed cultural event by The Samaagm Summit, Indore. 350+ attendees. Register for the next edition.");
+    const canonical = document.querySelector('link[rel="canonical"]');
+    const prevCanonical = canonical?.getAttribute("href") ?? "";
+    canonical?.setAttribute("href", "https://thesamaagmsummit.netlify.app/event");
+    return () => {
+      document.title = prev;
+      desc?.setAttribute("content", prevDesc);
+      canonical?.setAttribute("href", prevCanonical);
+    };
+  }, []);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalClosing, setModalClosing] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3>(1);

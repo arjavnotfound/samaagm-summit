@@ -3878,8 +3878,12 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 }
 .h-mobile-link:hover { color: #f0ebe0; }
 
-/* ─── REVEAL ─── */
-.h-reveal {
+/* ─── REVEAL ───
+   .js class is set synchronously in <head> before body renders.
+   Without JS (crawlers), elements are fully visible by default.
+   With JS, .js .h-reveal starts hidden; .h-visible makes it animate in.
+*/
+.js .h-reveal {
   opacity: 0;
   transform: translateY(24px);
   filter: blur(4px);
@@ -4499,11 +4503,45 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 }
 .h-cdown-sep { color: rgba(240,235,224,0.08); font-size: 11px; }
 @media (max-width: 640px) {
-  .h-dates-section { padding: 60px 20px 68px; }
-  .h-dates-grid { flex-direction: column; }
-  .h-date-vsep { width: 48px; height: 1px; align-self: auto; margin: 0; }
-  .h-date-block { padding: 24px 0; }
-  .h-dates-inner { gap: 32px; }
+  .h-dates-section { padding: 56px 12px 64px; }
+  .h-dates-grid {
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .h-date-vsep {
+    width: 1px;
+    align-self: stretch;
+    height: auto;
+    margin: 8px 0;
+  }
+  .h-date-block {
+    padding: 0 8px;
+    flex: 1;
+    min-width: 0;
+  }
+  .h-date-num {
+    font-size: clamp(32px, 8.5vw, 56px);
+  }
+  .h-date-month {
+    font-size: clamp(7px, 1.8vw, 11px);
+    letter-spacing: 0.18em;
+    margin-top: 8px;
+  }
+  .h-date-weekday {
+    font-size: 6px;
+    letter-spacing: 0.14em;
+    margin-top: 4px;
+  }
+  .h-dates-inner { gap: 28px; }
+  .h-dates-footer {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  .h-dates-footer-sep { display: none; }
 }
 
 .h-about-cards { display: flex; flex-direction: column; gap: 16px; }

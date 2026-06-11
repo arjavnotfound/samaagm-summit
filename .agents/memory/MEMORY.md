@@ -1,0 +1,1 @@
+- [TSS Crawler Fix](tss-crawler-fix.md) — `.h-reveal` content was invisible to crawlers; fixed with `.js` class gating + noscript fallback.

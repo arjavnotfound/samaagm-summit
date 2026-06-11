@@ -246,7 +246,7 @@ export default function Home() {
   }
 
   return (
-    <div className="h-root">
+    <div className="h-root" itemScope itemType="https://schema.org/WebPage">
       <div className="h-cursor-dot" ref={dotRef} />
       <div className="h-cursor-ring" ref={ringRef} />
 
@@ -338,7 +338,7 @@ export default function Home() {
       </div>
 
       {/* NAV */}
-      <header className={`h-nav${scrolled ? " h-nav--solid" : ""}`}>
+      <header className={`h-nav${scrolled ? " h-nav--solid" : ""}`} role="banner">
         <div className="h-nav-inner">
           <button
             className="h-logo"
@@ -436,8 +436,9 @@ export default function Home() {
         )}
       </header>
 
+      <main id="main-content">
       {/* HERO */}
-      <section className="h-hero">
+      <section className="h-hero" aria-label="The Samaagm Summit — India's First Democratic Youth Summit">
         <div className="h-corner h-corner--tl">
           <span>THE SAMAAGM SUMMIT</span>
         </div>
@@ -530,7 +531,7 @@ export default function Home() {
       </div>
 
       {/* DATES REVEALED */}
-      <section className="h-dates-section">
+      <section className="h-dates-section" aria-label="Event Dates — July 31 to August 2, 2026, Indore">
         <div className="h-dates-inner">
           <div className="h-dates-announce h-reveal">
             <span className="h-dates-announce-dot" />
@@ -572,7 +573,7 @@ export default function Home() {
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="h-section">
+      <section id="about" className="h-section" aria-label="About The Samaagm Summit">
         <div className="h-wrap">
           <div className="h-section-header h-reveal">
             <span className="h-eyebrow">About TSS</span>
@@ -659,7 +660,7 @@ export default function Home() {
       </div>
 
       {/* JOIN THE TEAM */}
-      <section id="join" className="h-section h-section--join">
+      <section id="join" className="h-section h-section--join" aria-label="Join the Team">
         <div className="h-wrap">
           <div className="h-join-header h-reveal">
             <div>
@@ -729,7 +730,7 @@ export default function Home() {
       </div>
 
       {/* DEMOCRATIC VISION */}
-      <section id="vision" className="h-section">
+      <section id="vision" className="h-section" aria-label="Democratic Vision — A Summit Shaped by Its Delegates">
         <div className="h-wrap">
           <div className="h-section-header h-reveal">
             <span className="h-eyebrow">The Concept</span>
@@ -805,7 +806,7 @@ export default function Home() {
       </div>
 
       {/* FOUNDERS */}
-      <section id="founders" className="h-section">
+      <section id="founders" className="h-section" aria-label="Founders — Somya Khandare and Arjav Badjatya">
         <div className="h-wrap">
           <div className="h-section-header h-reveal">
             <span className="h-eyebrow">The Founders</span>
@@ -864,7 +865,7 @@ export default function Home() {
       </section>
 
       {/* PLATFORM 9¾ — PAST EVENT */}
-      <section className="h-event h-event--compact">
+      <section className="h-event h-event--compact" aria-label="Platform 9¾ — Past Event by The Samaagm Summit">
         <div className="h-event-bg" aria-hidden>
           <div className="h-event-glow" />
           <div className="h-event-grid" />
@@ -935,8 +936,10 @@ export default function Home() {
         </button>
       </div>
 
+      </main>
+
       {/* FOOTER */}
-      <footer className="h-footer">
+      <footer className="h-footer" role="contentinfo">
         <div className="h-footer-marquee" aria-hidden>
           <div className="h-marquee-track h-marquee-track--slow">
             {[...MARQUEE_TEXT, ...MARQUEE_TEXT, ...MARQUEE_TEXT].map((t, i) => (
