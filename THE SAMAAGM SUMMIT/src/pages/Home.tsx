@@ -366,6 +366,13 @@ export default function Home() {
               </button>
             ))}
             <a
+              className="h-nav-link"
+              href="/mun"
+              title="MUN Conference"
+            >
+              <span className="h-nav-link-text">MUN</span>
+            </a>
+            <a
               className="h-nav-link h-nav-link--ig"
               href="https://www.instagram.com/thesamaagmsummit.tss"
               target="_blank"
@@ -411,6 +418,7 @@ export default function Home() {
                 {label}
               </button>
             ))}
+            <a className="h-mobile-link" href="/mun">MUN Conference</a>
             <a
               className="h-mobile-link"
               href="https://www.instagram.com/thesamaagmsummit.tss"

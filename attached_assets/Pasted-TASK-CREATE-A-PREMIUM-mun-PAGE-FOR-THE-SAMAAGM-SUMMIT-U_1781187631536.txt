@@ -1,0 +1,469 @@
+TASK: CREATE A PREMIUM /mun PAGE FOR THE SAMAAGM SUMMIT + UPDATE SEO, SITEMAPS, AND DISCOVERABILITY
+
+You have full access to the project files, components, assets, logos folder, styling system, SEO setup, sitemap generation, robots configuration, structured data, and all existing website code.
+
+Before making changes, inspect the entire project and understand the existing design language, architecture, SEO setup, metadata strategy, sitemap generation, and navigation structure.
+
+The goal is to create a world-class MUN page that feels like a natural extension of The Samaagm Summit website while also ensuring search engines, AI crawlers, and future indexing systems fully understand the page and all information on it.
+
+PRIMARY OBJECTIVE
+
+Create a dedicated page at:
+
+/mun
+
+This page should become the central hub for all MUN-related information.
+
+A visitor should leave the page understanding:
+
+What the MUN conference is
+What makes The Samaagm Summit different
+What makes it democratic
+Which committees are finalized
+Which agendas are finalized
+When the conference takes place
+How to stay updated
+Where future forms and materials will be released
+
+without needing Instagram.
+
+Instagram should act as a supplementary channel, not the primary source of information.
+
+DESIGN PHILOSOPHY
+
+Do NOT create a generic MUN page.
+
+This should feel like:
+
+a flagship conference
+a premium summit
+a modern diplomatic experience
+a high-end youth conference
+
+Use:
+
+strong visual hierarchy
+premium visual storytelling
+animations where appropriate
+meaningful graphics
+immersive layouts
+high-end design decisions
+
+The page should feel memorable.
+
+SECTION 1 — HERO
+
+Create a dedicated MUN hero section.
+
+Must prominently communicate:
+
+The Samaagm Summit MUN
+
+Dates:
+
+31 July 2026
+1 August 2026
+2 August 2026
+
+Location:
+
+Indore, India
+
+Venue:
+
+To Be Revealed
+
+The dates should be extremely prominent.
+
+The visitor should immediately understand:
+
+"This is the conference page."
+
+Include strong CTAs:
+
+View Committees
+Stay Updated
+Follow Instagram
+
+Use design judgment.
+
+SECTION 2 — WHAT IS MODEL UNITED NATIONS?
+
+Many visitors may be completely unfamiliar with MUN.
+
+Create a visually engaging explanation of:
+
+diplomacy
+debate
+committee simulations
+resolutions
+leadership
+negotiation
+
+Avoid long paragraphs.
+
+Use:
+
+cards
+process flows
+diagrams
+timelines
+interactive layouts
+
+Use creative judgment.
+
+SECTION 3 — INDIA'S FIRST DEMOCRATIC SUMMIT
+
+This should be one of the strongest sections.
+
+Explain the democratic summit concept visually.
+
+Do not rely solely on text.
+
+Potential flow:
+
+Vote
+→
+Community Preference
+→
+Agenda Selection
+→
+Final Committees
+
+Communicate that:
+
+agenda options were released
+voting was conducted
+final agendas were selected through community preference
+
+Also communicate that:
+
+some special committees are organizer-curated
+special committees will be announced later
+
+The section should feel innovative and credible.
+
+SECTION 4 — CONFERENCE TIMELINE / INFORMATION HUB
+
+Create a conference information section.
+
+Current Information:
+
+Dates:
+31 July 2026
+1 August 2026
+2 August 2026
+
+Venue:
+To Be Revealed
+
+Delegate Applications:
+To Be Released
+
+Executive Board Applications:
+To Be Released
+
+Portfolio Guides:
+To Be Released
+
+Background Guides:
+To Be Released
+
+Matrix:
+To Be Released
+
+Create a visually appealing information system.
+
+Avoid simple bullet lists.
+
+SECTION 5 — FINALIZED COMMITTEES
+
+This should be the centerpiece of the page.
+
+I will upload committee logos into:
+
+/logos
+
+folder.
+
+Inspect the folder.
+
+Use the logos intelligently throughout the page.
+
+Decide the best placement.
+
+Potential approaches:
+
+committee cards
+interactive committee dossiers
+expandable agenda panels
+diplomatic briefing layouts
+
+Use professional judgment.
+
+FINALIZED COMMITTEES
+
+Display these exactly.
+
+LOK SABHA
+
+Agenda:
+
+Urgent Enactment of a National Employment Generation and Recruitment Reform Bill, with Special Emphasis on Rising Youth Unemployment, Emerging Youth Movements, and Recent Public Statements by Senior Authorities.
+
+AIPPM
+
+Agenda:
+
+Strengthening Constitutional Safeguards under the Constitution (130th Amendment) Act, 2025.
+
+RAJYA SABHA
+
+Agenda:
+
+Constitutional Regulation of Bulldozer Justice with Special Emphasis on Recent Actions by Various State Governments.
+
+UNHRC
+
+Agenda:
+
+Examination of Human Rights Violations Arising from Strategic Diplomatic Alliances, with Special Emphasis on the Iran–Israel–United States Conflict.
+
+UNCSW
+
+Agenda:
+
+The Poverty Trap: Redefining Global Legal Frameworks on Sex Work, Labor Rights, and the Structural Exploitation of Women in the Informal Economy.
+
+UNGA DISEC
+
+Agenda:
+
+Addressing Strategic Arms Control Challenges Following the Expiration of the New START Treaty and Strengthening the Future Global Nuclear Disarmament Framework.
+
+SECTION 6 — SPECIAL COMMITTEES
+
+Create a placeholder section.
+
+Communicate:
+
+Special Committees will be revealed soon.
+
+Build anticipation.
+
+Do NOT make it feel unfinished.
+
+Make it feel intentional and exciting.
+
+SECTION 7 — WHY THESE AGENDAS?
+
+Create a section explaining:
+
+These agendas were selected through community voting.
+
+They reflect:
+
+delegate preference
+public interest
+relevance
+engagement
+
+This section should reinforce the Democratic Summit identity.
+
+SECTION 8 — STAY UPDATED
+
+Create a strong update section.
+
+Communicate that future announcements will include:
+
+Delegate Applications
+Executive Board Applications
+Portfolio Guides
+Matrix Releases
+Background Guides
+Special Committee Reveals
+Conference Announcements
+Committee Updates
+
+Instagram should be the primary update channel.
+
+Instagram:
+
+https://www.instagram.com/thesamaagmsummit.tss
+
+Create a compelling CTA.
+
+SECTION 9 — COMING SOON INFRASTRUCTURE
+
+Create dedicated placeholder sections for:
+
+Portfolio Guides
+
+Coming Soon
+
+Committee Matrix
+
+Coming Soon
+
+Background Guides
+
+Coming Soon
+
+Delegate Applications
+
+Coming Soon
+
+Executive Board Applications
+
+Coming Soon
+
+These should already exist structurally on the page so future additions require minimal redesign.
+
+Do NOT make them feel empty.
+
+Make them feel like upcoming releases.
+
+SECTION 10 — SEO & CRAWLER DISCOVERABILITY
+
+This page must be fully crawlable.
+
+Search engines, AI crawlers, and AI overview systems should clearly understand:
+
+The Samaagm Summit
+Model United Nations
+Committees
+Agendas
+Dates
+Venue status
+Democratic Summit concept
+Founders
+Platform 9¾ relationship
+Future conference updates
+
+Implement:
+
+semantic HTML
+proper heading hierarchy
+crawlable content
+structured data
+machine-readable information
+
+Do NOT hide important information behind JavaScript-only interactions.
+
+Ensure critical content exists in crawler-readable output.
+
+SECTION 11 — MOBILE EXPERIENCE
+
+Mobile experience is first priority.
+
+Many users will arrive through Instagram.
+
+Requirements:
+
+committee cards remain readable
+agendas remain readable
+no text walls
+no cramped layouts
+smooth scrolling
+premium visual hierarchy
+
+The page should feel exceptional on mobile.
+
+SECTION 12 — SITE INTEGRATION
+
+The new page must integrate naturally into the existing website.
+
+Tasks:
+
+Add navigation links where appropriate
+Ensure internal linking is strong
+Improve discoverability from homepage
+Ensure users can easily find the MUN page
+
+Use best UX practices.
+
+SECTION 13 — SITEMAP, SEO SYSTEMS & INDEXING UPDATES (VERY IMPORTANT)
+
+Every new page, route, section, schema, asset, and SEO-related change must be reflected throughout the site's indexing infrastructure.
+
+Audit and update:
+
+Sitemap
+
+Ensure:
+
+/mun is included
+all important pages are included
+priorities and frequencies are appropriate
+sitemap remains valid
+Robots.txt
+
+Verify:
+
+crawlers can access important pages
+nothing relevant is accidentally blocked
+Structured Data
+
+Update all structured data where relevant.
+
+Ensure the new page is represented correctly.
+
+Metadata
+
+Create proper:
+
+title tags
+descriptions
+Open Graph metadata
+Twitter metadata
+social previews
+
+for the MUN page.
+
+Internal SEO Systems
+
+Update any:
+
+route metadata systems
+SEO helpers
+schema generators
+sitemap generators
+page registries
+crawler-related utilities
+
+that already exist in the project.
+
+The new page should be treated as a first-class page within the site's SEO architecture.
+
+SECTION 14 — GLOBAL SEO CONSISTENCY
+
+While working on this page, audit the existing website and ensure consistency with:
+
+The Samaagm Summit branding
+founder information
+dates
+summit positioning
+democratic summit messaging
+metadata quality
+crawler readability
+
+If improvements can be made without breaking existing functionality, implement them.
+
+FINAL DELIVERABLE
+
+After implementation, provide a report containing:
+
+New sections created.
+Visual improvements implemented.
+SEO improvements implemented.
+Structured data added.
+Sitemap updates made.
+Metadata updates made.
+Mobile improvements made.
+Internal linking improvements made.
+Crawler-discoverability improvements made.
+Any additional recommendations.
+
+Do not simply create a page.
+
+Create the best possible MUN experience while ensuring maximum discoverability, SEO quality, crawler understanding, and future scalability.

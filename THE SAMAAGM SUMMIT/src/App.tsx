@@ -3,6 +3,7 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "@/pages/Home";
 import Register from "@/pages/Register";
+import MUN from "@/pages/MUN";
 import NotFound from "@/pages/not-found";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
@@ -13,6 +14,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/event" component={Register} />
+      <Route path="/mun" component={MUN} />
       <Route component={NotFound} />
     </Switch>
   );

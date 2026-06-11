@@ -1,1 +1,2 @@
 - [TSS Crawler Fix](tss-crawler-fix.md) — `.h-reveal` content was invisible to crawlers; fixed with `.js` class gating + noscript fallback.
+- [TSS MUN Page](tss-mun-page.md) — /mun page architecture: MUN.tsx + mun.css (m- prefix), committee data array, accordion expand pattern, inline SVG icons per committee.
