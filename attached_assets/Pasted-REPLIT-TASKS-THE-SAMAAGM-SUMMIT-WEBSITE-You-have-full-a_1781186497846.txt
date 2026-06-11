@@ -1,0 +1,244 @@
+REPLIT TASKS — THE SAMAAGM SUMMIT WEBSITE
+
+You have full access to the project files and should inspect the entire codebase before making changes.
+
+The goal is to improve SEO, indexing, crawler visibility, metadata quality, mobile rendering, and search result presentation.
+
+PRIORITY 1 — FIX SEARCH ENGINE / CRAWLER ISSUES
+Problem
+
+Google Search Console generated a screenshot that only shows the navbar and background, while the actual page contains much more content.
+
+Google's crawled HTML also contains outdated or incorrect metadata and appears to be missing important content signals.
+
+This is a critical issue because:
+
+Google Search
+AI Overviews
+Search snippets
+Social previews
+Future indexing
+
+all depend on what crawlers can see and understand.
+
+Tasks
+Investigate why Google's rendered screenshot does not match the actual page.
+Check for:
+JavaScript errors
+hydration issues
+animation libraries preventing rendering
+content hidden until scroll/intersection observers trigger
+mobile rendering issues
+crawler rendering issues
+Ensure that the primary content is visible to search engines without requiring:
+user interaction
+scrolling
+animations completing
+Ensure all major page content can be understood by search engine crawlers.
+Verify that Googlebot receives meaningful page content even if animations fail.
+Audit whether the site should be converted to:
+prerendering
+static rendering
+SSR-style output
+crawler-friendly rendering
+
+Choose the best solution for this project.
+
+PRIORITY 2 — FIX INCORRECT SEO METADATA
+Problem
+
+The crawled HTML contains metadata that does not accurately represent the current website.
+
+Examples include:
+
+incorrect founder information
+incorrect URLs
+old template data
+outdated project references
+Tasks
+Audit every SEO-related tag.
+Check:
+title
+meta description
+Open Graph tags
+Twitter tags
+structured data
+sitemap references
+robots directives
+Remove all outdated template information.
+Ensure every metadata field accurately represents:
+
+The Samaagm Summit
+
+and the current founders.
+
+Ensure there are no references to previous projects, template authors, placeholder names, or legacy content anywhere in the codebase.
+PRIORITY 3 — FIX DOMAIN / URL SIGNALS
+Problem
+
+The site is hosted only on:
+
+https://thesamaagmsummit.netlify.app
+
+but some metadata references other domains.
+
+Tasks
+Audit all URL references throughout the project.
+Find and correct:
+Open Graph URLs
+canonical URLs
+sitemap URLs
+robots references
+structured data URLs
+social preview URLs
+Ensure all URLs point to the correct production website.
+Implement SEO best practices for a Netlify-hosted website.
+PRIORITY 4 — MAKE GOOGLE UNDERSTAND THE WEBSITE BETTER
+Goal
+
+A search engine should clearly understand:
+
+what The Samaagm Summit is
+what type of event it is
+where it takes place
+who founded it
+what makes it unique
+what Platform 9¾ is
+
+without needing to infer anything.
+
+Tasks
+
+Improve semantic SEO and machine readability.
+
+Search engines should clearly understand:
+
+The Samaagm Summit is a youth conference.
+It hosts a Model United Nations conference.
+It is positioned as a democratic / delegate-driven summit.
+Founders are Somya Khandare and Arjav Badjatya.
+The summit takes place in Indore.
+Event dates are visible.
+Platform 9¾ is a separate TSS event.
+
+Use appropriate SEO and structured data techniques.
+
+Choose the best implementation.
+
+Do not simply add keyword stuffing.
+
+PRIORITY 5 — STRUCTURED DATA
+Tasks
+
+Add modern schema markup where appropriate.
+
+Evaluate and implement relevant schemas such as:
+
+Organization
+Event
+EducationalEvent
+WebSite
+FAQ
+Person
+
+Use whichever combination is most appropriate.
+
+Ensure all structured data validates correctly.
+
+PRIORITY 6 — IMPROVE SEARCH RESULT APPEARANCE
+Problem
+
+Google currently displays:
+
+Netlify
+https://thesamaagmsummit.netlify.app
+
+above the result.
+
+Goal
+
+Improve branding and search presentation.
+
+Tasks
+Audit why Google is displaying Netlify branding.
+Improve:
+site name
+metadata
+structured data
+favicon signals
+Maximize the chances that Google displays:
+
+The Samaagm Summit
+
+instead of generic hosting-related branding.
+
+Follow Google's current best practices.
+
+PRIORITY 7 — MOBILE DATE SECTION
+Problem
+
+On desktop the event dates appear horizontally.
+
+On mobile they stack vertically.
+
+The mobile layout reduces visual impact.
+
+Tasks
+Redesign the date section.
+Keep the dates horizontally aligned on mobile.
+Preserve readability.
+Make the dates significantly more prominent.
+Improve hierarchy, spacing, typography, and visual importance.
+The dates should feel like a major conference announcement.
+
+Use design judgment.
+
+PRIORITY 8 — ACCESSIBILITY + SEO AUDIT
+
+Perform a complete audit of:
+
+heading structure
+semantic HTML
+landmark regions
+image alt text
+aria usage
+crawlability
+page performance
+mobile SEO
+Core Web Vitals
+
+Fix any issues found.
+
+PRIORITY 9 — CONTENT DISCOVERABILITY
+
+Search engines should be able to easily discover:
+
+summit information
+founder information
+event information
+democratic summit concept
+dates
+location
+Platform 9¾
+
+without relying entirely on JavaScript execution.
+
+Improve discoverability using best-practice techniques.
+
+PRIORITY 10 — FINAL DELIVERABLE
+
+After implementing all changes:
+
+Provide a report containing:
+
+Issues found.
+Root cause of Google's incorrect screenshot.
+Root cause of incorrect crawled metadata.
+SEO improvements implemented.
+Structured data added.
+Mobile improvements implemented.
+Any additional recommendations.
+
+Do not only patch individual issues.
+
+Perform a complete SEO, crawler, indexing, and discoverability review of the project and implement the best long-term solution.
