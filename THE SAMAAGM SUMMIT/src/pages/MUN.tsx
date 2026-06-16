@@ -159,6 +159,7 @@ function CommitteeCard({
       aria-label={`Open details for ${committee.name}`}
     >
       <div className="m-card-glow" aria-hidden />
+      <div className="m-card-num" aria-hidden>{String(index + 1).padStart(2, "0")}</div>
 
       <div className="m-card-logo-wrap">
         <img
@@ -380,6 +381,7 @@ export default function MUN() {
           className="m-hero"
           aria-label="The Samaagm Summit MUN Conference 2026 Edition I"
         >
+          <div className="m-hero-bg-year" aria-hidden>2026</div>
           <div className="m-hero-corners" aria-hidden>
             <span className="m-corner m-corner--tl">The Samaagm Summit</span>
             <span className="m-corner m-corner--tr">Edition I · 2026</span>
@@ -501,6 +503,28 @@ export default function MUN() {
                 </span>
               ))}
           </div>
+        </div>
+
+        {/* ── STATS STRIP ── */}
+        <div className="m-stats-strip" aria-label="Conference at a glance">
+          {[
+            { num: "6", label: "Committees" },
+            { num: "3", label: "Days" },
+            { num: "1", label: "City" },
+            { num: "I", label: "Edition" },
+          ].map((s, i) => (
+            <motion.div
+              key={s.label}
+              className="m-stat-item"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, type: "spring", stiffness: 100, damping: 16 }}
+            >
+              <span className="m-stat-num">{s.num}</span>
+              <span className="m-stat-label">{s.label}</span>
+            </motion.div>
+          ))}
         </div>
 
         {/* ── CONFERENCE DETAILS ── */}
