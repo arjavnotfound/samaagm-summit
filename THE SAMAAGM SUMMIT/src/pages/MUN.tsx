@@ -11,16 +11,11 @@ import {
   Crown,
   Vote,
   CheckCircle2,
-  Users,
-  Award,
-  Globe,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../mun.css";
 import { useMousePos } from "@/hooks/use-mouse-pos";
 import { useReveal } from "@/hooks/use-reveal";
-
-
 
 interface Committee {
   id: string;
@@ -115,7 +110,7 @@ const DETAILS: DetailItem[] = [
     Icon: Crown,
     label: "EB Applications",
     value: "Apply Now",
-    status: "open",  // special status for highlighting
+    status: "open",
     url: "https://forms.gle/E2yPwFmndCUq7Pmx5",
   },
   {
@@ -126,13 +121,92 @@ const DETAILS: DetailItem[] = [
   },
 ];
 
+// ─── Committee Card ────────────────────────────────────────────────────────────
+// MUST be defined outside the parent component so React never sees it as a
+// "new" component type on re-render (which caused the full unmount/remount lag).
+function CommitteeCard({
+  committee,
+  index,
+  onOpen,
+}: {
+  committee: Committee;
+  index: number;
+  onOpen: () => void;
+}) {
+  return (
+    <motion.div
+      className="m-premium-card"
+      onClick={onOpen}
+      initial={{ opacity: 0, y: 24, scale: 0.97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
+      transition={{
+        delay: Math.min(index * 0.04, 0.16),
+        type: "spring",
+        stiffness: 140,
+        damping: 20,
+      }}
+      whileHover={{ y: -6, transition: { type: "spring", stiffness: 300, damping: 22 } }}
+      whileTap={{ scale: 0.985 }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      aria-label={`Open details for ${committee.name}`}
+    >
+      <div className="m-card-glow" aria-hidden />
+
+      <div className="m-card-logo-wrap">
+        <img
+          src={committee.logo}
+          alt={`${committee.name} logo`}
+          className="m-card-logo"
+          loading="lazy"
+        />
+      </div>
+
+      <div className="m-card-body">
+        <div className="m-card-meta">
+          <h3 className="m-card-name">{committee.name}</h3>
+          <span className={`m-card-type m-card-type--${committee.type}`}>
+            {committee.typeLabel}
+          </span>
+        </div>
+
+        <div className="m-card-divider" />
+
+        <div className="m-card-agenda-wrap">
+          <span className="m-card-agenda-label">Agenda</span>
+          <div className="m-card-agenda-block">
+            <p className="m-card-agenda">{committee.agenda}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="m-card-footer">
+        <div className="m-card-explore">
+          Explore <ArrowRight size={13} />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function MUN() {
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [filter, setFilter] = useState<"all" | "indian" | "un">("all");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const { dotRef, ringRef } = useMousePos();
   useReveal({ threshold: 0.06, rootMargin: "0px 0px -28px 0px" });
 
+  // Page meta
   useEffect(() => {
     const prev = document.title;
     document.title = "MUN 2026 — The Samaagm Summit";
@@ -152,110 +226,35 @@ export default function MUN() {
     };
   }, []);
 
+  // Scroll state for nav
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // === GOATED ENHANCEMENTS: Filter + Selection (no content change) ===
-  const [filter, setFilter] = useState<'all' | 'indian' | 'un'>('all');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const filteredCommittees = COMMITTEES.filter(c => {
-    if (filter === 'all') return true;
-    return c.type === filter;
-  });
-
-  const selectedCommittee = COMMITTEES.find(c => c.id === selectedId);
-
-  const openCommittee = (id: string) => setSelectedId(id);
-  const closeCommittee = () => setSelectedId(null);
+  // Body scroll lock when modal is open
+  useEffect(() => {
+    if (selectedId) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [selectedId]);
 
   // Keyboard close for modal
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeCommittee();
+      if (e.key === "Escape") setSelectedId(null);
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // =====================================================
-  // ULTRA PREMIUM COMMITTEE CARD with 3D Tilt + Motion
-  // This is the star of the show — extreme visual appeal
-  // =====================================================
-  function CommitteeCard({ committee, index, onOpen }: { 
-    committee: Committee; 
-    index: number; 
-    onOpen: () => void;
-  }) {
-    return (
-      <motion.div
-        className="m-premium-card"
-        onClick={onOpen}
-        initial={{ opacity: 0, y: 28, scale: 0.965 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 12, scale: 0.97 }}
-        transition={{ 
-          delay: Math.min(index * 0.045, 0.18), 
-          type: "spring", 
-          stiffness: 135, 
-          damping: 19 
-        }}
-        whileHover={{ 
-          y: -7, 
-          scale: 1.01,
-          transition: { type: "spring", stiffness: 260, damping: 17 }
-        }}
-        whileTap={{ scale: 0.985 }}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onOpen();
-          }
-        }}
-        aria-label={`Open details for ${committee.name}`}
-      >
-        <div className="m-card-glow" aria-hidden />
-
-        <div className="m-card-logo-wrap">
-          <img
-            src={committee.logo}
-            alt={`${committee.name} logo`}
-            className="m-card-logo"
-            loading="lazy"
-          />
-        </div>
-
-        <div className="m-card-body">
-          <div className="m-card-meta">
-            <h3 className="m-card-name">{committee.name}</h3>
-            <span className={`m-card-type m-card-type--${committee.type}`}>
-              {committee.typeLabel}
-            </span>
-          </div>
-
-          <div className="m-card-divider" />
-
-          <div className="m-card-agenda-wrap">
-            <span className="m-card-agenda-label">Agenda</span>
-            <div className="m-card-agenda-block">
-              <p className="m-card-agenda">{committee.agenda}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="m-card-footer">
-          <div className="m-card-explore">
-            Explore <ArrowRight size={14} />
-          </div>
-        </div>
-      </motion.div>
-    );
-  }
+  const filteredCommittees = COMMITTEES.filter(
+    (c) => filter === "all" || c.type === filter,
+  );
+  const selectedCommittee = COMMITTEES.find((c) => c.id === selectedId) ?? null;
 
   return (
     <div className="m-root">
@@ -284,57 +283,34 @@ export default function MUN() {
         ))}
         <svg className="h-orbital m-orbital" aria-hidden viewBox="0 0 600 600">
           <ellipse
-            cx="300"
-            cy="300"
-            rx="240"
-            ry="88"
-            fill="none"
-            stroke="rgba(204,0,0,0.3)"
-            strokeWidth="1"
+            cx="300" cy="300" rx="240" ry="88"
+            fill="none" stroke="rgba(204,0,0,0.3)" strokeWidth="1"
           />
           <ellipse
-            cx="300"
-            cy="300"
-            rx="155"
-            ry="235"
-            fill="none"
-            stroke="rgba(204,0,0,0.18)"
-            strokeWidth="1"
+            cx="300" cy="300" rx="155" ry="235"
+            fill="none" stroke="rgba(204,0,0,0.18)" strokeWidth="1"
           />
         </svg>
       </div>
 
       {/* NAV */}
-      <header
-        className={`h-nav${scrolled ? " h-nav--solid" : ""}`}
-        role="banner"
-      >
+      <header className={`h-nav${scrolled ? " h-nav--solid" : ""}`} role="banner">
         <div className="h-nav-inner">
           <button className="h-logo" onClick={() => navigate("/")}>
             <span className="h-logo-tss">TSS</span>
-            <span className="h-logo-sep" aria-hidden>
-              —
-            </span>
+            <span className="h-logo-sep" aria-hidden>—</span>
             <span className="h-logo-name">The Samaagm Summit</span>
           </button>
           <nav className="h-nav-links" aria-label="Page sections">
             <button
               className="h-nav-link"
-              onClick={() =>
-                document
-                  .getElementById("details")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
+              onClick={() => document.getElementById("details")?.scrollIntoView({ behavior: "smooth" })}
             >
               <span className="h-nav-link-text">Details</span>
             </button>
             <button
               className="h-nav-link"
-              onClick={() =>
-                document
-                  .getElementById("committees")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
+              onClick={() => document.getElementById("committees")?.scrollIntoView({ behavior: "smooth" })}
             >
               <span className="h-nav-link-text">Committees</span>
             </button>
@@ -344,9 +320,7 @@ export default function MUN() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="h-nav-link-icon">
-                <Instagram size={13} />
-              </span>
+              <span className="h-nav-link-icon"><Instagram size={13} /></span>
               <span className="h-nav-link-text">Instagram</span>
             </a>
           </nav>
@@ -356,28 +330,21 @@ export default function MUN() {
             aria-label="Menu"
             onClick={() => setMenuOpen((o) => !o)}
           >
-            <span />
-            <span />
-            <span />
+            <span /><span /><span />
           </button>
         </div>
         {menuOpen && (
           <div className="h-mobile-menu">
             <button
               className="h-mobile-link"
-              onClick={() => {
-                navigate("/");
-                setMenuOpen(false);
-              }}
+              onClick={() => { navigate("/"); setMenuOpen(false); }}
             >
               ← Back to TSS
             </button>
             <button
               className="h-mobile-link"
               onClick={() => {
-                document
-                  .getElementById("details")
-                  ?.scrollIntoView({ behavior: "smooth" });
+                document.getElementById("details")?.scrollIntoView({ behavior: "smooth" });
                 setMenuOpen(false);
               }}
             >
@@ -386,9 +353,7 @@ export default function MUN() {
             <button
               className="h-mobile-link"
               onClick={() => {
-                document
-                  .getElementById("committees")
-                  ?.scrollIntoView({ behavior: "smooth" });
+                document.getElementById("committees")?.scrollIntoView({ behavior: "smooth" });
                 setMenuOpen(false);
               }}
             >
@@ -418,9 +383,7 @@ export default function MUN() {
           <div className="m-hero-corners" aria-hidden>
             <span className="m-corner m-corner--tl">The Samaagm Summit</span>
             <span className="m-corner m-corner--tr">Edition I · 2026</span>
-            <span className="m-corner m-corner--bl">
-              India's First Democratic Summit
-            </span>
+            <span className="m-corner m-corner--bl">India's First Democratic Summit</span>
             <span className="m-corner m-corner--br">Indore · India</span>
           </div>
           <div className="m-vtext m-vtext--l" aria-hidden>
@@ -431,7 +394,7 @@ export default function MUN() {
           </div>
 
           <div className="m-hero-inner">
-            <motion.div 
+            <motion.div
               className="m-hero-edition"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -442,7 +405,7 @@ export default function MUN() {
               <span className="m-edition-line" />
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               className="m-hero-title"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -453,7 +416,7 @@ export default function MUN() {
               Summit
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               className="m-hero-subtitle"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -464,8 +427,8 @@ export default function MUN() {
 
             <div className="m-hero-rule" aria-hidden />
 
-            <motion.div 
-              className="m-hero-dates" 
+            <motion.div
+              className="m-hero-dates"
               aria-label="31 July to 2 August 2026"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -475,31 +438,25 @@ export default function MUN() {
                 <span className="m-date-num">31</span>
                 <span className="m-date-label">July</span>
               </div>
-              <span className="m-date-sep" aria-hidden>
-                —
-              </span>
+              <span className="m-date-sep" aria-hidden>—</span>
               <div className="m-date-block">
                 <span className="m-date-num">02</span>
                 <span className="m-date-label">August</span>
               </div>
-              <span className="m-date-yr" aria-hidden>
-                2026
-              </span>
+              <span className="m-date-yr" aria-hidden>2026</span>
             </motion.div>
 
             <div className="m-hero-location">
               <MapPin size={12} strokeWidth={1.5} />
               Indore, India
-              <span className="m-hero-venue-sep" aria-hidden>
-                ·
-              </span>
+              <span className="m-hero-venue-sep" aria-hidden>·</span>
               <Lock size={11} strokeWidth={1.5} style={{ opacity: 0.5 }} />
               <span style={{ color: "rgba(212,168,67,0.6)" }}>
                 Venue: To Be Revealed
               </span>
             </div>
 
-            <motion.div 
+            <motion.div
               className="m-hero-btns"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -507,11 +464,7 @@ export default function MUN() {
             >
               <button
                 className="h-cta h-cta--primary"
-                onClick={() =>
-                  document
-                    .getElementById("committees")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
+                onClick={() => document.getElementById("committees")?.scrollIntoView({ behavior: "smooth" })}
               >
                 View Committees <ArrowRight size={14} />
               </button>
@@ -529,11 +482,7 @@ export default function MUN() {
 
           <div
             className="h-scroll-cue"
-            onClick={() =>
-              document
-                .getElementById("details")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+            onClick={() => document.getElementById("details")?.scrollIntoView({ behavior: "smooth" })}
           >
             <span className="h-scroll-line" />
             <span className="h-scroll-label">Scroll</span>
@@ -543,14 +492,7 @@ export default function MUN() {
         {/* MARQUEE */}
         <div className="h-marquee-strip" aria-hidden>
           <div className="h-marquee-track">
-            {[
-              "THE SAMAAGM SUMMIT",
-              "MUN 2026",
-              "EDITION I",
-              "INDORE · INDIA",
-              "6 COMMITTEES",
-              "JULY 31 – AUGUST 2",
-            ]
+            {["THE SAMAAGM SUMMIT", "MUN 2026", "EDITION I", "INDORE · INDIA", "6 COMMITTEES", "JULY 31 – AUGUST 2"]
               .flatMap((t) => [t, t, t])
               .map((t, i) => (
                 <span key={i} className="h-marquee-item">
@@ -562,11 +504,7 @@ export default function MUN() {
         </div>
 
         {/* ── CONFERENCE DETAILS ── */}
-        <section
-          id="details"
-          className="h-section"
-          aria-label="Conference details — dates, venue, applications"
-        >
+        <section id="details" className="h-section" aria-label="Conference details">
           <div className="h-wrap">
             <div className="h-section-header h-reveal">
               <span className="h-eyebrow">Conference Details</span>
@@ -583,16 +521,10 @@ export default function MUN() {
                 const tileContent = (
                   <>
                     <div className="m-detail-top">
-                      <d.Icon
-                        size={16}
-                        strokeWidth={1.4}
-                        className="m-detail-icon"
-                      />
-                      <span
-                        className={`m-detail-badge ${isEB ? "m-detail-badge--open" : `m-detail-badge--${d.status}`}`}
-                      >
+                      <d.Icon size={16} strokeWidth={1.4} className="m-detail-icon" />
+                      <span className={`m-detail-badge ${isEB ? "m-detail-badge--open" : `m-detail-badge--${d.status}`}`}>
                         <span className="m-detail-dot" />
-                        {isEB ? "Now Open" : (d.status === "confirmed" ? "Confirmed" : "Coming Soon")}
+                        {isEB ? "Now Open" : d.status === "confirmed" ? "Confirmed" : "Coming Soon"}
                       </span>
                     </div>
                     <div className="m-detail-label">{d.label}</div>
@@ -607,7 +539,7 @@ export default function MUN() {
                       href={d.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`m-detail-tile h-reveal m-detail--open m-detail-eb-highlight`}
+                      className="m-detail-tile m-detail--open m-detail-eb-highlight"
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       {tileContent}
@@ -616,28 +548,23 @@ export default function MUN() {
                 }
 
                 return (
-                  <motion.div
+                  <div
                     key={d.label}
-                    className={`m-detail-tile h-reveal m-detail--${d.status}`}
-                    initial={{ opacity: 0, y: 25 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.04, type: "spring", stiffness: 90 }}
-                    whileHover={{ y: -4 }}
+                    className={`m-detail-tile m-detail--${d.status}`}
                   >
                     {tileContent}
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
           </div>
         </section>
 
-        {/* === PREMIUM VISUAL TIMELINE (elegant date display) === */}
+        {/* TIMELINE */}
         <div className="m-timeline h-reveal">
           <div className="m-timeline-inner">
             <div className="m-timeline-dates">
-              <motion.div 
+              <motion.div
                 className="m-timeline-date"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -648,23 +575,23 @@ export default function MUN() {
                 <span className="m-timeline-month">July</span>
               </motion.div>
               <div className="m-timeline-connector">
-                <motion.div 
-                  className="m-timeline-line" 
+                <motion.div
+                  className="m-timeline-line"
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.25, duration: 0.6, ease: "easeOut" }}
                   style={{ transformOrigin: "left" }}
                 />
-                <motion.div 
-                  className="m-timeline-dot" 
+                <motion.div
+                  className="m-timeline-dot"
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.35, type: "spring", stiffness: 200 }}
                 />
               </div>
-              <motion.div 
+              <motion.div
                 className="m-timeline-date"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -675,23 +602,23 @@ export default function MUN() {
                 <span className="m-timeline-month">Aug</span>
               </motion.div>
               <div className="m-timeline-connector">
-                <motion.div 
-                  className="m-timeline-line" 
+                <motion.div
+                  className="m-timeline-line"
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.55, duration: 0.6, ease: "easeOut" }}
                   style={{ transformOrigin: "left" }}
                 />
-                <motion.div 
-                  className="m-timeline-dot" 
+                <motion.div
+                  className="m-timeline-dot"
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.65, type: "spring", stiffness: 200 }}
                 />
               </div>
-              <motion.div 
+              <motion.div
                 className="m-timeline-date"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -711,14 +638,10 @@ export default function MUN() {
           <div className="h-divider-line" />
         </div>
 
-        {/* ── ABOUT + DEMOCRATIC — COMBINED, SHORT ── */}
-        <section
-          className="h-section h-section--accent"
-          aria-label="About MUN and the democratic summit format"
-        >
+        {/* ── ABOUT + DEMOCRATIC ── */}
+        <section className="h-section h-section--accent" aria-label="About MUN and the democratic summit format">
           <div className="h-wrap">
             <div className="m-about-cols">
-              {/* What is MUN */}
               <div className="m-about-col h-reveal">
                 <span className="h-eyebrow">The Format</span>
                 <h2 className="m-about-title">What is MUN?</h2>
@@ -730,25 +653,13 @@ export default function MUN() {
                   pressure.
                 </p>
                 <div className="m-about-pills">
-                  {[
-                    "Diplomacy",
-                    "Debate",
-                    "Resolutions",
-                    "Leadership",
-                    "Negotiation",
-                  ].map((p) => (
-                    <span key={p} className="m-about-pill">
-                      {p}
-                    </span>
+                  {["Diplomacy", "Debate", "Resolutions", "Leadership", "Negotiation"].map((p) => (
+                    <span key={p} className="m-about-pill">{p}</span>
                   ))}
                 </div>
               </div>
 
-              {/* Democratic Process */}
-              <div
-                className="m-about-col h-reveal"
-                style={{ transitionDelay: "0.1s" }}
-              >
+              <div className="m-about-col h-reveal" style={{ transitionDelay: "0.1s" }}>
                 <span className="h-eyebrow">The Concept</span>
                 <h2 className="m-about-title">
                   India's First
@@ -763,32 +674,19 @@ export default function MUN() {
                 </p>
                 <div className="m-process-steps">
                   {[
-                    {
-                      Icon: Vote,
-                      text: "Agenda options released on Instagram",
-                    },
-                    {
-                      Icon: CheckCircle2,
-                      text: "Community votes, preferences tallied",
-                    },
-                    {
-                      Icon: ArrowRight,
-                      text: "Top-voted agendas finalized as committees",
-                    },
+                    { Icon: Vote, text: "Agenda options released on Instagram" },
+                    { Icon: CheckCircle2, text: "Community votes, preferences tallied" },
+                    { Icon: ArrowRight, text: "Top-voted agendas finalized as committees" },
                   ].map((s, i) => (
-                    <motion.div 
-                      key={i} 
+                    <motion.div
+                      key={i}
                       className="m-process-step"
                       initial={{ opacity: 0, x: -15 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.1 + i * 0.08 }}
                     >
-                      <s.Icon
-                        size={14}
-                        strokeWidth={1.5}
-                        className="m-process-icon"
-                      />
+                      <s.Icon size={14} strokeWidth={1.5} className="m-process-icon" />
                       <span>{s.text}</span>
                     </motion.div>
                   ))}
@@ -804,12 +702,8 @@ export default function MUN() {
           <div className="h-divider-line" />
         </div>
 
-        {/* ── COMMITTEES — THE BEST LOOKING SECTION EVER ── */}
-        <section
-          id="committees"
-          className="h-section"
-          aria-label="Finalized committees and agendas"
-        >
+        {/* ── COMMITTEES ── */}
+        <section id="committees" className="h-section" aria-label="Finalized committees and agendas">
           <div className="h-wrap">
             <div className="h-section-header h-reveal">
               <span className="h-eyebrow">Finalized Committees</span>
@@ -819,69 +713,73 @@ export default function MUN() {
               </h2>
               <p className="h-lead">
                 All six committee agendas were chosen through community voting.
-                Below are the confirmed bodies, their type, and their selected
-                agendas.
+                Below are the confirmed bodies, their type, and their selected agendas.
               </p>
             </div>
 
-            {/* Ultra Premium Segmented Filter Control */}
+            {/* Filter tabs */}
             <div className="m-premium-filters h-reveal" role="tablist" aria-label="Filter by committee type">
               {[
-                { key: 'all' as const, label: 'All', count: COMMITTEES.length },
-                { key: 'indian' as const, label: 'Indian Parliament', count: COMMITTEES.filter(c => c.type === 'indian').length },
-                { key: 'un' as const, label: 'United Nations', count: COMMITTEES.filter(c => c.type === 'un').length },
+                { key: "all" as const, label: "All", count: COMMITTEES.length },
+                { key: "indian" as const, label: "Indian Parliament", count: COMMITTEES.filter((c) => c.type === "indian").length },
+                { key: "un" as const, label: "United Nations", count: COMMITTEES.filter((c) => c.type === "un").length },
               ].map((tab) => (
                 <button
                   key={tab.key}
                   role="tab"
                   aria-selected={filter === tab.key}
-                  className={`m-premium-filter ${filter === tab.key ? 'active' : ''}`}
+                  className={`m-premium-filter${filter === tab.key ? " active" : ""}`}
                   onClick={() => setFilter(tab.key)}
                 >
                   <span className="filter-label">{tab.label}</span>
                   <span className="filter-count">{tab.count}</span>
-                  {filter === tab.key && <motion.div className="filter-active-bar" layoutId="activeFilter" />}
                 </button>
               ))}
             </div>
 
-            <motion.div 
-              className="m-committees-grid"
-              layout
-            >
-              <AnimatePresence>
+            {/* Cards grid — no layout prop on grid, instant exit so cards don't hold space */}
+            <div className="m-committees-grid">
+              <AnimatePresence mode="sync">
                 {filteredCommittees.map((c, i) => (
-                  <CommitteeCard 
-                    key={c.id} 
-                    committee={c} 
-                    index={i} 
-                    onOpen={() => openCommittee(c.id)} 
+                  <CommitteeCard
+                    key={c.id}
+                    committee={c}
+                    index={i}
+                    onOpen={() => setSelectedId(c.id)}
                   />
                 ))}
               </AnimatePresence>
-            </motion.div>
-
-            {filteredCommittees.length === 0 && (
-              <div className="m-empty-state">
-                No committees match this filter.
-              </div>
-            )}
+            </div>
           </div>
         </section>
 
-        {/* === PREMIUM COMMITTEE DETAIL MODAL (motion-powered, text unchanged) === */}
+        {/* ── COMMITTEE MODAL ── */}
         <AnimatePresence>
           {selectedCommittee && (
-            <div className="m-modal-backdrop" onClick={closeCommittee} aria-modal="true" role="dialog">
+            <motion.div
+              className="m-modal-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setSelectedId(null)}
+              aria-modal="true"
+              role="dialog"
+              aria-label={`Details for ${selectedCommittee.name}`}
+            >
               <motion.div
                 className="m-modal"
-                initial={{ opacity: 0, y: 60, scale: 0.96 }}
+                initial={{ opacity: 0, y: 48, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 40, scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 180, damping: 22 }}
-                onClick={e => e.stopPropagation()}
+                exit={{ opacity: 0, y: 28, scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 200, damping: 24 }}
+                onClick={(e) => e.stopPropagation()}
               >
-                <button className="m-modal-close" onClick={closeCommittee} aria-label="Close committee details">
+                <button
+                  className="m-modal-close"
+                  onClick={() => setSelectedId(null)}
+                  aria-label="Close committee details"
+                >
                   ×
                 </button>
 
@@ -907,20 +805,20 @@ export default function MUN() {
                 </div>
 
                 <div className="m-modal-actions">
-                  <a 
-                    href="https://www.instagram.com/thesamaagmsummit.tss" 
-                    target="_blank" 
+                  <a
+                    href="https://www.instagram.com/thesamaagmsummit.tss"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="m-ig-cta"
                   >
                     <Instagram size={15} /> Follow updates
                   </a>
-                  <button onClick={closeCommittee} className="m-modal-close-btn">
+                  <button onClick={() => setSelectedId(null)} className="m-modal-close-btn">
                     Close
                   </button>
                 </div>
               </motion.div>
-            </div>
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -931,18 +829,15 @@ export default function MUN() {
         </div>
 
         {/* ── STAY UPDATED ── */}
-        <section
-          className="h-section"
-          aria-label="Stay updated — follow on Instagram"
-        >
+        <section className="h-section" aria-label="Stay updated — follow on Instagram">
           <div className="h-wrap">
             <div className="m-update-row h-reveal">
               <div className="m-update-left">
                 <span className="h-eyebrow">Follow Along</span>
                 <h2 className="m-update-title">Stay updated.</h2>
                 <p className="h-p" style={{ maxWidth: 400 }}>
-                  All announcements — from venue reveals to delegate
-                  applications and special committees — drop on Instagram first.
+                  All announcements — from venue reveals to delegate applications
+                  and special committees — drop on Instagram first.
                 </p>
                 <a
                   href="https://www.instagram.com/thesamaagmsummit.tss"
@@ -964,13 +859,7 @@ export default function MUN() {
       <footer className="h-footer" role="contentinfo">
         <div className="h-footer-marquee" aria-hidden>
           <div className="h-marquee-track h-marquee-track--slow">
-            {[
-              "THE SAMAAGM SUMMIT",
-              "MUN 2026",
-              "EDITION I",
-              "INDORE · INDIA",
-              "JULY 31 – AUGUST 2",
-            ]
+            {["THE SAMAAGM SUMMIT", "MUN 2026", "EDITION I", "INDORE · INDIA", "JULY 31 – AUGUST 2"]
               .flatMap((t) => [t, t, t])
               .map((t, i) => (
                 <span key={i} className="h-marquee-item">
@@ -994,26 +883,18 @@ export default function MUN() {
             >
               <Instagram size={13} /> Instagram
             </a>
-            <a
-              href="mailto:thesamaagmsummit@gmail.com"
-              className="h-footer-link"
-            >
+            <a href="mailto:thesamaagmsummit@gmail.com" className="h-footer-link">
               thesamaagmsummit@gmail.com
             </a>
             <a
               className="h-footer-link"
               href="/"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/");
-              }}
+              onClick={(e) => { e.preventDefault(); navigate("/"); }}
             >
               Back to TSS
             </a>
           </div>
-          <p className="h-footer-copy">
-            © 2026 The Samaagm Summit. All rights reserved.
-          </p>
+          <p className="h-footer-copy">© 2026 The Samaagm Summit. All rights reserved.</p>
         </div>
       </footer>
     </div>
