@@ -16,7 +16,10 @@ import {
   Calendar,
   ChevronUp,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { DevPanel } from "@/components/DevPanel";
+import { useMousePos } from "@/hooks/use-mouse-pos";
+import { useReveal } from "@/hooks/use-reveal";
 
 const FORMS = [
   {
@@ -51,6 +54,14 @@ const FORMS = [
     desc: "Get hands-on conference experience",
     tag: "OPEN",
   },
+  {
+    num: "05",
+    Icon: Crown,
+    label: "Executive Board (EB) Applications",
+    url: "https://forms.gle/E2yPwFmndCUq7Pmx5",
+    desc: "Lead as Chair, Vice-Chair or Director for the 6 community-voted committees",
+    tag: "NOW OPEN",
+  },
 ];
 
 const MARQUEE_TEXT = [
@@ -73,64 +84,7 @@ const DEV_PASS_HASH =
 const DEV_CLICK_THRESHOLD = 3;
 const DEV_CLICK_WINDOW = 2000;
 
-function useMousePos() {
-  const pos = useRef({ x: -200, y: -200 });
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-    let raf: number;
-    const move = (e: MouseEvent) => {
-      pos.current = { x: e.clientX, y: e.clientY };
-    };
-    const tick = () => {
-      if (dotRef.current)
-        dotRef.current.style.transform = `translate(${pos.current.x - 4}px, ${pos.current.y - 4}px)`;
-      if (ringRef.current) {
-        const rx = parseFloat(
-          ringRef.current.style.getPropertyValue("--rx") ||
-            String(pos.current.x),
-        );
-        const ry = parseFloat(
-          ringRef.current.style.getPropertyValue("--ry") ||
-            String(pos.current.y),
-        );
-        const nx = rx + (pos.current.x - rx) * 0.12;
-        const ny = ry + (pos.current.y - ry) * 0.12;
-        ringRef.current.style.setProperty("--rx", String(nx));
-        ringRef.current.style.setProperty("--ry", String(ny));
-        ringRef.current.style.transform = `translate(${nx - 18}px, ${ny - 18}px)`;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    window.addEventListener("mousemove", move, { passive: true });
-    raf = requestAnimationFrame(tick);
-    return () => {
-      window.removeEventListener("mousemove", move);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return { dotRef, ringRef };
-}
-
-function useReveal() {
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("h-visible");
-            obs.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.07, rootMargin: "0px 0px -40px 0px" },
-    );
-    document.querySelectorAll(".h-reveal").forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-}
 
 function scrollTo(id: string) {
   document
@@ -478,13 +432,15 @@ export default function Home() {
             <span className="h-hero-the">The</span>
             <span className="h-hero-main">
               {"Samaagm".split("").map((ch, i) => (
-                <span
+                <motion.span
                   key={i}
                   className="h-hero-ch"
-                  style={{ animationDelay: `${0.05 + i * 0.055}s` }}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 + i * 0.045, type: "spring", stiffness: 70 }}
                 >
                   {ch}
-                </span>
+                </motion.span>
               ))}
             </span>
             <span className="h-hero-sub">Summit</span>
@@ -526,7 +482,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MARQUEE STRIP */}
+      {/* MARQUEE STRIP — Premium cinematic treatment */}
       <div className="h-marquee-strip" aria-hidden>
         <div className="h-marquee-track">
           {[...MARQUEE_TEXT, ...MARQUEE_TEXT, ...MARQUEE_TEXT].map((t, i) => (
@@ -538,36 +494,49 @@ export default function Home() {
         </div>
       </div>
 
-      {/* DATES REVEALED */}
+      {/* DATES REVEALED — Dramatically elevated with motion and presence */}
       <section className="h-dates-section" aria-label="Event Dates — July 31 to August 2, 2026, Indore">
         <div className="h-dates-inner">
-          <div className="h-dates-announce h-reveal">
+          <motion.div 
+            className="h-dates-announce h-reveal"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             <span className="h-dates-announce-dot" />
             <span className="h-dates-announce-text">TSS First Edition</span>
             <span className="h-dates-announce-yr">· 2026</span>
-          </div>
+          </motion.div>
 
           <div className="h-dates-grid h-reveal">
-            <div className="h-date-block">
-              <span className="h-date-num">31</span>
-              <span className="h-date-month">July</span>
-              <span className="h-date-weekday">Friday</span>
-            </div>
-            <div className="h-date-vsep" aria-hidden />
-            <div className="h-date-block">
-              <span className="h-date-num">01</span>
-              <span className="h-date-month">August</span>
-              <span className="h-date-weekday">Saturday</span>
-            </div>
-            <div className="h-date-vsep" aria-hidden />
-            <div className="h-date-block">
-              <span className="h-date-num">02</span>
-              <span className="h-date-month">August</span>
-              <span className="h-date-weekday">Sunday</span>
-            </div>
+            {[ 
+              { num: "31", month: "July", day: "Friday" },
+              { num: "01", month: "August", day: "Saturday" },
+              { num: "02", month: "August", day: "Sunday" }
+            ].map((d, i) => (
+              <motion.div 
+                key={i}
+                className="h-date-block"
+                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.08 * i, type: "spring", stiffness: 90 }}
+                whileHover={{ y: -4, scale: 1.02 }}
+              >
+                <span className="h-date-num">{d.num}</span>
+                <span className="h-date-month">{d.month}</span>
+                <span className="h-date-weekday">{d.day}</span>
+              </motion.div>
+            ))}
           </div>
 
-          <div className="h-dates-footer h-reveal">
+          <motion.div 
+            className="h-dates-footer h-reveal"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
             <span className="h-dates-loc">Indore, India</span>
             <span className="h-dates-footer-sep" aria-hidden>
               ·
@@ -576,12 +545,18 @@ export default function Home() {
               <span className="h-cdown-num">{countdown.days}</span>
               <span className="h-cdown-unit">days left</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* MUN BANNER */}
-      <div className="h-mun-banner h-reveal" role="region" aria-label="Explore MUN 2026 conference">
+      {/* MUN BANNER — Elevated to match the goated /mun page */}
+      <motion.div 
+        className="h-mun-banner h-reveal" 
+        role="region" 
+        aria-label="Explore MUN 2026 conference"
+        whileHover={{ scale: 1.01, y: -2 }}
+        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      >
         <div className="h-wrap">
           <div className="h-mun-banner-inner">
             <div className="h-mun-banner-left">
@@ -595,7 +570,44 @@ export default function Home() {
             </a>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* EXECUTIVE BOARD — The best looking highlight on the main page */}
+      <motion.div 
+        className="h-eb-cta h-reveal" 
+        role="region" 
+        aria-label="Executive Board Applications"
+        whileHover={{ y: -4 }}
+        transition={{ type: "spring", stiffness: 220, damping: 20 }}
+      >
+        <div className="h-eb-cta-inner">
+          <div className="h-eb-cta-content">
+            <div className="h-eb-cta-badges">
+              <span className="h-eb-cta-badge">MUN 2026</span>
+              <span className="h-eb-cta-badge h-eb-cta-badge--open">NOW OPEN</span>
+            </div>
+
+            <h3 className="h-eb-cta-title">
+              Executive Board<br />Applications
+            </h3>
+
+            <p className="h-eb-cta-desc">
+              Apply to serve as Chair, Vice-Chair or Director for one of the six community-voted committees. 
+              Lead the debate at India's first democratic youth summit.
+            </p>
+          </div>
+
+          <a
+            href="https://forms.gle/E2yPwFmndCUq7Pmx5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="h-eb-cta-button"
+          >
+            <span>Apply for EB Positions</span>
+            <ArrowRight size={18} />
+          </a>
+        </div>
+      </motion.div>
 
       {/* ABOUT */}
       <section id="about" className="h-section" aria-label="About The Samaagm Summit">
@@ -659,9 +671,11 @@ export default function Home() {
                   body: "Participants vote on pre-curated agenda options, helping shape the final committees and topics.",
                 },
               ].map((s, i) => (
-                <div
+                <motion.div
                   key={s.head}
                   className="h-about-card h-reveal"
+                  whileHover={{ y: -6, scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 18 }}
                   style={{ transitionDelay: `${i * 0.1}s` }}
                 >
                   <span className="h-card-num">{s.n}</span>
@@ -670,7 +684,7 @@ export default function Home() {
                   </div>
                   <h4 className="h-card-head">{s.head}</h4>
                   <p className="h-card-body">{s.body}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -711,12 +725,14 @@ export default function Home() {
 
         <div className="h-form-rows">
           {FORMS.map((f, i) => (
-            <a
+            <motion.a
               key={f.url}
               href={f.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-form-row h-reveal"
+              className={`h-form-row h-reveal ${f.tag === "NOW OPEN" ? "h-form-row--eb" : ""}`}
+              whileHover={{ x: 6, scale: 1.005 }}
+              transition={{ type: "spring", stiffness: 180, damping: 16 }}
               style={{ transitionDelay: `${i * 0.07}s` }}
             >
               <div className="h-form-row-inner">
@@ -742,7 +758,7 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
       </section>
@@ -805,9 +821,11 @@ export default function Home() {
                   body: "From music selection to event format — participants influence the environment they walk into.",
                 },
               ].map((s, i) => (
-                <div
+                <motion.div
                   key={s.n}
                   className="h-vision-step h-reveal"
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 200 }}
                   style={{ transitionDelay: `${i * 0.1}s` }}
                 >
                   <div className="h-vision-step-num">{s.n}</div>
@@ -816,7 +834,7 @@ export default function Home() {
                     <h4 className="h-vision-step-head">{s.head}</h4>
                     <p className="h-vision-step-body">{s.body}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -857,9 +875,11 @@ export default function Home() {
                 age: "16",
               },
             ].map((f, i) => (
-              <div
+              <motion.div
                 key={f.name}
                 className={`h-founder-row h-reveal${i === 0 ? " h-founder-row--first" : ""}`}
+                whileHover={{ y: -4, scale: 1.015 }}
+                transition={{ type: "spring", stiffness: 180, damping: 16 }}
                 style={{ transitionDelay: `${i * 0.12}s` }}
               >
                 <div className="h-founder-initials">{f.initials}</div>
@@ -883,7 +903,7 @@ export default function Home() {
                   <span className="h-founder-age-tag">{f.age} yrs</span>
                   <span className="h-founder-org">TSS</span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -916,9 +936,14 @@ export default function Home() {
             April 12.
           </p>
 
-          <button className="h-cta h-cta--event h-reveal" onClick={goEvent}>
+          <motion.button 
+            className="h-cta h-cta--event h-reveal" 
+            onClick={goEvent}
+            whileHover={{ scale: 1.02, y: -1 }}
+            whileTap={{ scale: 0.985 }}
+          >
             View Recap <ArrowRight size={16} />
-          </button>
+          </motion.button>
         </div>
       </section>
 
@@ -945,10 +970,12 @@ export default function Home() {
           </div>
         )}
 
-        <button
+        <motion.button
           className={`h-join-pill${pillOpen ? " h-join-pill--open" : ""}`}
           onClick={() => setPillOpen((o) => !o)}
           aria-label="Join the team"
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
         >
           <span className="h-join-pill-dot" />
           <Users size={13} strokeWidth={2} />
@@ -958,7 +985,7 @@ export default function Home() {
             strokeWidth={2.5}
             className={`h-join-pill-chevron${pillOpen ? " h-join-pill-chevron--open" : ""}`}
           />
-        </button>
+        </motion.button>
       </div>
 
       </main>

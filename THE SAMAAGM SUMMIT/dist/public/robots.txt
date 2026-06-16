@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-
-# Block dev/admin routes
-Disallow: /dev
-
-Sitemap: https://thesamaagmsummit.netlify.app/sitemap.xml
