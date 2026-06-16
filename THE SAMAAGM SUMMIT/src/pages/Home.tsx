@@ -58,7 +58,7 @@ const FORMS = [
     Icon: Crown,
     label: "Executive Board (EB) Applications",
     url: "https://forms.gle/E2yPwFmndCUq7Pmx5",
-    desc: "Lead as Chair, Vice-Chair or Director for 8 committees (6 voted + 2 special)",
+    desc: "Lead as Chair, Vice-Chair or Rapporteur for 8 committees (6 voted + 2 special)",
     tag: "NOW OPEN",
   },
 ];
@@ -490,7 +490,7 @@ export default function Home() {
             </h3>
 
             <p className="h-eb-cta-desc">
-              Apply to serve as Chair, Vice-Chair or Director for one of the six community-voted committees. 
+              Apply to serve as Chair, Vice-Chair or Rapporteur for one of the eight committees. 
               Lead the debate at India's first democratic youth summit.
             </p>
           </div>
