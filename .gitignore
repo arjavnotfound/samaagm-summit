@@ -1,0 +1,40 @@
+﻿# Dependencies
+node_modules/
+THE SAMAAGM SUMMIT/node_modules/
+
+# Build outputs
+dist/
+THE SAMAAGM SUMMIT/dist/
+dist/public/
+
+# Replit / local tooling (large or environment-specific)
+.local/
+.agents/
+.config/
+.vscode/
+
+# OS generated
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Large assets (optional - comment out if you want them in git)
+# attached_assets/
+
+# Package manager
+# Keep package-lock.json (it's useful), but ignore yarn.lock if not used
+
+# Temporary
+*.tmp
+*.temp
