@@ -35,7 +35,8 @@ interface DetailItem {
   Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   label: string;
   value: string;
-  status: "confirmed" | "soon";
+  status: "confirmed" | "soon" | "open";
+  url?: string;
 }
 
 const COMMITTEES: Committee[] = [

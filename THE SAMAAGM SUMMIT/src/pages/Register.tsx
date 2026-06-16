@@ -27,31 +27,6 @@ import {
 } from "react-icons/fa";
 import { QRCodeSVG } from "qrcode.react";
 
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxkwz04fVFCsyfOLzj-LpUVlgUs0QCbkS_M1ugA7rwMed4U4IEoh2eOInwNFc-ZyRylAw/exec";
-
-const AB_URL =
-  "https://script.google.com/macros/s/AKfycbyOWV_rrX30sGFin2kzQqWT_aVtUMqT38oCRhYVwMjN00bJzJtkNwCXUzM1gt7qtfYc1A/exec";
-
-let _regCachedSenderUrl: string | null = null;
-const _regSenderInit: Promise<void> = (async () => {
-  try {
-    const r = await fetch(
-      `${SCRIPT_URL}?action=getSetting&key=${encodeURIComponent("Active Sender")}`,
-    );
-    const d = await r.json();
-    _regCachedSenderUrl = d.value === "AB" ? AB_URL : SCRIPT_URL;
-  } catch {
-    _regCachedSenderUrl = SCRIPT_URL;
-  }
-})();
-
-async function getRegActiveSenderUrl(): Promise<string> {
-  if (_regCachedSenderUrl !== null) return _regCachedSenderUrl;
-  await _regSenderInit;
-  return _regCachedSenderUrl ?? SCRIPT_URL;
-}
-
 async function compressImageToBase64(
   file: File,
   maxWidth = 1200,
@@ -252,10 +227,10 @@ export default function Register() {
   const heroRef = useRef<HTMLElement>(null);
   const modalPanelRef = useRef<HTMLDivElement>(null);
   const [showFloat, setShowFloat] = useState(false);
-  const [registrationOpen, setRegistrationOpen] = useState<boolean | null>(null);
+  const registrationOpen = false;
   const [closedModalOpen, setClosedModalOpen] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(false);
-  const [eventStage, setEventStage] = useState<"Auto" | "Pre-Event" | "Live" | "Post-Event">("Auto");
+  const eventStage: "Post-Event" = "Post-Event";
   const countdown = useCountdown(EVENT_DATE, EVENT_END);
 
   const effectivePhase: CountdownPhase =
@@ -264,28 +239,6 @@ export default function Register() {
     : eventStage === "Post-Event" ? "ended"
     : countdown.phase;
 
-  useEffect(() => {
-    Promise.all([
-      fetch(`${SCRIPT_URL}?action=getSetting&key=${encodeURIComponent("Registration Status")}`).then((r) => r.json()),
-      fetch(`${SCRIPT_URL}?action=getSetting&key=${encodeURIComponent("Event Stage")}`).then((r) => r.json()),
-    ])
-      .then(([regData, stageData]) => {
-        if (regData.success) {
-          setRegistrationOpen(regData.value !== "closed");
-        } else {
-          setRegistrationOpen(true);
-        }
-        if (stageData.success && ["Pre-Event", "Live", "Post-Event"].includes(stageData.value)) {
-          setEventStage(stageData.value as "Pre-Event" | "Live" | "Post-Event");
-        } else {
-          setEventStage("Auto");
-        }
-      })
-      .catch(() => {
-        setRegistrationOpen(true);
-        setEventStage("Auto");
-      });
-  }, []);
 
   useEffect(() => {
     document.body.classList.toggle("lumos", lumosMode);
@@ -481,77 +434,6 @@ export default function Register() {
     setLoading(true);
     setSubmitError("");
     try {
-      let screenshotBase64 = "";
-      let screenshotMimeType = "";
-      let screenshotFileName = "";
-      if (form.paymentScreenshot) {
-        const compressed = await compressImageToBase64(form.paymentScreenshot);
-        screenshotBase64 = compressed.base64;
-        screenshotMimeType = compressed.mimeType;
-        screenshotFileName = `payment_${form.fname.trim()}_${form.lname.trim()}_${Date.now()}`;
-      }
-      const payload = {
-        firstName: form.fname.trim(),
-        lastName: form.lname.trim(),
-        phone: form.phone.trim(),
-        email: form.email.trim().toLowerCase(),
-        school: form.school.trim(),
-        grade: form.grade.trim(),
-        munExp: form.mun,
-        munCount: form.munCount || "—",
-        potterhead: form.potterhead || "—",
-        note: form.note.trim() || "—",
-        referral: form.referral.trim() || "—",
-        timestamp: new Date().toISOString(),
-        screenshotBase64,
-        screenshotMimeType,
-        screenshotFileName,
-      };
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error(`Server error ${res.status}`);
-      let result: {
-        success?: boolean;
-        duplicate?: boolean;
-        message?: string;
-        error?: string;
-      } | null = null;
-      try {
-        result = await res.json();
-      } catch {
-        /* JSON parse failed — HTTP was 200, treat as success */
-      }
-      if (result) {
-        if (result.duplicate) {
-          setSubmitError(
-            result.message ||
-              "You're already registered. Each person can only register once.",
-          );
-          return;
-        }
-        if (result.success === false) {
-          throw new Error(
-            result.error || "Registration failed. Please try again.",
-          );
-        }
-      }
-
-      const senderUrl = await getRegActiveSenderUrl();
-      await fetch(senderUrl, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify({
-          action:    "sendEmail",
-          emailType: "confirmation",
-          firstName: form.fname.trim(),
-          lastName:  form.lname.trim(),
-          email:     form.email.trim().toLowerCase(),
-        }),
-      });
-
       setStep(3);
     } catch {
       setSubmitError(

@@ -17,7 +17,6 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { DevPanel } from "@/components/DevPanel";
 import { useMousePos } from "@/hooks/use-mouse-pos";
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -79,13 +78,6 @@ const NAV_ITEMS = [
   { id: "founders", label: "Founders", Icon: Star },
 ];
 
-const DEV_PASS_HASH =
-  "996428239c1720ad4cdeb18c40ad3dfa5e6ed11c518885a4f5396426643691d5";
-const DEV_CLICK_THRESHOLD = 3;
-const DEV_CLICK_WINDOW = 2000;
-
-
-
 function scrollTo(id: string) {
   document
     .getElementById(id)
@@ -120,14 +112,6 @@ export default function Home() {
   const { dotRef, ringRef } = useMousePos();
   useReveal();
 
-  const devClickCount = useRef(0);
-  const devClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [showDevOverlay, setShowDevOverlay] = useState(false);
-  const [devAuthenticated, setDevAuthenticated] = useState(false);
-  const [devPassword, setDevPassword] = useState("");
-  const [devPasswordError, setDevPasswordError] = useState("");
-  const devPasswordInputRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -149,51 +133,6 @@ export default function Home() {
     return () => document.removeEventListener("mousedown", handleOutside);
   }, [pillOpen]);
 
-  useEffect(() => {
-    if (showDevOverlay && devPasswordInputRef.current)
-      devPasswordInputRef.current.focus();
-  }, [showDevOverlay]);
-
-  function handleArjavClick() {
-    devClickCount.current += 1;
-    if (devClickTimer.current) clearTimeout(devClickTimer.current);
-    devClickTimer.current = setTimeout(() => {
-      devClickCount.current = 0;
-    }, DEV_CLICK_WINDOW);
-    if (devClickCount.current >= DEV_CLICK_THRESHOLD) {
-      devClickCount.current = 0;
-      if (devClickTimer.current) clearTimeout(devClickTimer.current);
-      setDevPassword("");
-      setDevPasswordError("");
-      setShowDevOverlay(true);
-    }
-  }
-
-  async function handleDevPasswordSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const encoded = new TextEncoder().encode(devPassword);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
-    const hashHex = Array.from(new Uint8Array(hashBuffer))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    if (hashHex === DEV_PASS_HASH) {
-      setDevPasswordError("");
-      setShowDevOverlay(false);
-      setDevAuthenticated(true);
-    } else {
-      setDevPasswordError("Incorrect password.");
-      setDevPassword("");
-      devPasswordInputRef.current?.focus();
-    }
-  }
-
-  function handleDevClose() {
-    setDevAuthenticated(false);
-    setShowDevOverlay(false);
-    setDevPassword("");
-    setDevPasswordError("");
-  }
-
   function goEvent() {
     navigate("/event");
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -203,47 +142,6 @@ export default function Home() {
     <div className="h-root" itemScope itemType="https://schema.org/WebPage">
       <div className="h-cursor-dot" ref={dotRef} />
       <div className="h-cursor-ring" ref={ringRef} />
-
-      {showDevOverlay && !devAuthenticated && (
-        <div
-          className="devpw-overlay"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowDevOverlay(false);
-              setDevPassword("");
-              setDevPasswordError("");
-            }
-          }}
-        >
-          <form className="devpw-modal" onSubmit={handleDevPasswordSubmit}>
-            <p className="devpw-label">TSS · INTERNAL ACCESS</p>
-            <h2 className="devpw-title">Developer Mode</h2>
-            <div className="devpw-field">
-              <input
-                ref={devPasswordInputRef}
-                type="password"
-                className="devpw-input"
-                placeholder="Enter access key"
-                value={devPassword}
-                onChange={(e) => {
-                  setDevPassword(e.target.value);
-                  setDevPasswordError("");
-                }}
-                autoComplete="off"
-                spellCheck={false}
-              />
-            </div>
-            {devPasswordError && (
-              <p className="devpw-error">{devPasswordError}</p>
-            )}
-            <button type="submit" className="devpw-submit">
-              Authenticate →
-            </button>
-          </form>
-        </div>
-      )}
-
-      {devAuthenticated && <DevPanel onClose={handleDevClose} />}
 
       <div className="h-bg-fx" aria-hidden>
         <div className="h-bg-noise" />
@@ -885,17 +783,7 @@ export default function Home() {
                 <div className="h-founder-initials">{f.initials}</div>
                 <div className="h-founder-details">
                   <span className="h-founder-role-tag">{f.role}</span>
-                  <h3
-                    className="h-founder-name-big"
-                    onClick={
-                      f.name === "Arjav Badjatya" ? handleArjavClick : undefined
-                    }
-                    style={
-                      f.name === "Arjav Badjatya"
-                        ? { cursor: "default", userSelect: "none" }
-                        : undefined
-                    }
-                  >
+                  <h3 className="h-founder-name-big">
                     {f.name}
                   </h3>
                 </div>
