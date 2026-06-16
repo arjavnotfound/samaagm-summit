@@ -215,7 +215,7 @@ export default function MUN() {
     const prevDesc = desc?.getAttribute("content") ?? "";
     desc?.setAttribute(
       "content",
-      "The Samaagm Summit MUN Conference 2026, Edition I — July 31 to August 2, Indore. Six committees: Lok Sabha, AIPPM, Rajya Sabha, UNHRC, UNCSW, UNGA DISEC. India's first democratic summit.",
+      "The Samaagm Summit MUN Conference 2026, Edition I — July 31 to August 2, Indore. Eight committees: 6 community-voted + 2 special. India's first democratic summit.",
     );
     const canonical = document.querySelector('link[rel="canonical"]');
     const prevCanonical = canonical?.getAttribute("href") ?? "";
@@ -381,7 +381,6 @@ export default function MUN() {
           className="m-hero"
           aria-label="The Samaagm Summit MUN Conference 2026 Edition I"
         >
-          <div className="m-hero-bg-year" aria-hidden>2026</div>
           <div className="m-hero-corners" aria-hidden>
             <span className="m-corner m-corner--tl">The Samaagm Summit</span>
             <span className="m-corner m-corner--tr">Edition I · 2026</span>
@@ -508,7 +507,7 @@ export default function MUN() {
         {/* ── STATS STRIP ── */}
         <div className="m-stats-strip" aria-label="Conference at a glance">
           {[
-            { num: "6", label: "Committees" },
+            { num: "8", label: "Committees" },
             { num: "3", label: "Days" },
             { num: "1", label: "City" },
             { num: "I", label: "Edition" },

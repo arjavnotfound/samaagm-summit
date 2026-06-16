@@ -58,7 +58,7 @@ const FORMS = [
     Icon: Crown,
     label: "Executive Board (EB) Applications",
     url: "https://forms.gle/E2yPwFmndCUq7Pmx5",
-    desc: "Lead as Chair, Vice-Chair or Director for the 6 community-voted committees",
+    desc: "Lead as Chair, Vice-Chair or Director for 8 committees (6 voted + 2 special)",
     tag: "NOW OPEN",
   },
 ];
