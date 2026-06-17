@@ -493,7 +493,7 @@ export default function MUN() {
         {/* MARQUEE */}
         <div className="h-marquee-strip" aria-hidden>
           <div className="h-marquee-track">
-            {["THE SAMAAGM SUMMIT", "MUN 2026", "EDITION I", "INDORE · INDIA", "6 COMMITTEES", "JULY 31 – AUGUST 2"]
+            {["THE SAMAAGM SUMMIT", "MUN 2026", "DELEGATE REG OPEN", "EDITION I", "INDORE · INDIA", "8 COMMITTEES", "JULY 31 – AUGUST 2", "PHASE I · ₹1,700"]
               .flatMap((t) => [t, t, t])
               .map((t, i) => (
                 <span key={i} className="h-marquee-item">
@@ -525,6 +525,53 @@ export default function MUN() {
             </motion.div>
           ))}
         </div>
+
+        {/* ── DELEGATE REGISTRATION ── */}
+        <motion.section
+          className="m-reg-section"
+          aria-label="Delegate Registration — Phase I, ₹1,700"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="m-reg-inner">
+            <div className="m-reg-top">
+              <div className="m-reg-live">
+                <span className="m-reg-live-dot" aria-hidden />
+                <span>Delegate Registration Now Open</span>
+              </div>
+              <span className="m-reg-phase-badge">Phase I</span>
+            </div>
+
+            <div className="m-reg-price-wrap" aria-label="Phase I price: ₹1,700">
+              <span className="m-reg-currency" aria-hidden>₹</span>
+              <span className="m-reg-amount">1,700</span>
+            </div>
+
+            <p className="m-reg-tagline">
+              India's most discounted delegate fee — ever.
+              <br />
+              Price increases with every subsequent phase.
+            </p>
+
+            <a
+              href="https://forms.gle/G3i22pDqRbDT8sNt5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="m-reg-cta"
+              aria-label="Register as Delegate — Phase I pricing at ₹1,700"
+            >
+              Register as Delegate — Phase I
+              <ArrowRight size={18} />
+            </a>
+
+            <p className="m-reg-notice">
+              <span className="m-reg-notice-icon" aria-hidden>↑</span>
+              Price increases after Phase I closes
+            </p>
+          </div>
+        </motion.section>
 
         {/* ── CONFERENCE DETAILS ── */}
         <section id="details" className="h-section" aria-label="Conference details">

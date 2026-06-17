@@ -68,6 +68,7 @@ const MARQUEE_TEXT = [
   "YOUTH · MUN · INNOVATION",
   "THE ROOM DECIDES",
   "INDIA'S FIRST DEMOCRATIC SUMMIT",
+  "DELEGATE REG OPEN · PHASE I",
   "APPLICATIONS OPEN",
 ];
 
@@ -446,6 +447,44 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* DELEGATE REGISTRATION BANNER */}
+      <motion.div
+        className="h-dreg-banner h-reveal"
+        role="region"
+        aria-label="Delegate Registration — Phase I at ₹1,700"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", stiffness: 90, damping: 18 }}
+      >
+        <div className="h-wrap">
+          <div className="h-dreg-inner">
+            <div className="h-dreg-left">
+              <div className="h-dreg-live">
+                <span className="h-dreg-dot" aria-hidden />
+                <span className="h-dreg-eyebrow">Delegate Registration Open</span>
+              </div>
+              <div className="h-dreg-phase">Phase I — Most Discounted Price</div>
+            </div>
+
+            <div className="h-dreg-price" aria-label="₹1,700">
+              <span className="h-dreg-currency" aria-hidden>₹</span>
+              <span className="h-dreg-amount">1,700</span>
+            </div>
+
+            <a
+              href="https://forms.gle/G3i22pDqRbDT8sNt5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-cta h-cta--primary h-dreg-cta"
+              aria-label="Register as Delegate for ₹1,700 — Phase I pricing"
+            >
+              Register Now <ArrowRight size={14} />
+            </a>
+          </div>
+        </div>
+      </motion.div>
 
       {/* MUN BANNER — Elevated to match the goated /mun page */}
       <motion.div 
