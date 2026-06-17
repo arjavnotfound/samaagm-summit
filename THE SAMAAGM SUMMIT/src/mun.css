@@ -1370,3 +1370,241 @@
   max-width: 480px;
   justify-content: center;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   DELEGATE REG — Split layout override
+   ═══════════════════════════════════════════════════════════════ */
+/* Remove centered text + padding from the section shell */
+.m-reg-section {
+  text-align: unset;
+  padding: 0;
+}
+
+.m-reg-split {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: center;
+  width: 100%;
+  min-height: 420px;
+}
+
+/* Left: price poster */
+.m-reg-poster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 48px;
+  gap: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+.m-reg-poster-price {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  line-height: 1;
+}
+.m-reg-poster-currency {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 3.5vw, 36px);
+  font-weight: 700;
+  color: rgba(204,0,0,0.85);
+  margin-top: clamp(12px, 2vw, 24px);
+  line-height: 1;
+}
+.m-reg-poster-amount {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(80px, 16vw, 168px);
+  font-weight: 900;
+  color: #f0ebe0;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-shadow:
+    0 0 40px rgba(204,0,0,0.44),
+    0 0 100px rgba(204,0,0,0.18),
+    0 6px 32px rgba(0,0,0,0.65);
+}
+.m-reg-poster-phase {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(212,168,67,0.38);
+  padding: 5px 18px;
+  background: rgba(212,168,67,0.06);
+}
+
+/* Vertical divider */
+.m-reg-vdivider {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(204,0,0,0.22) 15%,
+    rgba(204,0,0,0.22) 85%,
+    transparent 100%
+  );
+  margin: 48px 0;
+}
+
+/* Right: copy + CTA */
+.m-reg-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 64px 48px;
+  gap: 22px;
+  position: relative;
+  z-index: 2;
+}
+
+.m-reg-copy-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(22px, 3.8vw, 44px);
+  font-weight: 700;
+  color: #f0ebe0;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+}
+
+/* Override: inline CTA in copy column */
+.m-reg-copy .m-reg-cta {
+  width: auto;
+  max-width: 100%;
+  display: inline-flex;
+}
+
+/* Live row inherits from earlier but ensure standalone */
+.m-reg-copy .m-reg-live {
+  font-size: 10px;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 800px) {
+  .m-reg-split {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+  .m-reg-vdivider {
+    width: 80%;
+    height: 1px;
+    margin: 0 auto;
+    background: linear-gradient(90deg, transparent, rgba(204,0,0,0.22), transparent);
+    align-self: unset;
+  }
+  .m-reg-poster { padding: 48px 24px 28px; }
+  .m-reg-copy   { padding: 28px 24px 48px; align-items: center; text-align: center; }
+  .m-reg-copy .m-reg-cta { width: 100%; justify-content: center; }
+  .m-reg-copy .m-reg-live { justify-content: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EXECUTIVE BOARD APPLICATIONS SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.m-eb-section {
+  border-top: 1px solid rgba(212,168,67,0.12);
+  border-bottom: 1px solid rgba(212,168,67,0.06);
+  background: linear-gradient(160deg, #0a0800 0%, #130e00 45%, #090700 100%);
+  position: relative;
+  overflow: hidden;
+}
+.m-eb-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 120% at 50% 50%, rgba(212,168,67,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.m-eb-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  padding: 60px 0;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.m-eb-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.m-eb-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.m-eb-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.45);
+  border: 1px solid rgba(240,235,224,0.13);
+  padding: 4px 10px;
+}
+.m-eb-badge--open {
+  color: var(--gold);
+  border-color: rgba(212,168,67,0.38);
+  background: rgba(212,168,67,0.06);
+}
+
+.m-eb-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(24px, 4.5vw, 52px);
+  font-weight: 700;
+  color: #f0ebe0;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+
+.m-eb-desc {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(13px, 2vw, 15px);
+  font-style: italic;
+  color: rgba(240,235,224,0.42);
+  line-height: 1.8;
+  max-width: 420px;
+}
+
+.m-eb-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(10px, 1.6vw, 12px);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0a0800;
+  background: var(--gold);
+  text-decoration: none;
+  padding: 18px 34px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: all 0.22s cubic-bezier(0.23,1,0.32,1);
+  box-shadow: 0 4px 20px rgba(212,168,67,0.28);
+}
+.m-eb-cta:hover {
+  background: #e8c44a;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 36px rgba(212,168,67,0.48);
+}
+.m-eb-cta svg { transition: transform 0.2s ease; flex-shrink: 0; }
+.m-eb-cta:hover svg { transform: translateX(4px); }
+
+@media (max-width: 640px) {
+  .m-eb-inner { flex-direction: column; align-items: flex-start; padding: 44px 0; }
+  .m-eb-cta   { width: 100%; justify-content: center; }
+}

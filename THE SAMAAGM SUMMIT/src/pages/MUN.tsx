@@ -549,46 +549,85 @@ export default function MUN() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="m-reg-inner">
-            <div className="m-reg-rule-row" aria-hidden>
-              <span className="m-reg-rule-line" />
-              <span className="m-reg-rule-label">Phase I</span>
-              <span className="m-reg-rule-line" />
+          <div className="m-reg-split">
+            {/* Left: Price poster */}
+            <div className="m-reg-poster">
+              <div className="m-reg-poster-price" aria-label="Phase I price: ₹1,700">
+                <span className="m-reg-poster-currency" aria-hidden>₹</span>
+                <span className="m-reg-poster-amount">1,700</span>
+              </div>
+              <span className="m-reg-poster-phase">Phase I</span>
             </div>
 
-            <div className="m-reg-live">
-              <span className="m-reg-live-dot" aria-hidden />
-              <span>Delegate Registration · Open</span>
+            <div className="m-reg-vdivider" aria-hidden />
+
+            {/* Right: Info + CTA */}
+            <div className="m-reg-copy">
+              <div className="m-reg-live">
+                <span className="m-reg-live-dot" aria-hidden />
+                <span>Delegate Registration · Open</span>
+              </div>
+
+              <h2 className="m-reg-copy-title">
+                Register for<br />MUN 2026
+              </h2>
+
+              <p className="m-reg-tagline">
+                Our lowest price — ever.<br />
+                Fee increases with every subsequent phase.
+              </p>
+
+              <a
+                href="https://forms.gle/G3i22pDqRbDT8sNt5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="m-reg-cta"
+                aria-label="Register as Delegate — Phase I pricing at ₹1,700"
+              >
+                Register as Delegate — Phase I
+                <ArrowRight size={18} />
+              </a>
+
+              <p className="m-reg-notice">
+                <span className="m-reg-notice-icon" aria-hidden>↑</span>
+                Price increases after Phase I closes
+              </p>
             </div>
+          </div>
+        </motion.section>
 
-            <div className="m-reg-price-wrap" aria-label="Phase I price: ₹1,700">
-              <span className="m-reg-currency" aria-hidden>₹</span>
-              <span className="m-reg-amount">1,700</span>
+        {/* ── EXECUTIVE BOARD APPLICATIONS ── */}
+        <motion.section
+          className="m-eb-section"
+          aria-label="Executive Board Applications — Now Open"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ type: "spring", stiffness: 90, damping: 18 }}
+        >
+          <div className="h-wrap">
+            <div className="m-eb-inner">
+              <div className="m-eb-left">
+                <div className="m-eb-badges">
+                  <span className="m-eb-badge">MUN 2026</span>
+                  <span className="m-eb-badge m-eb-badge--open">Now Open</span>
+                </div>
+                <h2 className="m-eb-title">Executive Board<br />Applications</h2>
+                <p className="m-eb-desc">
+                  Lead as Chair, Vice-Chair, or Rapporteur for one of the eight committees.
+                  Shape the debate at India's first democratic youth summit.
+                </p>
+              </div>
+              <a
+                href="https://forms.gle/E2yPwFmndCUq7Pmx5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="m-eb-cta"
+                aria-label="Apply for Executive Board Positions"
+              >
+                Apply for EB Positions <ArrowRight size={18} />
+              </a>
             </div>
-
-            <div className="m-reg-divider" aria-hidden />
-
-            <p className="m-reg-tagline">
-              Our lowest price — ever.
-              <br />
-              Fee increases with every subsequent phase.
-            </p>
-
-            <a
-              href="https://forms.gle/G3i22pDqRbDT8sNt5"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="m-reg-cta"
-              aria-label="Register as Delegate — Phase I pricing at ₹1,700"
-            >
-              Register as Delegate — Phase I
-              <ArrowRight size={18} />
-            </a>
-
-            <p className="m-reg-notice">
-              <span className="m-reg-notice-icon" aria-hidden>↑</span>
-              Price increases after Phase I closes
-            </p>
           </div>
         </motion.section>
 
@@ -613,7 +652,7 @@ export default function MUN() {
                       <d.Icon size={16} strokeWidth={1.4} className="m-detail-icon" />
                       <span className={`m-detail-badge ${isEB ? "m-detail-badge--open" : `m-detail-badge--${d.status}`}`}>
                         <span className="m-detail-dot" />
-                        {isEB ? "Now Open" : d.status === "confirmed" ? "Confirmed" : "Coming Soon"}
+                        {isEB || d.status === "open" ? "Now Open" : d.status === "confirmed" ? "Confirmed" : "Coming Soon"}
                       </span>
                     </div>
                     <div className="m-detail-label">{d.label}</div>

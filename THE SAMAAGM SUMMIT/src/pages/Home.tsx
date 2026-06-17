@@ -454,111 +454,74 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DELEGATE REGISTRATION BANNER */}
-      <motion.div
-        className="h-dreg-banner h-reveal"
-        role="region"
-        aria-label="Delegate Registration — Phase I at ₹1,700"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ type: "spring", stiffness: 90, damping: 18 }}
-      >
-        <div className="h-wrap">
-          <div className="h-dreg-inner">
-            <div className="h-dreg-left">
-              <div className="h-dreg-live">
-                <span className="h-dreg-dot" aria-hidden />
-                <span className="h-dreg-eyebrow">Delegate Registration · Now Open</span>
-              </div>
-              <p className="h-dreg-desc">
-                Phase I pricing — the lowest it will ever be.
-                <br />
-                Fee increases with every subsequent phase.
-              </p>
-            </div>
+      {/* ACTION SECTION — Unified design system */}
+      <section className="h-action-section" aria-label="Registration and conference information">
 
-            <div className="h-dreg-right">
-              <div className="h-dreg-price-row">
-                <span className="h-dreg-phase-badge">Phase I</span>
-                <div className="h-dreg-price" aria-label="₹1,700">
-                  <span className="h-dreg-currency" aria-hidden>₹</span>
-                  <span className="h-dreg-amount">1,700</span>
+        {/* Block 1: Delegate Registration */}
+        <motion.div
+          className="h-action-block h-action-block--reg h-reveal"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ type: "spring", stiffness: 90, damping: 18 }}
+        >
+          <div className="h-wrap">
+            <div className="h-ab-inner">
+              <div className="h-ab-left">
+                <div className="h-ab-label">
+                  <span className="h-ab-dot" aria-hidden />
+                  <span>Delegate Registration · Phase I Open</span>
                 </div>
+                <div className="h-ab-price" aria-label="₹1,700">
+                  <span className="h-ab-currency" aria-hidden>₹</span>
+                  <span className="h-ab-amount">1,700</span>
+                </div>
+                <p className="h-ab-desc">
+                  Our lowest price — ever. Fee increases with every subsequent phase.
+                </p>
               </div>
               <a
                 href="https://forms.gle/G3i22pDqRbDT8sNt5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-cta h-cta--primary h-dreg-cta"
+                className="h-ab-cta"
                 aria-label="Register as Delegate — Phase I pricing at ₹1,700"
               >
-                Register as Delegate <ArrowRight size={14} />
+                Register as Delegate <ArrowRight size={16} />
               </a>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* MUN BANNER — Elevated to match the goated /mun page */}
-      <motion.div 
-        className="h-mun-banner h-reveal" 
-        role="region" 
-        aria-label="Explore MUN 2026 conference"
-        whileHover={{ scale: 1.01, y: -2 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      >
-        <div className="h-wrap">
-          <div className="h-mun-banner-inner">
-            <div className="h-mun-banner-left">
-              <span className="h-mun-banner-eyebrow">The Conference</span>
-              <p className="h-mun-banner-text">
-                Committees, agendas &amp; delegate details
-              </p>
+        {/* Block 2: Explore MUN */}
+        <motion.div
+          className="h-action-block h-action-block--mun h-reveal"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ type: "spring", stiffness: 90, damping: 18, delay: 0.06 }}
+        >
+          <div className="h-wrap">
+            <div className="h-ab-inner">
+              <div className="h-ab-left">
+                <div className="h-ab-label">
+                  <span>MUN 2026 · The Conference</span>
+                </div>
+                <h3 className="h-ab-title">
+                  Committees, Agendas &amp; More
+                </h3>
+                <p className="h-ab-desc">
+                  Eight committees. Three days. One summit — find your committee, read the agenda, and prepare to lead.
+                </p>
+              </div>
+              <a href="/mun" className="h-ab-cta h-ab-cta--outline">
+                Explore MUN 2026 <ArrowRight size={16} />
+              </a>
             </div>
-            <a href="/mun" className="h-cta h-cta--primary h-mun-banner-cta">
-              Explore MUN 2026 <ArrowRight size={14} />
-            </a>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* EXECUTIVE BOARD — The best looking highlight on the main page */}
-      <motion.div 
-        className="h-eb-cta h-reveal" 
-        role="region" 
-        aria-label="Executive Board Applications"
-        whileHover={{ y: -4 }}
-        transition={{ type: "spring", stiffness: 220, damping: 20 }}
-      >
-        <div className="h-eb-cta-inner">
-          <div className="h-eb-cta-content">
-            <div className="h-eb-cta-badges">
-              <span className="h-eb-cta-badge">MUN 2026</span>
-              <span className="h-eb-cta-badge h-eb-cta-badge--open">NOW OPEN</span>
-            </div>
-
-            <h3 className="h-eb-cta-title">
-              Executive Board<br />Applications
-            </h3>
-
-            <p className="h-eb-cta-desc">
-              Apply to serve as Chair, Vice-Chair or Rapporteur for one of the eight committees. 
-              Lead the debate at India's first democratic youth summit.
-            </p>
-          </div>
-
-          <a
-            href="https://forms.gle/E2yPwFmndCUq7Pmx5"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="h-eb-cta-button"
-          >
-            <span>Apply for EB Positions</span>
-            <ArrowRight size={18} />
-          </a>
-        </div>
-      </motion.div>
+      </section>
 
       {/* ABOUT */}
       <section id="about" className="h-section" aria-label="About The Samaagm Summit">
