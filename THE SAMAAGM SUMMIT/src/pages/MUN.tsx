@@ -103,8 +103,9 @@ const DETAILS: DetailItem[] = [
   {
     Icon: GraduationCap,
     label: "Delegate Applications",
-    value: "Opening Soon",
-    status: "soon",
+    value: "Apply Now",
+    status: "open",
+    url: "https://forms.gle/G3i22pDqRbDT8sNt5",
   },
   {
     Icon: Crown,
@@ -325,7 +326,15 @@ export default function MUN() {
               <span className="h-nav-link-text">Instagram</span>
             </a>
           </nav>
-          <div className="m-edition-badge">Edition I · 2026</div>
+          <a
+            href="https://forms.gle/G3i22pDqRbDT8sNt5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="m-reg-nav-pill"
+            aria-label="Register as Delegate — Phase I"
+          >
+            Register Now →
+          </a>
           <button
             className={`h-ham${menuOpen ? " h-ham--open" : ""}`}
             aria-label="Menu"
@@ -368,8 +377,13 @@ export default function MUN() {
             >
               Instagram
             </a>
-            <a className="h-mobile-link" href="/event">
-              Platform 9¾
+            <a
+              className="h-mobile-link"
+              href="https://forms.gle/G3i22pDqRbDT8sNt5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Register as Delegate →
             </a>
           </div>
         )}
@@ -536,12 +550,15 @@ export default function MUN() {
           transition={{ duration: 0.6 }}
         >
           <div className="m-reg-inner">
-            <div className="m-reg-top">
-              <div className="m-reg-live">
-                <span className="m-reg-live-dot" aria-hidden />
-                <span>Delegate Registration Now Open</span>
-              </div>
-              <span className="m-reg-phase-badge">Phase I</span>
+            <div className="m-reg-rule-row" aria-hidden>
+              <span className="m-reg-rule-line" />
+              <span className="m-reg-rule-label">Phase I</span>
+              <span className="m-reg-rule-line" />
+            </div>
+
+            <div className="m-reg-live">
+              <span className="m-reg-live-dot" aria-hidden />
+              <span>Delegate Registration · Open</span>
             </div>
 
             <div className="m-reg-price-wrap" aria-label="Phase I price: ₹1,700">
@@ -549,10 +566,12 @@ export default function MUN() {
               <span className="m-reg-amount">1,700</span>
             </div>
 
+            <div className="m-reg-divider" aria-hidden />
+
             <p className="m-reg-tagline">
-              India's most discounted delegate fee — ever.
+              Our lowest price — ever.
               <br />
-              Price increases with every subsequent phase.
+              Fee increases with every subsequent phase.
             </p>
 
             <a

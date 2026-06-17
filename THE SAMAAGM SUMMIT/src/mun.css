@@ -1290,3 +1290,83 @@
   .m-reg-inner    { gap: 22px; }
   .m-reg-cta      { width: 100%; justify-content: center; padding: 17px 24px; }
 }
+
+/* ── MUN Nav Register Pill ── */
+.m-reg-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--red);
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 100px;
+  transition: all 0.22s cubic-bezier(0.23,1,0.32,1);
+  box-shadow: 0 0 0 1px rgba(204,0,0,0.5), 0 4px 16px rgba(204,0,0,0.35);
+  animation: m-pill-pulse 2.2s ease-in-out infinite;
+  white-space: nowrap;
+}
+@keyframes m-pill-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(204,0,0,0.5), 0 4px 16px rgba(204,0,0,0.35); }
+  50%       { box-shadow: 0 0 0 1px rgba(204,0,0,0.8), 0 4px 24px rgba(204,0,0,0.6); }
+}
+.m-reg-nav-pill:hover {
+  background: var(--red-bright);
+  transform: scale(1.04);
+}
+
+/* ── Registration Section — New editorial layout ── */
+/* Rule row */
+.m-reg-rule-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 520px;
+}
+.m-reg-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,0.3), transparent);
+}
+.m-reg-rule-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+/* Divider between price and tagline */
+.m-reg-divider {
+  width: 100%;
+  max-width: 280px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,235,224,0.1), transparent);
+}
+
+/* Override: live row is now standalone (not inside m-reg-top) */
+.m-reg-live {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.62);
+}
+
+/* Override: CTA full-width for max impact */
+.m-reg-cta {
+  display: flex;
+  width: 100%;
+  max-width: 480px;
+  justify-content: center;
+}

@@ -7527,3 +7527,116 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   .h-dreg-price  { align-self: flex-start; }
   .h-dreg-cta    { width: 100%; justify-content: center; }
 }
+
+/* ── Home Nav Pill — Register Now variant ── */
+.h-reg-btn--delegate {
+  text-decoration: none;
+  animation: h-pill-pulse 2.4s ease-in-out infinite;
+}
+@keyframes h-pill-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(204,0,0,0.5), 0 4px 16px rgba(204,0,0,0.3); }
+  50%       { box-shadow: 0 0 0 1px rgba(204,0,0,0.9), 0 4px 24px rgba(204,0,0,0.65); }
+}
+
+/* ── Home Dreg Banner — Full redesign override ── */
+.h-dreg-banner {
+  border-top: 1px solid rgba(204,0,0,0.28);
+  border-bottom: 1px solid rgba(204,0,0,0.14);
+  background: linear-gradient(160deg, #0c0000 0%, #1c0000 45%, #0d0000 100%);
+  position: relative;
+  overflow: hidden;
+}
+.h-dreg-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 120% at 65% 50%, rgba(204,0,0,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Two-column editorial grid */
+.h-dreg-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 48px;
+  padding: 40px 0;
+  flex-wrap: unset;
+}
+
+/* Left: context stack */
+.h-dreg-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.h-dreg-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.h-dreg-desc {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(13px, 2vw, 15px);
+  font-style: italic;
+  color: rgba(240,235,224,0.45);
+  line-height: 1.7;
+}
+
+/* Right: price + CTA */
+.h-dreg-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+.h-dreg-price-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.h-dreg-phase-badge {
+  font-family: var(--font-head);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(212,168,67,0.4);
+  padding: 4px 12px;
+  background: rgba(212,168,67,0.06);
+  white-space: nowrap;
+}
+.h-dreg-price {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  line-height: 1;
+}
+.h-dreg-currency {
+  font-family: var(--font-head);
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 700;
+  color: rgba(204,0,0,0.88);
+  margin-top: 5px;
+  line-height: 1;
+}
+.h-dreg-amount {
+  font-family: var(--font-hero);
+  font-size: clamp(38px, 5.5vw, 56px);
+  font-weight: 900;
+  color: #f0ebe0;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 0 24px rgba(204,0,0,0.32);
+}
+.h-dreg-cta {
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .h-dreg-inner  { grid-template-columns: 1fr; gap: 20px; padding: 30px 0; }
+  .h-dreg-right  { align-items: flex-start; }
+  .h-dreg-price-row { flex-wrap: wrap; }
+  .h-dreg-cta    { width: 100%; justify-content: center; }
+}

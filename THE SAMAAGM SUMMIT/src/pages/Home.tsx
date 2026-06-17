@@ -239,9 +239,15 @@ export default function Home() {
             </a>
           </nav>
 
-          <button className="h-reg-btn" onClick={goEvent}>
-            Platform 9¾ →
-          </button>
+          <a
+            href="https://forms.gle/G3i22pDqRbDT8sNt5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="h-reg-btn h-reg-btn--delegate"
+            aria-label="Register as Delegate — Phase I"
+          >
+            Register Now →
+          </a>
 
           <button
             className={`h-ham${menuOpen ? " h-ham--open" : ""}`}
@@ -283,16 +289,16 @@ export default function Home() {
               </span>
               Instagram
             </a>
-            <button
-              className="h-reg-btn"
-              style={{ marginTop: 16, width: "100%" }}
-              onClick={() => {
-                goEvent();
-                setMenuOpen(false);
-              }}
+            <a
+              href="https://forms.gle/G3i22pDqRbDT8sNt5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-reg-btn h-reg-btn--delegate"
+              style={{ marginTop: 16, width: "100%", textAlign: "center", display: "block" }}
+              onClick={() => setMenuOpen(false)}
             >
-              Platform 9¾
-            </button>
+              Register Now →
+            </a>
           </div>
         )}
       </header>
@@ -463,25 +469,33 @@ export default function Home() {
             <div className="h-dreg-left">
               <div className="h-dreg-live">
                 <span className="h-dreg-dot" aria-hidden />
-                <span className="h-dreg-eyebrow">Delegate Registration Open</span>
+                <span className="h-dreg-eyebrow">Delegate Registration · Now Open</span>
               </div>
-              <div className="h-dreg-phase">Phase I — Most Discounted Price</div>
+              <p className="h-dreg-desc">
+                Phase I pricing — the lowest it will ever be.
+                <br />
+                Fee increases with every subsequent phase.
+              </p>
             </div>
 
-            <div className="h-dreg-price" aria-label="₹1,700">
-              <span className="h-dreg-currency" aria-hidden>₹</span>
-              <span className="h-dreg-amount">1,700</span>
+            <div className="h-dreg-right">
+              <div className="h-dreg-price-row">
+                <span className="h-dreg-phase-badge">Phase I</span>
+                <div className="h-dreg-price" aria-label="₹1,700">
+                  <span className="h-dreg-currency" aria-hidden>₹</span>
+                  <span className="h-dreg-amount">1,700</span>
+                </div>
+              </div>
+              <a
+                href="https://forms.gle/G3i22pDqRbDT8sNt5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-cta h-cta--primary h-dreg-cta"
+                aria-label="Register as Delegate — Phase I pricing at ₹1,700"
+              >
+                Register as Delegate <ArrowRight size={14} />
+              </a>
             </div>
-
-            <a
-              href="https://forms.gle/G3i22pDqRbDT8sNt5"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-cta h-cta--primary h-dreg-cta"
-              aria-label="Register as Delegate for ₹1,700 — Phase I pricing"
-            >
-              Register Now <ArrowRight size={14} />
-            </a>
           </div>
         </div>
       </motion.div>
