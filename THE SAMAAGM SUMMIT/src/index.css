@@ -3714,7 +3714,8 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
   padding: 8px 8px 8px 20px;
   width: fit-content;
-  max-width: 880px;
+  max-width: min(880px, calc(100vw - 24px));
+  overflow: hidden;
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
 .h-nav--solid {
@@ -3727,6 +3728,7 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   align-items: center;
   gap: 4px;
   white-space: nowrap;
+  min-width: 0;
 }
 .h-logo {
   background: none;
@@ -3810,7 +3812,7 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 11px 24px;
-  border-radius: 12px;
+  border-radius: 9999px;
   transition: all 0.2s cubic-bezier(0.23,1,0.32,1);
   flex-shrink: 0;
   text-decoration: none;
@@ -5589,7 +5591,6 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   .h-nav-link--ig { gap: 0; }
 }
 @media (max-width: 768px) {
-  .h-nav { max-width: calc(100vw - 24px); }
   .h-section { padding: 64px 20px; }
   .h-event { padding: 80px 20px; }
   .h-section-header { margin-bottom: 36px; }
@@ -5597,6 +5598,10 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   .h-form-row-inner { padding-right: 20px; }
   .h-form-row-cta { display: none; }
   .h-founder-row { gap: 24px; padding: 28px 0; }
+}
+@media (max-width: 480px) {
+  .h-nav-links { display: none; }
+  .h-logo-sep { display: none; }
 }
 @media (max-width: 640px) {
   .h-hero { padding: 88px 20px 72px; }
@@ -7840,7 +7845,7 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
-  padding: 56px 0 48px;
+  padding: 56px 32px 48px;
 }
 
 /* Base card — clean premium design */
@@ -8061,7 +8066,7 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
 }
 
 @media (max-width: 700px) {
-  .h-cards-grid { grid-template-columns: 1fr; gap: 18px; padding: 36px 18px 32px; }
+  .h-cards-grid { grid-template-columns: 1fr; gap: 18px; padding: 36px 20px 32px; }
   .h-card { 
     padding: 32px 26px 32px 32px; 
     gap: 12px;
