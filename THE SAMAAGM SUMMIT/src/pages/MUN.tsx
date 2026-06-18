@@ -540,96 +540,81 @@ export default function MUN() {
           ))}
         </div>
 
-        {/* ── DELEGATE REGISTRATION ── */}
-        <motion.section
-          className="m-reg-section"
-          aria-label="Delegate Registration — Phase I, ₹1,700"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="m-reg-split">
-            {/* Left: Price poster */}
-            <div className="m-reg-poster">
-              <div className="m-reg-poster-price" aria-label="Phase I price: ₹1,700">
-                <span className="m-reg-poster-currency" aria-hidden>₹</span>
-                <span className="m-reg-poster-amount">1,700</span>
-              </div>
-              <span className="m-reg-poster-phase">Phase I</span>
-            </div>
+        {/* ── APPLICATIONS CARDS ── */}
+        <section className="m-cards-section" aria-label="MUN 2026 Applications">
+          <div className="h-wrap">
+            <div className="m-cards-grid">
 
-            <div className="m-reg-vdivider" aria-hidden />
-
-            {/* Right: Info + CTA */}
-            <div className="m-reg-copy">
-              <div className="m-reg-live">
-                <span className="m-reg-live-dot" aria-hidden />
-                <span>Delegate Registration · Open</span>
-              </div>
-
-              <h2 className="m-reg-copy-title">
-                Register for<br />MUN 2026
-              </h2>
-
-              <p className="m-reg-tagline">
-                Our lowest price — ever.<br />
-                Fee increases with every subsequent phase.
-              </p>
-
-              <a
+              {/* Card 1: Delegate Registration */}
+              <motion.a
                 href="https://forms.gle/G3i22pDqRbDT8sNt5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="m-reg-cta"
+                className="m-card m-card--reg"
                 aria-label="Register as Delegate — Phase I pricing at ₹1,700"
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring", stiffness: 80, damping: 18 }}
+                whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
               >
-                Register as Delegate — Phase I
-                <ArrowRight size={18} />
-              </a>
-
-              <p className="m-reg-notice">
-                <span className="m-reg-notice-icon" aria-hidden>↑</span>
-                Price increases after Phase I closes
-              </p>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* ── EXECUTIVE BOARD APPLICATIONS ── */}
-        <motion.section
-          className="m-eb-section"
-          aria-label="Executive Board Applications — Now Open"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 90, damping: 18 }}
-        >
-          <div className="h-wrap">
-            <div className="m-eb-inner">
-              <div className="m-eb-left">
-                <div className="m-eb-badges">
-                  <span className="m-eb-badge">MUN 2026</span>
-                  <span className="m-eb-badge m-eb-badge--open">Now Open</span>
+                <div className="m-card-glow" aria-hidden />
+                <div className="m-card-header">
+                  <div className="m-card-live">
+                    <span className="m-card-dot" aria-hidden />
+                    <span>Open</span>
+                  </div>
+                  <span className="m-card-badge">Phase I</span>
                 </div>
-                <h2 className="m-eb-title">Executive Board<br />Applications</h2>
-                <p className="m-eb-desc">
-                  Lead as Chair, Vice-Chair, or Rapporteur for one of the eight committees.
-                  Shape the debate at India's first democratic youth summit.
+                <div className="m-card-eyebrow">Delegate Registration</div>
+                <div className="m-card-price" aria-label="₹1,700">
+                  <span className="m-card-currency" aria-hidden>₹</span>
+                  <span className="m-card-amount">1,700</span>
+                </div>
+                <p className="m-card-desc">
+                  Our lowest price — ever. Register before Phase I closes and secure your spot at MUN 2026.
                 </p>
-              </div>
-              <a
+                <div className="m-card-cta m-card-cta--red">
+                  Register as Delegate — Phase I <ArrowRight size={15} />
+                </div>
+                <p className="m-card-notice">
+                  <span aria-hidden>↑</span> Price increases after Phase I closes
+                </p>
+                <span className="m-card-ornament" aria-hidden>✦</span>
+              </motion.a>
+
+              {/* Card 2: EB Applications */}
+              <motion.a
                 href="https://forms.gle/E2yPwFmndCUq7Pmx5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="m-eb-cta"
+                className="m-card m-card--eb"
                 aria-label="Apply for Executive Board Positions"
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.1 }}
+                whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
               >
-                Apply for EB Positions <ArrowRight size={18} />
-              </a>
+                <div className="m-card-glow m-card-glow--eb" aria-hidden />
+                <div className="m-card-header">
+                  <span className="m-card-badge">MUN 2026</span>
+                  <span className="m-card-badge m-card-badge--gold">Now Open</span>
+                </div>
+                <div className="m-card-eyebrow m-card-eyebrow--eb">Executive Board</div>
+                <h2 className="m-card-eb-title">Applications</h2>
+                <p className="m-card-desc">
+                  Lead as Chair, Vice-Chair, or Rapporteur for one of the eight committees. Shape the debate at India's first democratic youth summit.
+                </p>
+                <div className="m-card-cta m-card-cta--gold">
+                  Apply for EB Positions <ArrowRight size={15} />
+                </div>
+                <span className="m-card-ornament m-card-ornament--eb" aria-hidden>✦</span>
+              </motion.a>
+
             </div>
           </div>
-        </motion.section>
+        </section>
 
         {/* ── CONFERENCE DETAILS ── */}
         <section id="details" className="h-section" aria-label="Conference details">
@@ -660,14 +645,14 @@ export default function MUN() {
                   </>
                 );
 
-                if (isEB && d.url) {
+                if (d.url) {
                   return (
                     <a
                       key={d.label}
                       href={d.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="m-detail-tile m-detail--open m-detail-eb-highlight"
+                      className={`m-detail-tile m-detail--open${isEB ? " m-detail-eb-highlight" : ""}`}
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       {tileContent}

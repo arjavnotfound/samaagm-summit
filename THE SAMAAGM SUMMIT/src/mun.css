@@ -1608,3 +1608,245 @@
   .m-eb-inner { flex-direction: column; align-items: flex-start; padding: 44px 0; }
   .m-eb-cta   { width: 100%; justify-content: center; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   MUN APPLICATIONS CARDS — Two-card grid
+   ═══════════════════════════════════════════════════════════════ */
+.m-cards-section { padding: 0; }
+
+.m-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 52px 0;
+}
+
+/* Base card */
+.m-card {
+  border-radius: 20px;
+  border: 1px solid rgba(204,0,0,0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px 36px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.m-card--reg {
+  background: linear-gradient(145deg, #140000 0%, #210000 55%, #100000 100%);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(204,0,0,0.12);
+}
+.m-card--reg:hover {
+  border-color: rgba(204,0,0,0.42);
+  box-shadow: 0 24px 64px rgba(204,0,0,0.2), 0 4px 24px rgba(0,0,0,0.55);
+}
+
+.m-card--eb {
+  background: linear-gradient(145deg, #0e0a00 0%, #1b1300 55%, #0c0800 100%);
+  border-color: rgba(212,168,67,0.14);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(212,168,67,0.08);
+}
+.m-card--eb:hover {
+  border-color: rgba(212,168,67,0.36);
+  box-shadow: 0 24px 64px rgba(212,168,67,0.1), 0 4px 24px rgba(0,0,0,0.55);
+}
+
+/* Ambient glow inside card */
+.m-card-glow {
+  position: absolute;
+  top: -25%;
+  left: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(ellipse at center, rgba(204,0,0,0.18) 0%, transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+}
+.m-card-glow--eb {
+  background: radial-gradient(ellipse at center, rgba(212,168,67,0.12) 0%, transparent 70%);
+}
+
+/* Header row */
+.m-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.m-card-live {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.48);
+}
+.m-card-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
+  animation: m-card-dot-pulse 1.4s ease-in-out infinite;
+}
+@keyframes m-card-dot-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(34,197,94,0.7); }
+  70%  { box-shadow: 0 0 0 7px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0   rgba(34,197,94,0); }
+}
+
+/* Pill badges */
+.m-card-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.38);
+  border: 1px solid rgba(240,235,224,0.1);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+.m-card-badge--gold {
+  color: var(--gold);
+  border-color: rgba(212,168,67,0.34);
+  background: rgba(212,168,67,0.07);
+}
+
+/* Eyebrow label */
+.m-card-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(9px, 1.4vw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(204,0,0,0.65);
+  margin-top: 2px;
+}
+.m-card-eyebrow--eb {
+  color: rgba(212,168,67,0.6);
+}
+
+/* Price (reg card) */
+.m-card-price {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+  line-height: 1;
+}
+.m-card-currency {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(14px, 2.2vw, 22px);
+  font-weight: 700;
+  color: rgba(204,0,0,0.85);
+  margin-top: clamp(6px, 1.2vw, 12px);
+  line-height: 1;
+}
+.m-card-amount {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(64px, 11vw, 120px);
+  font-weight: 900;
+  color: #f0ebe0;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow:
+    0 0 32px rgba(204,0,0,0.42),
+    0 0 64px rgba(204,0,0,0.16),
+    0 4px 24px rgba(0,0,0,0.55);
+}
+
+/* EB title */
+.m-card-eb-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 700;
+  color: #f0ebe0;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  margin-top: -4px;
+}
+
+/* Description */
+.m-card-desc {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(13px, 1.8vw, 15px);
+  font-style: italic;
+  color: rgba(240,235,224,0.38);
+  line-height: 1.8;
+  flex: 1;
+}
+
+/* CTA buttons */
+.m-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(9px, 1.4vw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 13px 22px;
+  border-radius: 8px;
+  align-self: flex-start;
+  margin-top: 4px;
+  transition: all 0.22s cubic-bezier(0.23,1,0.32,1);
+}
+.m-card-cta--red {
+  color: #fff;
+  background: var(--red);
+  box-shadow: 0 4px 16px rgba(204,0,0,0.32);
+}
+.m-card--reg:hover .m-card-cta--red {
+  background: var(--red-bright);
+  box-shadow: 0 10px 30px rgba(204,0,0,0.5);
+}
+.m-card-cta--gold {
+  color: #0a0800;
+  background: var(--gold);
+  box-shadow: 0 4px 16px rgba(212,168,67,0.28);
+}
+.m-card--eb:hover .m-card-cta--gold {
+  background: #e8c44a;
+  box-shadow: 0 10px 30px rgba(212,168,67,0.46);
+}
+.m-card-cta svg { transition: transform 0.2s ease; flex-shrink: 0; }
+.m-card:hover .m-card-cta svg { transform: translateX(3px); }
+
+/* Notice text */
+.m-card-notice {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Decorative corner ornament */
+.m-card-ornament {
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  font-size: 11px;
+  color: rgba(204,0,0,0.1);
+  pointer-events: none;
+  user-select: none;
+}
+.m-card-ornament--eb {
+  color: rgba(212,168,67,0.1);
+}
+
+@media (max-width: 800px) {
+  .m-cards-grid { grid-template-columns: 1fr; gap: 16px; padding: 36px 0; }
+  .m-card { padding: 32px 26px; }
+  .m-card-cta { align-self: stretch; justify-content: center; }
+}

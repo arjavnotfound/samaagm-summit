@@ -454,73 +454,74 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ACTION SECTION — Unified design system */}
-      <section className="h-action-section" aria-label="Registration and conference information">
+      {/* CARDS SECTION */}
+      <section className="h-cards-section" aria-label="Registration and conference">
+        <div className="h-wrap">
+          <div className="h-cards-grid">
 
-        {/* Block 1: Delegate Registration */}
-        <motion.div
-          className="h-action-block h-action-block--reg h-reveal"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 90, damping: 18 }}
-        >
-          <div className="h-wrap">
-            <div className="h-ab-inner">
-              <div className="h-ab-left">
-                <div className="h-ab-label">
-                  <span className="h-ab-dot" aria-hidden />
-                  <span>Delegate Registration · Phase I Open</span>
+            {/* Card 1: Delegate Registration */}
+            <motion.a
+              href="https://forms.gle/G3i22pDqRbDT8sNt5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-card h-card--reg"
+              aria-label="Register as Delegate — Phase I pricing at ₹1,700"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 18 }}
+              whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
+            >
+              <div className="h-card-glow" aria-hidden />
+              <div className="h-card-top">
+                <div className="h-card-live">
+                  <span className="h-card-dot" aria-hidden />
+                  <span>Phase I · Open</span>
                 </div>
-                <div className="h-ab-price" aria-label="₹1,700">
-                  <span className="h-ab-currency" aria-hidden>₹</span>
-                  <span className="h-ab-amount">1,700</span>
-                </div>
-                <p className="h-ab-desc">
-                  Our lowest price — ever. Fee increases with every subsequent phase.
-                </p>
+                <span className="h-card-pill">Delegate Registration</span>
               </div>
-              <a
-                href="https://forms.gle/G3i22pDqRbDT8sNt5"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-ab-cta"
-                aria-label="Register as Delegate — Phase I pricing at ₹1,700"
-              >
-                Register as Delegate <ArrowRight size={16} />
-              </a>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Block 2: Explore MUN */}
-        <motion.div
-          className="h-action-block h-action-block--mun h-reveal"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 90, damping: 18, delay: 0.06 }}
-        >
-          <div className="h-wrap">
-            <div className="h-ab-inner">
-              <div className="h-ab-left">
-                <div className="h-ab-label">
-                  <span>MUN 2026 · The Conference</span>
-                </div>
-                <h3 className="h-ab-title">
-                  Committees, Agendas &amp; More
-                </h3>
-                <p className="h-ab-desc">
-                  Eight committees. Three days. One summit — find your committee, read the agenda, and prepare to lead.
-                </p>
+              <div className="h-card-price" aria-label="₹1,700">
+                <span className="h-card-currency" aria-hidden>₹</span>
+                <span className="h-card-amount">1,700</span>
               </div>
-              <a href="/mun" className="h-ab-cta h-ab-cta--outline">
-                Explore MUN 2026 <ArrowRight size={16} />
-              </a>
-            </div>
-          </div>
-        </motion.div>
+              <p className="h-card-desc">
+                Our lowest price — ever. Fee increases with every subsequent phase. Secure your spot now.
+              </p>
+              <div className="h-card-cta h-card-cta--red">
+                Register as Delegate <ArrowRight size={15} />
+              </div>
+              <span className="h-card-ornament" aria-hidden>✦</span>
+            </motion.a>
 
+            {/* Card 2: Explore MUN */}
+            <motion.a
+              href="/mun"
+              className="h-card h-card--mun"
+              aria-label="Explore MUN 2026 — Committees, agendas and more"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.1 }}
+              whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
+            >
+              <div className="h-card-glow h-card-glow--mun" aria-hidden />
+              <div className="h-card-top">
+                <span className="h-card-pill h-card-pill--gold">MUN 2026</span>
+              </div>
+              <h3 className="h-card-title">
+                Committees,<br />Agendas &amp; More
+              </h3>
+              <p className="h-card-desc">
+                Eight committees. Three days. One summit — find your committee, read the agenda, and prepare to lead.
+              </p>
+              <div className="h-card-cta h-card-cta--outline">
+                Explore MUN 2026 <ArrowRight size={15} />
+              </div>
+              <span className="h-card-ornament" aria-hidden>✦</span>
+            </motion.a>
+
+          </div>
+        </div>
       </section>
 
       {/* ABOUT */}
