@@ -109,7 +109,7 @@ const DETAILS: DetailItem[] = [
   },
   {
     Icon: Crown,
-    label: "EB Applications",
+    label: "Executive Board",
     value: "Apply Now",
     status: "open",
     url: "https://forms.gle/E2yPwFmndCUq7Pmx5",
@@ -298,7 +298,7 @@ export default function MUN() {
       {/* NAV */}
       <header className={`h-nav${scrolled ? " h-nav--solid" : ""}`} role="banner">
         <div className="h-nav-inner">
-          <button className="h-logo" onClick={() => navigate("/")}>
+          <button className="h-logo" onClick={() => { navigate("/"); window.scrollTo(0, 0); }}>
             <span className="h-logo-tss">TSS</span>
             <span className="h-logo-sep" aria-hidden>—</span>
             <span className="h-logo-name">The Samaagm Summit</span>
@@ -347,7 +347,7 @@ export default function MUN() {
           <div className="h-mobile-menu">
             <button
               className="h-mobile-link"
-              onClick={() => { navigate("/"); setMenuOpen(false); }}
+              onClick={() => { navigate("/"); setMenuOpen(false); window.scrollTo(0, 0); }}
             >
               ← Back to TSS
             </button>
@@ -556,7 +556,8 @@ export default function MUN() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 80, damping: 18 }}
-                whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
+                whileHover={{ y: -10, scale: 1.005, transition: { type: "spring", stiffness: 280, damping: 22 } }}
+                whileTap={{ scale: 0.985 }}
               >
                 <div className="m-card-glow" aria-hidden />
                 <div className="m-card-header">
@@ -583,7 +584,7 @@ export default function MUN() {
                 <span className="m-card-ornament" aria-hidden>✦</span>
               </motion.a>
 
-              {/* Card 2: EB Applications */}
+              {/* Card 2: Executive Board */}
               <motion.a
                 href="https://forms.gle/E2yPwFmndCUq7Pmx5"
                 target="_blank"
@@ -594,15 +595,16 @@ export default function MUN() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.1 }}
-                whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
+                whileHover={{ y: -10, scale: 1.005, transition: { type: "spring", stiffness: 280, damping: 22 } }}
+                whileTap={{ scale: 0.985 }}
               >
                 <div className="m-card-glow m-card-glow--eb" aria-hidden />
                 <div className="m-card-header">
                   <span className="m-card-badge">MUN 2026</span>
                   <span className="m-card-badge m-card-badge--gold">Now Open</span>
                 </div>
-                <div className="m-card-eyebrow m-card-eyebrow--eb">Executive Board</div>
-                <h2 className="m-card-eb-title">Applications</h2>
+                <div className="m-card-eyebrow m-card-eyebrow--eb">Applications</div>
+                <h2 className="m-card-eb-title">Executive Board</h2>
                 <p className="m-card-desc">
                   Lead as Chair, Vice-Chair, or Rapporteur for one of the eight committees. Shape the debate at India's first democratic youth summit.
                 </p>
@@ -630,7 +632,7 @@ export default function MUN() {
 
             <div className="m-details-grid">
               {DETAILS.map((d, i) => {
-                const isEB = d.label === "EB Applications";
+                const isEB = d.label === "Executive Board";
                 const tileContent = (
                   <>
                     <div className="m-detail-top">
@@ -1002,7 +1004,7 @@ export default function MUN() {
             <a
               className="h-footer-link"
               href="/"
-              onClick={(e) => { e.preventDefault(); navigate("/"); }}
+              onClick={(e) => { e.preventDefault(); navigate("/"); window.scrollTo(0, 0); }}
             >
               Back to TSS
             </a>

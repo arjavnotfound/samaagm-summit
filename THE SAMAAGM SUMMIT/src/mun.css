@@ -1291,7 +1291,7 @@
   .m-reg-cta      { width: 100%; justify-content: center; padding: 17px 24px; }
 }
 
-/* ── MUN Nav Register Pill ── */
+/* ── MUN Nav Register Pill — rounded rectangular */
 .m-reg-nav-pill {
   display: inline-flex;
   align-items: center;
@@ -1303,20 +1303,16 @@
   color: #ffffff;
   background: var(--red);
   text-decoration: none;
-  padding: 8px 18px;
-  border-radius: 100px;
-  transition: all 0.22s cubic-bezier(0.23,1,0.32,1);
-  box-shadow: 0 0 0 1px rgba(204,0,0,0.5), 0 4px 16px rgba(204,0,0,0.35);
-  animation: m-pill-pulse 2.2s ease-in-out infinite;
+  padding: 11px 24px;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.23,1,0.32,1);
+  box-shadow: 0 4px 14px rgba(204,0,0,0.35);
   white-space: nowrap;
-}
-@keyframes m-pill-pulse {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(204,0,0,0.5), 0 4px 16px rgba(204,0,0,0.35); }
-  50%       { box-shadow: 0 0 0 1px rgba(204,0,0,0.8), 0 4px 24px rgba(204,0,0,0.6); }
 }
 .m-reg-nav-pill:hover {
   background: var(--red-bright);
-  transform: scale(1.04);
+  box-shadow: 0 10px 28px rgba(204,0,0,0.55);
+  transform: translateY(-2px);
 }
 
 /* ── Registration Section — New editorial layout ── */
@@ -1617,57 +1613,62 @@
 .m-cards-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  padding: 52px 0;
+  gap: 22px;
+  padding: 56px 0 48px;
 }
 
-/* Base card */
+/* Base card — clean premium design */
 .m-card {
-  border-radius: 20px;
-  border: 1px solid rgba(204,0,0,0.16);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 40px 36px;
+  gap: 18px;
+  padding: 36px 32px;
   text-decoration: none;
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: #111;
+  transition: border-color 0.3s ease, box-shadow 0.35s cubic-bezier(0.23,1,0.32,1), transform 0.3s cubic-bezier(0.23,1,0.32,1);
 }
 
 .m-card--reg {
-  background: linear-gradient(145deg, #140000 0%, #210000 55%, #100000 100%);
-  box-shadow: 0 2px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(204,0,0,0.12);
+  border-color: rgba(204,0,0,0.25);
 }
 .m-card--reg:hover {
-  border-color: rgba(204,0,0,0.42);
-  box-shadow: 0 24px 64px rgba(204,0,0,0.2), 0 4px 24px rgba(0,0,0,0.55);
+  border-color: rgba(204,0,0,0.55);
+  box-shadow: 0 20px 60px rgba(204,0,0,0.18), 0 8px 24px rgba(0,0,0,0.5);
+  transform: translateY(-4px);
 }
 
 .m-card--eb {
-  background: linear-gradient(145deg, #0e0a00 0%, #1b1300 55%, #0c0800 100%);
-  border-color: rgba(212,168,67,0.14);
-  box-shadow: 0 2px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(212,168,67,0.08);
+  border-color: rgba(212,168,67,0.2);
 }
 .m-card--eb:hover {
-  border-color: rgba(212,168,67,0.36);
-  box-shadow: 0 24px 64px rgba(212,168,67,0.1), 0 4px 24px rgba(0,0,0,0.55);
+  border-color: rgba(212,168,67,0.55);
+  box-shadow: 0 20px 60px rgba(212,168,67,0.12), 0 8px 24px rgba(0,0,0,0.5);
+  transform: translateY(-4px);
 }
 
 /* Ambient glow inside card */
 .m-card-glow {
   position: absolute;
-  top: -25%;
-  left: -10%;
-  width: 60%;
-  height: 60%;
-  background: radial-gradient(ellipse at center, rgba(204,0,0,0.18) 0%, transparent 70%);
-  filter: blur(28px);
+  top: -40%;
+  left: -20%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(ellipse at center, rgba(204,0,0,0.12) 0%, transparent 70%);
+  filter: blur(40px);
   pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
 }
 .m-card-glow--eb {
-  background: radial-gradient(ellipse at center, rgba(212,168,67,0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(212,168,67,0.08) 0%, transparent 70%);
+}
+.m-card:hover .m-card-glow {
+  opacity: 1;
 }
 
 /* Header row */
@@ -1676,16 +1677,20 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  margin-bottom: 2px;
+  min-width: 0;
 }
 .m-card-live {
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-family: 'DM Mono', monospace;
+  gap: 6px;
+  font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(240,235,224,0.48);
+  color: rgba(240,235,224,0.6);
+  min-width: 0;
+  flex-shrink: 1;
 }
 .m-card-dot {
   width: 6px; height: 6px;
@@ -1701,75 +1706,80 @@
   100% { box-shadow: 0 0 0 0   rgba(34,197,94,0); }
 }
 
-/* Pill badges */
+/* Badges — rounded rectangular, mono for clean small text */
 .m-card-badge {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
+  font-family: var(--font-mono);
+  font-size: 7.5px;
   font-weight: 700;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(240,235,224,0.38);
-  border: 1px solid rgba(240,235,224,0.1);
-  padding: 4px 10px;
-  border-radius: 100px;
+  color: rgba(240,235,224,0.6);
+  border: 1px solid rgba(240,235,224,0.12);
+  padding: 4px 11px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.015);
+  min-width: 0;
+  flex-shrink: 1;
+  max-width: 100%;
+  white-space: nowrap;
 }
 .m-card-badge--gold {
   color: var(--gold);
-  border-color: rgba(212,168,67,0.34);
-  background: rgba(212,168,67,0.07);
+  border-color: rgba(212,168,67,0.4);
+  background: rgba(212,168,67,0.06);
 }
 
 /* Eyebrow label */
 .m-card-eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(9px, 1.4vw, 11px);
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(204,0,0,0.65);
-  margin-top: 2px;
+  color: rgba(240,235,224,0.55);
+  margin-top: 0;
 }
-.m-card-eyebrow--eb {
-  color: rgba(212,168,67,0.6);
+.m-card--reg .m-card-eyebrow {
+  color: #ff4d4d;
+}
+.m-card--eb .m-card-eyebrow {
+  color: var(--gold);
 }
 
-/* Price (reg card) */
+/* Price (reg card) — elegant & commanding */
 .m-card-price {
   display: flex;
   align-items: flex-start;
   gap: 3px;
-  line-height: 1;
+  line-height: 0.95;
+  margin: 4px 0;
 }
 .m-card-currency {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(14px, 2.2vw, 22px);
-  font-weight: 700;
-  color: rgba(204,0,0,0.85);
-  margin-top: clamp(6px, 1.2vw, 12px);
-  line-height: 1;
+  font-family: var(--font-head);
+  font-size: clamp(13px, 1.9vw, 20px);
+  font-weight: 600;
+  color: #ff4d4d;
+  margin-top: 4px;
+  opacity: 0.9;
 }
 .m-card-amount {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(64px, 11vw, 120px);
+  font-family: var(--font-hero);
+  font-size: clamp(52px, 8vw, 84px);
   font-weight: 900;
   color: #f0ebe0;
   letter-spacing: -0.02em;
-  line-height: 1;
-  text-shadow:
-    0 0 32px rgba(204,0,0,0.42),
-    0 0 64px rgba(204,0,0,0.16),
-    0 4px 24px rgba(0,0,0,0.55);
+  text-shadow: 0 2px 20px rgba(204,0,0,0.3);
 }
 
 /* EB title */
 .m-card-eb-title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(28px, 5vw, 56px);
+  font-family: var(--font-head);
+  font-size: clamp(24px, 4.2vw, 44px);
   font-weight: 700;
   color: #f0ebe0;
   line-height: 1.05;
-  letter-spacing: 0.04em;
-  margin-top: -4px;
+  letter-spacing: 0.015em;
+  margin-top: -2px;
 }
 
 /* Description */
@@ -1777,76 +1787,165 @@
   font-family: 'Lora', Georgia, serif;
   font-size: clamp(13px, 1.8vw, 15px);
   font-style: italic;
-  color: rgba(240,235,224,0.38);
+  color: rgba(240,235,224,0.58);
   line-height: 1.8;
   flex: 1;
 }
 
-/* CTA buttons */
+/* CTA buttons — strong rounded rectangular, better colors */
 .m-card-cta {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(9px, 1.4vw, 11px);
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 1.3vw, 11px);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  padding: 13px 22px;
-  border-radius: 8px;
+  padding: 13px 26px;
+  border-radius: 12px;
   align-self: flex-start;
   margin-top: 4px;
-  transition: all 0.22s cubic-bezier(0.23,1,0.32,1);
+  transition: all 0.2s cubic-bezier(0.23,1,0.32,1);
+  white-space: nowrap;
 }
 .m-card-cta--red {
   color: #fff;
-  background: var(--red);
-  box-shadow: 0 4px 16px rgba(204,0,0,0.32);
+  background: #cc0000;
+  box-shadow: 0 4px 16px rgba(204,0,0,0.4);
 }
 .m-card--reg:hover .m-card-cta--red {
-  background: var(--red-bright);
-  box-shadow: 0 10px 30px rgba(204,0,0,0.5);
+  background: #e60000;
+  box-shadow: 0 10px 28px rgba(204,0,0,0.5);
+  transform: translateY(-2px);
 }
 .m-card-cta--gold {
-  color: #0a0800;
-  background: var(--gold);
-  box-shadow: 0 4px 16px rgba(212,168,67,0.28);
+  color: #0f0c00;
+  background: #d4a843;
+  box-shadow: 0 4px 16px rgba(212,168,67,0.35);
 }
 .m-card--eb:hover .m-card-cta--gold {
   background: #e8c44a;
-  box-shadow: 0 10px 30px rgba(212,168,67,0.46);
+  box-shadow: 0 10px 28px rgba(212,168,67,0.45);
+  color: #0a0800;
+  transform: translateY(-2px);
 }
 .m-card-cta svg { transition: transform 0.2s ease; flex-shrink: 0; }
-.m-card:hover .m-card-cta svg { transform: translateX(3px); }
+.m-card:hover .m-card-cta svg { transform: translateX(4px); }
+.m-card-cta:hover svg { transform: translateX(4px); }
 
 /* Notice text */
 .m-card-notice {
-  font-family: 'DM Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(240,235,224,0.2);
+  color: rgba(240,235,224,0.42);
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-top: -2px;
 }
 
 /* Decorative corner ornament */
 .m-card-ornament {
   position: absolute;
   bottom: 18px;
-  right: 22px;
-  font-size: 11px;
-  color: rgba(204,0,0,0.1);
+  right: 20px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.06);
   pointer-events: none;
   user-select: none;
+  z-index: 1;
 }
 .m-card-ornament--eb {
-  color: rgba(212,168,67,0.1);
+  color: rgba(212,168,67,0.08);
 }
 
 @media (max-width: 800px) {
-  .m-cards-grid { grid-template-columns: 1fr; gap: 16px; padding: 36px 0; }
-  .m-card { padding: 32px 26px; }
-  .m-card-cta { align-self: stretch; justify-content: center; }
+  .m-cards-grid { grid-template-columns: 1fr; gap: 18px; padding: 36px 18px 32px; }
+  .m-card { padding: 32px 26px 32px 32px; }
+
+  /* Header (live + badge) - robust on very small widths */
+  .m-card-header {
+    gap: 4px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .m-card-live {
+    font-size: 7px;
+    gap: 4px;
+  }
+  .m-card-live span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .m-card-badge {
+    font-size: 6px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    min-width: 0;
+    flex-shrink: 1;
+    white-space: nowrap;
+  }
+
+  /* Fix CTA text overflowing the button box on phone */
+  .m-card-cta {
+    align-self: stretch;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 10px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+    gap: 6px;
+  }
+}
+
+/* Extra small screens (very narrow phones) - stack header to prevent weird pill wrap/falling off */
+@media (max-width: 450px) {
+  .m-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    min-width: 0;
+  }
+  .m-card-live {
+    font-size: 6.5px;
+    min-width: fit-content;
+    flex-shrink: 0;
+  }
+  .m-card-badge {
+    font-size: 5.5px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    min-width: fit-content;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  /* Also tighten card padding on tiny screens */
+  .m-card {
+    padding: 24px 20px 24px 24px;
+  }
+}
+
+/* Ultra small screens ( < ~400px ) - make pill and content fit by making text/padding tiny */
+@media (max-width: 400px) {
+  .m-card-badge {
+    font-size: 4px !important;
+    padding: 0.5px 2px !important;
+    border-radius: 1px;
+    letter-spacing: 0.1em;
+    min-width: fit-content;
+    flex-shrink: 0;
+  }
+  .m-card-live {
+    font-size: 5px;
+  }
+  .m-card-live span {
+    font-size: 5px;
+  }
 }

@@ -56,7 +56,7 @@ const FORMS = [
   {
     num: "05",
     Icon: Crown,
-    label: "Executive Board (EB) Applications",
+    label: "Executive Board",
     url: "https://forms.gle/E2yPwFmndCUq7Pmx5",
     desc: "Lead as Chair, Vice-Chair or Rapporteur for 8 committees (6 voted + 2 special)",
     tag: "NOW OPEN",
@@ -470,7 +470,8 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 80, damping: 18 }}
-              whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
+              whileHover={{ y: -10, scale: 1.005, transition: { type: "spring", stiffness: 280, damping: 22 } }}
+              whileTap={{ scale: 0.985 }}
             >
               <div className="h-card-glow" aria-hidden />
               <div className="h-card-top">
@@ -502,7 +503,8 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.1 }}
-              whileHover={{ y: -8, transition: { type: "spring", stiffness: 260, damping: 20 } }}
+              whileHover={{ y: -10, scale: 1.005, transition: { type: "spring", stiffness: 280, damping: 22 } }}
+              whileTap={{ scale: 0.985 }}
             >
               <div className="h-card-glow h-card-glow--mun" aria-hidden />
               <div className="h-card-top">
