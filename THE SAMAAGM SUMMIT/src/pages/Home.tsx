@@ -223,6 +223,9 @@ export default function Home() {
               href="/mun"
               title="MUN Conference"
             >
+              <span className="h-nav-link-icon">
+                <Globe size={14} strokeWidth={1.5} />
+              </span>
               <span className="h-nav-link-text">MUN</span>
             </a>
             <a
@@ -277,7 +280,12 @@ export default function Home() {
                 {label}
               </button>
             ))}
-            <a className="h-mobile-link" href="/mun">MUN Conference</a>
+            <a className="h-mobile-link" href="/mun">
+              <span className="h-mobile-icon">
+                <Globe size={14} strokeWidth={1.5} />
+              </span>
+              Explore MUN — Committees & Agendas
+            </a>
             <a
               className="h-mobile-link"
               href="https://www.instagram.com/thesamaagmsummit.tss"

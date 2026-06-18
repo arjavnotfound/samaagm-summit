@@ -3715,7 +3715,6 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   padding: 8px 8px 8px 20px;
   width: fit-content;
   max-width: min(880px, calc(100vw - 24px));
-  overflow: hidden;
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
 .h-nav--solid {
@@ -3876,7 +3875,9 @@ body.lumos .ticket-stub-id { border-top-color: rgba(138,98,0,0.2); }
   color: rgba(255,255,255,0.48);
   padding: 14px 4px;
   text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   transition: color 0.2s;
 }
 .h-mobile-link:hover { color: #f0ebe0; }
