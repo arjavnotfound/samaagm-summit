@@ -18,6 +18,12 @@ export function useMousePos(options: UseMousePosOptions = {}) {
 
     const move = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY };
+      const t = e.target as HTMLElement | null;
+      const on = !!t?.closest?.(
+        'a,button,[role="button"],input,textarea,select,.rd-option,.m-premium-card,.h-form-row,.h-card',
+      );
+      dotRef.current?.classList.toggle("h-cursor--on", on);
+      ringRef.current?.classList.toggle("h-cursor--on", on);
     };
 
     const tick = () => {

@@ -6,6 +6,7 @@ import {
   Sparkles,
   User,
   ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import {
   FaInstagram as Instagram,
@@ -69,8 +70,20 @@ export default function Register() {
     };
   }, []);
 
-  const [lumosMode, setLumosMode] = useState(false);
+  const [lumosMode, setLumosMode] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      localStorage.getItem("tss-lumos") === "1",
+  );
   const [lumosInteracted, setLumosInteracted] = useState(false);
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const cursorRingRef = useRef<HTMLDivElement>(null);
@@ -78,7 +91,23 @@ export default function Register() {
 
   useEffect(() => {
     document.body.classList.toggle("lumos", lumosMode);
-    return () => document.body.classList.remove("lumos");
+    // Persist preference so it survives navigation / reload.
+    try {
+      localStorage.setItem("tss-lumos", lumosMode ? "1" : "0");
+    } catch {
+      /* ignore storage errors (private mode, etc.) */
+    }
+    // Keep the browser chrome colour in sync with the active theme.
+    const themeMetas = document.querySelectorAll<HTMLMetaElement>(
+      'meta[name="theme-color"]',
+    );
+    themeMetas.forEach((m) => {
+      m.setAttribute("content", lumosMode ? "#faf3e0" : "#141414");
+    });
+    return () => {
+      document.body.classList.remove("lumos");
+      themeMetas.forEach((m) => m.setAttribute("content", "#141414"));
+    };
   }, [lumosMode]);
 
   useEffect(() => {
@@ -159,6 +188,14 @@ export default function Register() {
       <div className="cursor-ring" ref={cursorRingRef} />
 
       <GoldenSnitch />
+
+      <button
+        className={`h-to-top${showTop ? " h-to-top--visible" : ""}`}
+        aria-label="Back to top"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        <ChevronUp size={18} strokeWidth={2} />
+      </button>
 
       <div className="page-wrap">
         <div className="container">

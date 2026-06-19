@@ -16,9 +16,17 @@ import {
   Calendar,
   ChevronUp,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useMousePos } from "@/hooks/use-mouse-pos";
 import { useReveal } from "@/hooks/use-reveal";
+import {
+  useScrollProgress,
+  useScrollSpy,
+  useMagnetic,
+  Counter,
+} from "@/hooks/use-enhance";
+import { lenisScrollTo, lenisScrollTop } from "@/hooks/use-lenis";
+import { PinnedStory } from "@/components/PinnedStory";
 
 const FORMS = [
   {
@@ -80,9 +88,7 @@ const NAV_ITEMS = [
 ];
 
 function scrollTo(id: string) {
-  document
-    .getElementById(id)
-    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  lenisScrollTo(id);
 }
 
 export default function Home() {
@@ -91,6 +97,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showPill, setShowPill] = useState(false);
   const [pillOpen, setPillOpen] = useState(false);
+  const [showTop, setShowTop] = useState(false);
   const [countdown, setCountdown] = useState({ days: 0 });
 
   useEffect(() => {
@@ -112,16 +119,64 @@ export default function Home() {
   const pillRef = useRef<HTMLDivElement>(null);
   const { dotRef, ringRef } = useMousePos();
   useReveal();
+  useScrollProgress();
+  const activeSection = useScrollSpy(["about", "join", "vision", "founders"]);
+  const heroCtaRef = useMagnetic<HTMLButtonElement>();
+
+  // Kinetic hero — scroll-linked parallax departure + 3D cursor tilt
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 700], [0, 140]);
+  const heroFade = useTransform(scrollY, [0, 520], [1, 0]);
+  const heroRef = useRef<HTMLElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    const hero = heroRef.current;
+    const title = heroTitleRef.current;
+    if (!hero || !title) return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !window.matchMedia("(pointer: fine)").matches
+    )
+      return;
+    const onMove = (e: MouseEvent) => {
+      const r = hero.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      title.style.setProperty("--h-rx", (px * 10).toFixed(2));
+      title.style.setProperty("--h-ry", (-py * 8).toFixed(2));
+    };
+    const reset = () => {
+      title.style.setProperty("--h-rx", "0");
+      title.style.setProperty("--h-ry", "0");
+    };
+    hero.addEventListener("mousemove", onMove);
+    hero.addEventListener("mouseleave", reset);
+    return () => {
+      hero.removeEventListener("mousemove", onMove);
+      hero.removeEventListener("mouseleave", reset);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 60);
       setShowPill(y > window.innerHeight * 0.55);
+      setShowTop(y > 600);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close the mobile menu if the viewport grows to desktop width.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onResize = () => {
+      if (window.innerWidth > 980) setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!pillOpen) return;
@@ -141,6 +196,7 @@ export default function Home() {
 
   return (
     <div className="h-root" itemScope itemType="https://schema.org/WebPage">
+      <div className="h-scroll-progress" aria-hidden />
       <div className="h-cursor-dot" ref={dotRef} />
       <div className="h-cursor-ring" ref={ringRef} />
 
@@ -150,7 +206,7 @@ export default function Home() {
         <div className="h-bg-glow h-bg-glow--top" />
         <div className="h-bg-glow h-bg-glow--mid" />
         <div className="h-bg-glow h-bg-glow--bot" />
-        {[...Array(22)].map((_, i) => (
+        {[...Array(10)].map((_, i) => (
           <div
             key={i}
             className={`h-ptcl ${i % 5 === 0 ? "h-ptcl--gold" : ""}`}
@@ -195,7 +251,7 @@ export default function Home() {
         <div className="h-nav-inner">
           <button
             className="h-logo"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => lenisScrollTop()}
           >
             <span className="h-logo-tss">TSS</span>
             <span className="h-logo-sep" aria-hidden>
@@ -208,7 +264,7 @@ export default function Home() {
             {NAV_ITEMS.map(({ id, label, Icon }) => (
               <button
                 key={id}
-                className="h-nav-link"
+                className={`h-nav-link${activeSection === id ? " h-nav-link--active" : ""}`}
                 onClick={() => scrollTo(id)}
                 title={label}
               >
@@ -313,7 +369,7 @@ export default function Home() {
 
       <main id="main-content">
       {/* HERO */}
-      <section className="h-hero" aria-label="The Samaagm Summit — India's First Democratic Youth Summit">
+      <section ref={heroRef} className="h-hero" aria-label="The Samaagm Summit — India's First Democratic Youth Summit">
         <div className="h-corner h-corner--tl">
           <span>THE SAMAAGM SUMMIT</span>
         </div>
@@ -334,14 +390,14 @@ export default function Home() {
           <span>YOUTH · MUN · INNOVATION · TSS</span>
         </div>
 
-        <div className="h-hero-inner">
+        <motion.div className="h-hero-inner" style={{ y: heroY, opacity: heroFade }}>
           <p className="h-hero-kicker">
             <span className="h-kicker-line" />
             India's First Democratic Summit
             <span className="h-kicker-line" />
           </p>
 
-          <h1 className="h-hero-title">
+          <h1 className="h-hero-title" ref={heroTitleRef}>
             <span className="h-hero-the">The</span>
             <span className="h-hero-main">
               {"Samaagm".split("").map((ch, i) => (
@@ -368,7 +424,7 @@ export default function Home() {
           </p>
 
           <div className="h-hero-btns">
-            <button className="h-cta h-cta--primary" onClick={goEvent}>
+            <button ref={heroCtaRef} className="h-cta h-cta--primary h-magnetic" onClick={goEvent}>
               Explore Platform 9¾ <ArrowRight size={15} />
             </button>
             <button
@@ -384,10 +440,10 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Instagram size={16} color="white" />
+              <Instagram size={14} /><span>Follow</span>
             </a>
           </div>
-        </div>
+        </motion.div>
 
         <div className="h-scroll-cue" onClick={() => scrollTo("about")}>
           <span className="h-scroll-line" />
@@ -491,7 +547,7 @@ export default function Home() {
               </div>
               <div className="h-card-price" aria-label="₹1,700">
                 <span className="h-card-currency" aria-hidden>₹</span>
-                <span className="h-card-amount">1,700</span>
+                <Counter end={1700} className="h-card-amount" />
               </div>
               <p className="h-card-desc">
                 Our lowest price — ever. Fee increases with every subsequent phase. Secure your spot now.
@@ -534,10 +590,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PINNED SCROLL-STORY — cinematic statement sequence */}
+      <PinnedStory />
+
       {/* ABOUT */}
       <section id="about" className="h-section" aria-label="About The Samaagm Summit">
         <div className="h-wrap">
-          <div className="h-section-header h-reveal">
+          <div className="h-section-header h-reveal h-reveal--title">
             <span className="h-eyebrow">About TSS</span>
             <h2 className="h-section-title">
               More than
@@ -698,7 +757,7 @@ export default function Home() {
       {/* DEMOCRATIC VISION */}
       <section id="vision" className="h-section" aria-label="Democratic Vision — A Summit Shaped by Its Delegates">
         <div className="h-wrap">
-          <div className="h-section-header h-reveal">
+          <div className="h-section-header h-reveal h-reveal--title">
             <span className="h-eyebrow">The Concept</span>
             <h2 className="h-section-title">
               A summit shaped
@@ -776,7 +835,7 @@ export default function Home() {
       {/* FOUNDERS */}
       <section id="founders" className="h-section" aria-label="Founders — Somya Khandare and Arjav Badjatya">
         <div className="h-wrap">
-          <div className="h-section-header h-reveal">
+          <div className="h-section-header h-reveal h-reveal--title">
             <span className="h-eyebrow">The Founders</span>
             <h2 className="h-section-title">
               Founded by students,
@@ -829,6 +888,22 @@ export default function Home() {
         <div className="h-event-bg" aria-hidden>
           <div className="h-event-glow" />
           <div className="h-event-grid" />
+          <div className="h-portal-core" />
+          <div className="h-portal-arch" />
+          <div className="h-portal-embers">
+            {[...Array(16)].map((_, i) => (
+              <span
+                key={i}
+                className="h-portal-ember"
+                style={{
+                  left: `${(i * 6.3 + 4) % 100}%`,
+                  animationDuration: `${4 + (i % 6) * 0.9}s`,
+                  animationDelay: `${(i * 0.5) % 6}s`,
+                }}
+              />
+            ))}
+          </div>
+          <span className="h-portal-beam" />
         </div>
         <div className="h-wrap h-event-inner">
           <div className="h-event-top-row h-reveal">
@@ -905,6 +980,15 @@ export default function Home() {
 
       </main>
 
+      {/* BACK TO TOP */}
+      <button
+        className={`h-to-top h-to-top--left${showTop ? " h-to-top--visible" : ""}`}
+        aria-label="Back to top"
+        onClick={() => lenisScrollTop()}
+      >
+        <ChevronUp size={18} strokeWidth={2} />
+      </button>
+
       {/* FOOTER */}
       <footer className="h-footer" role="contentinfo">
         <div className="h-footer-marquee" aria-hidden>
@@ -915,6 +999,25 @@ export default function Home() {
                 {t}
               </span>
             ))}
+          </div>
+        </div>
+        <div className="h-footer-finale">
+          <div className="h-footer-finale-inner">
+            <p className="h-footer-finale-eyebrow">India's First Democratic Summit</p>
+            <h2 className="h-footer-finale-title">
+              The Samaagm
+              <br />
+              <em>Summit.</em>
+            </h2>
+            <a
+              className="h-cta h-cta--primary h-footer-finale-cta"
+              href="https://forms.gle/G3i22pDqRbDT8sNt5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Register as Delegate <ArrowRight size={15} />
+            </a>
+            <p className="h-footer-finale-meta">31 Jul – 2 Aug 2026 · Indore, India</p>
           </div>
         </div>
         <div className="h-wrap h-footer-inner">

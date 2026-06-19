@@ -11,11 +11,20 @@ import {
   Crown,
   Vote,
   CheckCircle2,
+  ChevronUp,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import "../mun.css";
 import { useMousePos } from "@/hooks/use-mouse-pos";
 import { useReveal } from "@/hooks/use-reveal";
+import {
+  useScrollProgress,
+  useScrollSpy,
+  useMagnetic,
+  Counter,
+} from "@/hooks/use-enhance";
+import { lenisScrollTo, lenisScrollTop, getLenis } from "@/hooks/use-lenis";
 
 interface Committee {
   id: string;
@@ -27,7 +36,7 @@ interface Committee {
 }
 
 interface DetailItem {
-  Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
+  Icon: LucideIcon;
   label: string;
   value: string;
   status: "confirmed" | "soon" | "open";
@@ -134,10 +143,31 @@ function CommitteeCard({
   index: number;
   onOpen: () => void;
 }) {
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const rotateY = useSpring(tiltX, { stiffness: 150, damping: 18 });
+  const rotateX = useSpring(tiltY, { stiffness: 150, damping: 18 });
+  const onTilt = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (
+      !window.matchMedia("(pointer: fine)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+    const r = e.currentTarget.getBoundingClientRect();
+    tiltX.set(((e.clientX - r.left) / r.width - 0.5) * 10);
+    tiltY.set(-((e.clientY - r.top) / r.height - 0.5) * 8);
+  };
+  const resetTilt = () => {
+    tiltX.set(0);
+    tiltY.set(0);
+  };
   return (
     <motion.div
       className="m-premium-card"
       onClick={onOpen}
+      onMouseMove={onTilt}
+      onMouseLeave={resetTilt}
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
       initial={{ opacity: 0, y: 24, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
@@ -202,11 +232,15 @@ function CommitteeCard({
 export default function MUN() {
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [showTop, setShowTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState<"all" | "indian" | "un">("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { dotRef, ringRef } = useMousePos();
   useReveal({ threshold: 0.06, rootMargin: "0px 0px -28px 0px" });
+  useScrollProgress();
+  const activeSection = useScrollSpy(["details", "committees"]);
+  const heroCtaRef = useMagnetic<HTMLButtonElement>();
 
   // Page meta
   useEffect(() => {
@@ -230,17 +264,34 @@ export default function MUN() {
 
   // Scroll state for nav
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 60);
+    const fn = () => {
+      setScrolled(window.scrollY > 60);
+      setShowTop(window.scrollY > 600);
+    };
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  // Close the mobile menu if the viewport grows to desktop width.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onResize = () => {
+      if (window.innerWidth > 980) setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [menuOpen]);
 
   // Body scroll lock when modal is open
   useEffect(() => {
     if (selectedId) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
-      return () => { document.body.style.overflow = prev; };
+      getLenis()?.stop();
+      return () => {
+        document.body.style.overflow = prev;
+        getLenis()?.start();
+      };
     }
   }, [selectedId]);
 
@@ -253,6 +304,47 @@ export default function MUN() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Focus trap: when the modal is open, keep keyboard focus inside it.
+  const modalRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!selectedId) return;
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const prevActive = document.activeElement as HTMLElement | null;
+    const getFocusable = () =>
+      Array.from(
+        modal.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => el.offsetParent !== null);
+
+    // Move focus into the modal once it mounts.
+    const first = getFocusable()[0];
+    first?.focus();
+
+    const onTab = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+      const firstEl = focusable[0];
+      const lastEl = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === firstEl) {
+        e.preventDefault();
+        lastEl.focus();
+      } else if (!e.shiftKey && document.activeElement === lastEl) {
+        e.preventDefault();
+        firstEl.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onTab);
+    return () => {
+      document.removeEventListener("keydown", onTab);
+      prevActive?.focus?.();
+    };
+  }, [selectedId]);
+
   const filteredCommittees = COMMITTEES.filter(
     (c) => filter === "all" || c.type === filter,
   );
@@ -260,6 +352,7 @@ export default function MUN() {
 
   return (
     <div className="m-root">
+      <div className="h-scroll-progress" aria-hidden />
       <div className="h-cursor-dot" ref={dotRef} />
       <div className="h-cursor-ring" ref={ringRef} />
 
@@ -270,7 +363,7 @@ export default function MUN() {
         <div className="h-bg-glow h-bg-glow--top" />
         <div className="h-bg-glow h-bg-glow--mid" />
         <div className="h-bg-glow h-bg-glow--bot" />
-        {[...Array(14)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className={`h-ptcl ${i % 5 === 0 ? "h-ptcl--gold" : ""}`}
@@ -305,14 +398,14 @@ export default function MUN() {
           </button>
           <nav className="h-nav-links" aria-label="Page sections">
             <button
-              className="h-nav-link"
-              onClick={() => document.getElementById("details")?.scrollIntoView({ behavior: "smooth" })}
+              className={`h-nav-link${activeSection === "details" ? " h-nav-link--active" : ""}`}
+              onClick={() => lenisScrollTo("details")}
             >
               <span className="h-nav-link-text">Details</span>
             </button>
             <button
-              className="h-nav-link"
-              onClick={() => document.getElementById("committees")?.scrollIntoView({ behavior: "smooth" })}
+              className={`h-nav-link${activeSection === "committees" ? " h-nav-link--active" : ""}`}
+              onClick={() => lenisScrollTo("committees")}
             >
               <span className="h-nav-link-text">Committees</span>
             </button>
@@ -354,7 +447,7 @@ export default function MUN() {
             <button
               className="h-mobile-link"
               onClick={() => {
-                document.getElementById("details")?.scrollIntoView({ behavior: "smooth" });
+                lenisScrollTo("details");
                 setMenuOpen(false);
               }}
             >
@@ -363,7 +456,7 @@ export default function MUN() {
             <button
               className="h-mobile-link"
               onClick={() => {
-                document.getElementById("committees")?.scrollIntoView({ behavior: "smooth" });
+                lenisScrollTo("committees");
                 setMenuOpen(false);
               }}
             >
@@ -478,8 +571,9 @@ export default function MUN() {
               transition={{ delay: 0.7 }}
             >
               <button
-                className="h-cta h-cta--primary"
-                onClick={() => document.getElementById("committees")?.scrollIntoView({ behavior: "smooth" })}
+                ref={heroCtaRef}
+                className="h-cta h-cta--primary h-magnetic"
+                onClick={() => lenisScrollTo("committees")}
               >
                 View Committees <ArrowRight size={14} />
               </button>
@@ -497,7 +591,7 @@ export default function MUN() {
 
           <div
             className="h-scroll-cue"
-            onClick={() => document.getElementById("details")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => lenisScrollTo("details")}
           >
             <span className="h-scroll-line" />
             <span className="h-scroll-label">Scroll</span>
@@ -534,7 +628,11 @@ export default function MUN() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, type: "spring", stiffness: 100, damping: 16 }}
             >
-              <span className="m-stat-num">{s.num}</span>
+              {/^\d+$/.test(s.num) ? (
+                <Counter end={Number(s.num)} className="m-stat-num" />
+              ) : (
+                <span className="m-stat-num">{s.num}</span>
+              )}
               <span className="m-stat-label">{s.label}</span>
             </motion.div>
           ))}
@@ -570,7 +668,7 @@ export default function MUN() {
                 <div className="m-card-eyebrow">Delegate Registration</div>
                 <div className="m-card-price" aria-label="₹1,700">
                   <span className="m-card-currency" aria-hidden>₹</span>
-                  <span className="m-card-amount">1,700</span>
+                  <Counter end={1700} className="m-card-amount" />
                 </div>
                 <p className="m-card-desc">
                   Our lowest price — ever. Register before Phase I closes and secure your spot at MUN 2026.
@@ -621,7 +719,7 @@ export default function MUN() {
         {/* ── CONFERENCE DETAILS ── */}
         <section id="details" className="h-section" aria-label="Conference details">
           <div className="h-wrap">
-            <div className="h-section-header h-reveal">
+            <div className="h-section-header h-reveal h-reveal--title">
               <span className="h-eyebrow">Conference Details</span>
               <h2 className="h-section-title">
                 What you need
@@ -630,7 +728,7 @@ export default function MUN() {
               </h2>
             </div>
 
-            <div className="m-details-grid">
+            <div className="m-details-grid h-reveal h-stagger">
               {DETAILS.map((d, i) => {
                 const isEB = d.label === "Executive Board";
                 const tileContent = (
@@ -820,7 +918,7 @@ export default function MUN() {
         {/* ── COMMITTEES ── */}
         <section id="committees" className="h-section" aria-label="Finalized committees and agendas">
           <div className="h-wrap">
-            <div className="h-section-header h-reveal">
+            <div className="h-section-header h-reveal h-reveal--title">
               <span className="h-eyebrow">Finalized Committees</span>
               <h2 className="h-section-title">
                 Committees
@@ -833,7 +931,7 @@ export default function MUN() {
             </div>
 
             {/* Filter tabs */}
-            <div className="m-premium-filters h-reveal" role="tablist" aria-label="Filter by committee type">
+            <div className="m-premium-filters h-reveal" role="tablist" aria-label="Filter by committee type" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
               {[
                 { key: "all" as const, label: "All", count: COMMITTEES.length },
                 { key: "indian" as const, label: "Indian Parliament", count: COMMITTEES.filter((c) => c.type === "indian").length },
@@ -883,6 +981,7 @@ export default function MUN() {
               aria-label={`Details for ${selectedCommittee.name}`}
             >
               <motion.div
+                ref={modalRef}
                 className="m-modal"
                 initial={{ opacity: 0, y: 48, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -926,10 +1025,10 @@ export default function MUN() {
                     rel="noopener noreferrer"
                     className="m-ig-cta"
                   >
-                    <Instagram size={15} /> Follow updates
+                    <Instagram size={15} /> FOLLOW UPDATES
                   </a>
                   <button onClick={() => setSelectedId(null)} className="m-modal-close-btn">
-                    Close
+                    CLOSE
                   </button>
                 </div>
               </motion.div>
@@ -970,6 +1069,15 @@ export default function MUN() {
         </section>
       </main>
 
+      {/* BACK TO TOP */}
+      <button
+        className={`h-to-top${showTop ? " h-to-top--visible" : ""}`}
+        aria-label="Back to top"
+        onClick={() => lenisScrollTop()}
+      >
+        <ChevronUp size={18} strokeWidth={2} />
+      </button>
+
       {/* FOOTER */}
       <footer className="h-footer" role="contentinfo">
         <div className="h-footer-marquee" aria-hidden>
@@ -982,6 +1090,25 @@ export default function MUN() {
                   {t}
                 </span>
               ))}
+          </div>
+        </div>
+        <div className="h-footer-finale">
+          <div className="h-footer-finale-inner">
+            <p className="h-footer-finale-eyebrow">MUN 2026 · Edition I</p>
+            <h2 className="h-footer-finale-title">
+              The Samaagm
+              <br />
+              <em>Summit.</em>
+            </h2>
+            <a
+              className="h-cta h-cta--primary h-footer-finale-cta"
+              href="https://forms.gle/G3i22pDqRbDT8sNt5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Register as Delegate <ArrowRight size={15} />
+            </a>
+            <p className="h-footer-finale-meta">31 Jul – 2 Aug 2026 · Indore, India</p>
           </div>
         </div>
         <div className="h-wrap h-footer-inner">
